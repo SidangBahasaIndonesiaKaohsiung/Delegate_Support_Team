@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jadwal Lengkap Kaohsiung</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+    <title>Jadwal Pelayanan Kaohsiung</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #6c5ce7;
             --highlight-bg: #f3ebff;
-            --highlight-border: #a569bd; /* Ungu */
+            --highlight-border: #a569bd;
+            --trans-badge: #0984e3;
             --driver: #fff9c4;
             --walking: #ffe0b2;
             --special: #f3e5f5;
             --pending: #c8e6c9;
+            --slot-bg: #f8f9fa;
             --text-dark: #2d3436;
             --text-light: #636e72;
         }
 
-        body { font-family: 'Lexend', sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px; color: var(--text-dark); }
+        body { font-family: 'Lexend', 'Noto Sans TC', sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px; color: var(--text-dark); }
         .sticky-header { position: sticky; top: 0; background: #f0f2f5; z-index: 100; padding-bottom: 12px; }
         .filter-card {
             background: white; padding: 16px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);
@@ -28,42 +30,74 @@
         label { font-size: 10px; font-weight: bold; color: var(--text-light); text-transform: uppercase; margin-bottom: 4px; }
         select { padding: 12px; border-radius: 10px; border: 1px solid #e1e4e8; font-size: 14px; background: #f8f9fa; outline: none; }
 
-        h2 { font-size: 14px; margin: 20px 0 10px 5px; color: var(--primary); text-transform: uppercase; border-left: 4px solid var(--primary); padding-left: 8px; }
-        .group-label { font-size: 10px; font-weight: bold; color: white; background: var(--text-light); padding: 2px 10px; border-radius: 20px; display: inline-block; margin: 10px 0 5px 5px; }
+        section { margin-bottom: 25px; border-radius: 18px; padding: 5px; }
+        .sec-trans { background-color: #e2e6ea; border: 1px dashed #adb5bd; }
+        
+        h2 { font-size: 16px; margin: 15px 10px 10px 10px; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
+        h2 span { font-size: 11px; font-weight: normal; color: var(--text-light); margin-left: 5px; }
+
+        .group-label { font-size: 10px; font-weight: bold; color: white; background: var(--text-light); padding: 2px 10px; border-radius: 20px; display: inline-block; margin: 10px 0 5px 10px; }
 
         .card {
-            background: white; border-radius: 12px; margin-bottom: 6px; padding: 12px;
+            background: white; border-radius: 12px; margin: 5px 8px; padding: 12px;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03); border-left: 5px solid transparent; transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid transparent; transition: all 0.2s;
         }
-        .card.is-me { background: var(--highlight-bg); border-left-color: var(--highlight-border); transform: scale(1.01); box-shadow: 0 4px 12px rgba(165, 105, 189, 0.3); }
+        
+        .sec-trans .card { border-left-color: var(--trans-badge); }
+        .card.is-slot { background: var(--slot-bg); border-left-style: dotted; opacity: 0.8; }
+
+        .card.is-me { background: var(--highlight-bg); border-left-color: var(--highlight-border) !important; border-left-style: solid !important; transform: scale(1.02); box-shadow: 0 4px 15px rgba(165, 105, 189, 0.3); z-index: 10; }
         .is-me .person-name { color: var(--highlight-border); font-weight: 700; }
 
         .info-main { display: flex; flex-direction: column; gap: 2px; }
         .location-link { font-size: 11px; font-weight: bold; color: var(--primary); text-decoration: none; }
         .person-name { font-size: 15px; font-weight: 500; }
+        .slot-label { font-size: 12px; color: #b2bec3; font-style: italic; }
 
         .status-box { text-align: right; }
-        .badge { font-size: 10px; padding: 3px 8px; border-radius: 6px; font-weight: bold; display: inline-block; }
-        .bg-sopir { background: var(--driver); }
-        .bg-jalan { background: var(--walking); }
-        .bg-special { background: var(--special); }
-        .bg-pending { background: var(--pending); }
-        .no-lunch { color: #d63031; font-size: 9px; font-weight: bold; display: block; margin-top: 2px; }
+        .badge { font-size: 10px; padding: 4px 10px; border-radius: 8px; font-weight: bold; display: inline-block; }
+        
+        .bg-trans { background: var(--trans-badge); color: white; }
+        .bg-sopir { background: var(--driver); color: #856404; }
+        .bg-walking { background: var(--walking); color: #855d04; }
+        .bg-special { background: var(--special); color: #512da8; }
+        .bg-pending { background: var(--pending); color: #1b5e20; }
+        
+        .no-lunch { color: #d63031; font-size: 9px; font-weight: bold; display: block; margin-top: 4px; border: 1px solid #ffcccc; padding: 1px 4px; border-radius: 4px; background: #fff5f5; }
     </style>
 </head>
 <body>
 
 <div class="sticky-header">
     <div class="filter-card">
-        <div class="input-box"><label>Tanggal</label><select id="dateSelect" onchange="render()"><option value="6/30">30 Juni</option><option value="7/2">2 Juli</option><option value="7/6">6 Juli</option></select></div>
-        <div class="input-box"><label>Nama Saya</label><select id="userSelect" onchange="render()"><option value="">-- Pilih --</option></select></div>
+        <div class="input-box">
+            <label>日期 Tanggal</label>
+            <select id="dateSelect" onchange="render()">
+                <option value="6/30">6/30 (Selasa)</option>
+                <option value="7/2">7/02 (Kamis)</option>
+                <option value="7/6">7/06 (Senin)</option>
+            </select>
+        </div>
+        <div class="input-box">
+            <label>搜尋姓名 Cari Nama</label>
+            <select id="userSelect" onchange="render()">
+                <option value="">-- Pilih --</option>
+            </select>
+        </div>
     </div>
 </div>
 
 <div id="content">
-    <section><h2>Transport (Pengantaran)</h2><div id="transContent"></div></section>
-    <section><h2>Grup Pelayanan (Duty)</h2><div id="dutyContent"></div></section>
+    <section class="sec-trans">
+        <h2>🚗 接送表 <span>Antar-Jemput</span></h2>
+        <div id="transContent"></div>
+    </section>
+
+    <section class="sec-duty">
+        <h2>📋 服務分組 <span>Grup Pelayanan (Duty)</span></h2>
+        <div id="dutyContent"></div>
+    </section>
 </div>
 
 <script>
@@ -79,13 +113,13 @@
                 {l:"天子閣1", n:"Nikai"}, {l:"天子閣2", n:"Nikai"}, {l:"天子閣3", n:"Nikai"}
             ],
             duty: [
-                {g:"A", l:"帝后1", n:"Yunus", t:"sopir", r:"Sopir"}, {g:"A", l:"帝后2", n:"SAITO CHIEMI", r:"Lokal"}, {g:"A", l:"Tina", n:"Sayo", r:"Lokal"},
-                {g:"B", l:"帝后3", n:"Erik", t:"sopir", r:"Sopir"}, {g:"B", l:"帝后4", n:"Dina", r:"Lokal"}, {g:"Stephanie", n:"Linling", r:"Lokal"},
-                {g:"C", l:"帝后5", n:"Melody", t:"sopir", r:"Sopir"}, {g:"C", l:"帝后6", n:"Lilian", r:"Lokal"},
-                {g:"D", l:"帝后7", n:"Jammy", t:"sopir", r:"Sopir"}, {g:"D", l:"帝后8", n:"張苧萱", r:"Lokal"},
-                {g:"E", l:"帝后9", n:"Daud", t:"special", r:"Jack"}, {g:"E", l:"帝后10", n:"Lusi", t:"special", r:"Jack"}, {g:"Ken", n:"松宮 (劉) 麗娟", r:"Lokal", lunch:false},
-                {g:"F", l:"帝后11", n:"Tommy", t:"sopir", r:"Sopir"}, {g:"F", l:"帝后12", n:"Linda", r:"Lokal"}, {g:"", n:"王雅貞", t:"pending", r:"Belum Pasti"},
-                {g:"G", l:"天子閣1", n:"Nikai", t:"sopir", r:"Sopir"}, {g:"天子閣2", n:"Henokh", r:"Lokal"}, {g:"天子閣3", n:"Joselin", r:"Lokal"}
+                {g:"A", l:"帝后1", n:"Yunus", t:"sopir", r:"司機 / Sopir"}, {g:"A", l:"帝后2", n:"SAITO CHIEMI", r:"在地 / Lokal"}, {g:"A", l:"Tina", n:"Sayo", r:"在地 / Lokal"},
+                {g:"B", l:"帝后3", n:"Erik", t:"sopir", r:"司機 / Sopir"}, {g:"B", l:"帝后4", n:"Dina", r:"在地 / Lokal"}, {g:"Stephanie", n:"Linling", r:"在地 / Lokal"},
+                {g:"C", l:"帝后5", n:"Melody", t:"sopir", r:"司機 / Sopir"}, {g:"C", l:"帝后6", n:"Lilian", r:"在地 / Lokal"},
+                {g:"D", l:"帝后7", n:"Jammy", t:"sopir", r:"司機 / Sopir"}, {g:"D", l:"帝后8", n:"張苧萱", r:"在地 / Lokal"},
+                {g:"E", l:"帝后9", n:"Daud", t:"special", r:"Jack接送"}, {g:"E", l:"帝后10", n:"Lusi", t:"special", r:"Jack接送"}, {g:"Ken", n:"松宮 (劉) 麗娟", r:"在地 / Lokal", lunch:false},
+                {g:"F", l:"帝后11", n:"Tommy", t:"sopir", r:"司機 / Sopir"}, {g:"F", l:"帝后12", n:"Linda", r:"在地 / Lokal"}, {g:"", n:"王雅貞", t:"pending", r:"還沒確定"},
+                {g:"G", l:"天子閣1", n:"Nikai", t:"sopir", r:"司機 / Sopir"}, {g:"天子閣2", n:"Henokh", r:"在地 / Lokal"}, {g:"天子閣3", n:"Joselin", r:"在地 / Lokal"}
             ]
         },
         "7/2": {
@@ -96,14 +130,14 @@
                 {l:"帝后13", n:"陳皇傑"}, {l:"帝后14", n:"陳皇傑"}, {l:"帝后15", n:"Tommy"}, {l:"帝后16", n:"Tommy"}
             ],
             duty: [
-                {g:"A", l:"帝后1", n:"Nikai", t:"sopir", r:"Sopir"}, {g:"A", l:"帝后2", n:"Mei", r:"Lokal"}, {g:"Vina", n:"Tina", r:"Lokal"},
-                {g:"B", l:"帝后3", n:"Yusuf", t:"sopir", r:"Sopir"}, {g:"B", l:"帝后4", n:"Joan", r:"Lokal"}, {g:"", n:"黃詩吟", t:"pending", r:"Belum Pasti"},
-                {g:"C", l:"帝后5", n:"Erik", t:"sopir", r:"Sopir"}, {g:"C", l:"帝后6", n:"Dina", r:"Lokal"},
-                {g:"D", l:"帝后7", n:"周宛錚", t:"sopir", r:"Sopir"}, {g:"帝后8", n:"Elli", r:"Lokal", lunch:false}, {g:"Sayo", n:"Linling", r:"Lokal"},
-                {g:"E", l:"帝后9", n:"Melody", t:"walking", r:"Jalan Kaki"}, {g:"帝后10", n:"張苧萱", r:"Jalan Kaki", t:"walking"}, {g:"Henokh", n:"Joselin", r:"Jalan Kaki", t:"walking"},
-                {g:"F", l:"帝后11", n:"Selia", t:"sopir", r:"Sopir"}, {g:"帝后12", n:"SAITO CHIEMI", r:"Lokal"}, {g:"Daud", n:"Lusi", r:"Lokal"},
-                {g:"G", l:"帝后13", n:"Yunus", t:"sopir", r:"Sopir", lunch:false}, {g:"帝后14", n:"Ken", r:"Lokal", lunch:false},
-                {g:"H", l:"帝后15", n:"Tommy", t:"sopir", r:"Sopir"}, {g:"帝后16", n:"Linda", r:"Lokal"}, {g:"Stephanie", n:"王雅貞", r:"Lokal"}
+                {g:"A", l:"帝后1", n:"Nikai", t:"sopir", r:"司機 / Sopir"}, {g:"A", l:"帝后2", n:"Mei", r:"在地 / Lokal"}, {g:"Vina", n:"Tina", r:"在地 / Lokal"},
+                {g:"B", l:"帝后3", n:"Yusuf", t:"sopir", r:"司機 / Sopir"}, {g:"B", l:"帝后4", n:"Joan", r:"在地 / Lokal"}, {g:"", n:"黃詩吟", t:"pending", r:"還沒確定"},
+                {g:"C", l:"帝后5", n:"Erik", t:"sopir", r:"司機 / Sopir"}, {g:"C", l:"帝后6", n:"Dina", r:"在地 / Lokal"},
+                {g:"D", l:"帝后7", n:"周宛錚", t:"sopir", r:"司機 / Sopir"}, {g:"帝后8", n:"Elli", r:"在地 / Lokal", lunch:false}, {g:"Sayo", n:"Linling", r:"在地 / Lokal"},
+                {g:"E", l:"帝后9", n:"Melody", t:"walking", r:"走路傳道"}, {g:"帝后10", n:"張苧萱", r:"走路傳道", t:"walking"}, {g:"Henokh", n:"Joselin", r:"走路傳道", t:"walking"},
+                {g:"F", l:"帝后11", n:"Selia", t:"sopir", r:"司機 / Sopir"}, {g:"帝后12", n:"SAITO CHIEMI", r:"在地 / Lokal"}, {g:"Daud", n:"Lusi", r:"在地 / Lokal"},
+                {g:"G", l:"帝后13", n:"Yunus", t:"sopir", r:"司機 / Sopir", lunch:false}, {g:"帝后14", n:"Ken", r:"在地 / Lokal", lunch:false},
+                {g:"H", l:"帝后15", n:"Tommy", t:"sopir", r:"司機 / Sopir"}, {g:"帝后16", n:"Linda", r:"在地 / Lokal"}, {g:"Stephanie", n:"王雅貞", r:"在地 / Lokal"}
             ]
         },
         "7/6": {
@@ -115,38 +149,68 @@
                 {l:"天子閣12", n:"Selia"}, {l:"天子閣13", n:"Selia"}
             ],
             duty: [
-                {g:"A", l:"帝后1", n:"Erik", t:"sopir", r:"Sopir"}, {g:"A", l:"帝后2", n:"Dina", r:"Lokal"},
-                {g:"B", l:"帝后3", n:"Nikai", t:"walking", r:"Jalan Kaki"}, {g:"帝后4", n:"Ken", r:"Jalan Kaki", t:"walking"}, {g:"帝后5", n:"松宮 (劉) 麗娟", r:"Jalan Kaki", t:"walking"}, {g:"Lilian", n:"Vina", r:"Lokal"},
-                {g:"C", l:"天子閣1", n:"Melody", t:"sopir", r:"Sopir"}, {g:"天子閣2", n:"黃詩吟", r:"Lokal"},
-                {g:"D", l:"天子閣3", n:"Yunus", t:"walking", r:"Jalan Kaki"}, {g:"天子閣4", n:"Yoshiya", r:"Jalan Kaki", t:"walking"}, {g:"天子閣5", n:"Jamie", r:"Jalan Kaki", t:"walking"}, {g:"Elli", n:"Lina", r:"Lokal", lunch:false},
-                {g:"E", l:"天子閣6", n:"周宛錚", t:"sopir", r:"Sopir"}, {g:"天子閣7", n:"王雅貞", r:"Lokal"},
-                {g:"F", l:"天子閣8", n:"Jammy", t:"sopir", r:"Sopir"}, {g:"天子閣9", n:"Stephanie", r:"Lokal"}, {g:"天子閣10", n:"Rut", r:"Lokal", lunch:false},
-                {g:"G", l:"天子閣11", n:"Selia", t:"sopir", r:"Sopir"}, {g:"天子閣12", n:"Linling", r:"Lokal"}, {g:"天子閣13", n:"Sayo", r:"Lokal"}
+                {g:"A", l:"帝后1", n:"Erik", t:"sopir", r:"司機 / Sopir"}, {g:"A", l:"帝后2", n:"Dina", r:"在地 / Lokal"},
+                {g:"B", l:"帝后3", n:"Nikai", t:"walking", r:"走路傳道"}, {g:"帝后4", n:"Ken", r:"走路傳道", t:"walking"}, {g:"帝后5", n:"松宮 (劉) 麗娟", r:"走路傳道", t:"walking"}, {g:"Lilian", n:"Vina", r:"在地 / Lokal"},
+                {g:"C", l:"天子閣1", n:"Melody", t:"sopir", r:"司機 / Sopir"}, {g:"C", l:"天子閣2", n:"黃詩吟", r:"在地 / Lokal"},
+                {g:"D", l:"天子閣3", n:"Yunus", t:"walking", r:"走路傳道"}, {g:"天子閣4", n:"Yoshiya", r:"走路傳道", t:"walking"}, {g:"天子閣5", n:"Jamie", r:"走路傳道", t:"walking"}, {g:"Elli", n:"Lina", r:"在地 / Lokal", lunch:false},
+                {g:"E", l:"天子閣6", n:"周宛錚", t:"sopir", r:"司機 / Sopir"}, {g:"天子閣7", n:"王雅貞", r:"在地 / Lokal"},
+                {g:"F", l:"天子閣8", n:"Jammy", t:"sopir", r:"司機 / Sopir"}, {g:"F", l:"天子閣9", n:"Stephanie", r:"在地 / Lokal"}, {g:"天子閣10", n:"Rut", r:"在地 / Lokal", lunch:false},
+                {g:"G", l:"天子閣11", n:"Selia", t:"sopir", r:"司機 / Sopir"}, {g:"天子閣12", n:"Linling", r:"在地 / Lokal"}, {g:"天子閣13", n:"Sayo", r:"在地 / Lokal"}
             ]
         }
     };
+
+    // 全ての枠（スロット）を生成する関数
+    function generateAllSlots(day) {
+        let result = [...db[day].duty];
+        const existingLocs = result.map(i => i.l).filter(l => l);
+        
+        // 帝后1-16, 天子閣1-13 の欠落分を補充
+        for(let i=1; i<=16; i++) {
+            let name = `帝后${i}`;
+            if(!existingLocs.includes(name)) result.push({l:name, n:"", r:"(枠/Slot)", t:"pending"});
+        }
+        for(let i=1; i<=13; i++) {
+            let name = `天子閣${i}`;
+            if(!existingLocs.includes(name)) result.push({l:name, n:"", r:"(枠/Slot)", t:"pending"});
+        }
+        // 場所名でソート（帝后1, 帝后2...）
+        return result.sort((a, b) => (a.l || "").localeCompare(b.l || "", undefined, {numeric: true}));
+    }
 
     function render() {
         const date = document.getElementById('dateSelect').value;
         const user = document.getElementById('userSelect').value;
         const currentData = db[date];
+        const dutyData = generateAllSlots(date);
 
         // Transport
         let transH = '';
         currentData.trans.forEach(i => {
             const isMe = user && i.n === user;
             const url = i.l.includes('帝后') ? URL_Q21 : URL_TENZ;
-            transH += `<div class="card ${isMe?'is-me':''}"><div class="info-main"><a href="${url}" class="location-link" target="_blank">${i.l} 📍</a><span class="person-name">${i.n}</span></div><div class="status-box"><span class="badge bg-sopir">SOPIR</span></div></div>`;
+            transH += `<div class="card ${isMe?'is-me':''}"><div class="info-main"><a href="${url}" class="location-link" target="_blank">${i.l} 📍</a><span class="person-name">${i.n}</span></div><div class="status-box"><span class="badge bg-trans">Antar-Jemput</span></div></div>`;
         });
         document.getElementById('transContent').innerHTML = transH;
 
         // Duty
         let dutyH = ''; let lastG = 'NONE';
-        currentData.duty.forEach(i => {
+        dutyData.forEach(i => {
             if(i.g && i.g !== lastG) { dutyH += `<div class="group-label">GRUP ${i.g}</div>`; lastG = i.g; }
             const isMe = user && (i.n === user || i.l === user);
+            const isSlot = !i.n;
             const url = (i.l && i.l.includes('天子閣')) ? URL_TENZ : URL_Q21;
-            dutyH += `<div class="card ${isMe?'is-me':''}"><div class="info-main"><a href="${url}" class="location-link" target="_blank">${i.l || '-'} 📍</a><span class="person-name">${i.n}</span></div><div class="status-box"><span class="badge bg-${i.t}">${i.r || 'Lokal'}</span>${i.lunch===false?'<span class="no-lunch">Tanpa Makan</span>':''}</div></div>`;
+            
+            dutyH += `<div class="card ${isMe?'is-me':''} ${isSlot?'is-slot':''}">
+                <div class="info-main">
+                    <a href="${url}" class="location-link" target="_blank">${i.l || '-'} 📍</a>
+                    <span class="person-name">${i.n || '<span class="slot-label">(未定/Slot)</span>'}</span>
+                </div>
+                <div class="status-box">
+                    <span class="badge bg-${i.t}">${i.r || '在地 / Lokal'}</span>
+                    ${i.lunch===false?'<span class="no-lunch">x 午餐 (Tanpa Makan)</span>':''}
+                </div>
+            </div>`;
         });
         document.getElementById('dutyContent').innerHTML = dutyH;
     }
@@ -154,7 +218,7 @@
     const allNames = new Set();
     Object.values(db).forEach(day => {
         day.trans.forEach(x => allNames.add(x.n));
-        day.duty.forEach(x => allNames.add(x.n));
+        day.duty.forEach(x => { if(x.n) allNames.add(x.n); });
     });
     const sel = document.getElementById('userSelect');
     Array.from(allNames).sort().forEach(n => { const o = document.createElement('option'); o.value=n; o.textContent=n; sel.appendChild(o); });
