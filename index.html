@@ -1,89 +1,37 @@
 
-            line-height: 1.6;
-        }
-
-        .section-block {
-            margin-top: 24px;
-        }
-
-        .section-head {
-            margin: 0 0 12px;
-            padding: 0 4px;
-        }
-
-        .section-head h2 {
-            margin: 0;
-            font-size: 1.2rem;
-        }
-
-        .section-head p {
-            margin: 6px 0 0;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaohsiung Schedule</title>
+    <title>高雄行程表 / Jadwal Kaohsiung</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<body>
 <div class="page">
     <section class="hero">
         <h1>Kaohsiung Schedule</h1>
-        <p>画像の表に合わせて、日付ごとの割り当てをそのまま見やすく並べた版です。</p>
         <p>1つ目の画像を送迎、2つ目の画像を伝道グループとして分けて並べた版です。</p>
+        <h1>高雄行程表 / Jadwal Kaohsiung</h1>
+        <p>第一張圖片是接送安排，第二張圖片是傳道分組。</p>
     </section>
 
-    <section class="schedule-grid" id="scheduleGrid"></section>
     <section class="section-block">
         <div class="section-head">
             <h2>送迎 Antar-Jemput</h2>
             <p>ホテルごとの送迎担当を一覧で確認できます。</p>
+            <h2>接送 / Antar-Jemput</h2>
+            <p>可以在這裡查看各飯店的接送負責人。</p>
         </div>
         <div class="sheet-preview" style="margin-top:0;">
             <div class="sheet-table" id="transportTable"></div>
-        </div>
-    </section>
 
-    <section class="sheet-preview">
-        <h3>Simple Summary</h3>
-        <div class="sheet-table" id="summaryTable"></div>
     <section class="section-block">
         <div class="section-head">
             <h2>傳道 Penginjilan</h2>
             <p>グループ分け、色分けメモ、昼食メモを画像どおりに整理しています。</p>
+            <h2>傳道分組 / Kelompok Penginjilan</h2>
+            <p>這裡整理了分組、顏色標記與午餐備註。</p>
         </div>
         <div class="schedule-grid" id="scheduleGrid"></div>
     </section>
-</div>
-
-<script>
-    const schedules = [
-    const evangelSchedules = [
-        {
-            theme: "630",
-            date: "6/30",
-        }
-    ];
-
-    const simpleSummary = [
-    const transportSummary = [
-        ["帝后1", "Yunus", "帝后1", "Nikai", "帝后1", "Erik"],
-        ["帝后2", "Yunus", "帝后2", "Nikai", "帝后2", "Erik"],
-        ["帝后3", "Erik", "帝后3", "Yusuf", "帝后3", "Nikai"],
-    }
-
-    function renderSummaryTable() {
-        const rowsHtml = simpleSummary.map(row => `
-        const rowsHtml = transportSummary.map(row => `
-            <tr>
-                <td class="col-630">${escapeHtml(row[0])}</td>
-                <td class="col-630">${escapeHtml(row[1])}</td>
-        `;
-    }
-
-    document.getElementById("scheduleGrid").innerHTML = schedules.map(renderDayCard).join("");
-    document.getElementById("summaryTable").innerHTML = renderSummaryTable();
-    document.getElementById("scheduleGrid").innerHTML = evangelSchedules.map(renderDayCard).join("");
-    document.getElementById("transportTable").innerHTML = renderSummaryTable();
-</script>
-</body>
-</html>
