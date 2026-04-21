@@ -38,26 +38,15 @@
         .arrow { font-size: 10px; transition: transform 0.3s; }
         .rotate { transform: rotate(90deg); }
 
-        .group-title { font-size: 11px; font-weight: bold; color: var(--duty-accent); margin: 15px 10px 5px; border-bottom: 1px solid #f0f0f0; }
+        .card { background: white; border-radius: 10px; margin: 8px; padding: 12px; border: 1.5px solid #eee; }
+        .sec-trans .card { border-color: #d9e6f7; border-left: 6px solid var(--trans-accent); }
 
-        .card { background: white; border-radius: 10px; margin: 8px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-        .sec-trans .card { border: 1.5px solid #d9e6f7; border-left: 6px solid var(--trans-accent); }
-        .sec-duty .card { border: 1.5px solid #e1f2e9; border-left: 6px solid var(--duty-accent); display: flex; justify-content: space-between; align-items: center; }
-
-        /* 名前強調：赤字・太字 */
         .is-highlight { color: var(--highlight-red) !important; font-weight: 800 !important; }
 
         .driver-main { font-size: 15px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
         .passenger-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-top: 1px solid #f8f8f8; }
-        .slot-mini { font-size: 9px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: bold; min-width: 45px; text-align: center; color: var(--text-light); }
+        .slot-mini { font-size: 9px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: bold; min-width: 50px; text-align: center; color: var(--text-light); }
         .passenger-name { font-size: 14px; color: var(--text-dark); }
-        
-        .slot-tag { font-size: 9px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-bottom: 3px; display: inline-block; color: var(--text-light); }
-        .person-name { font-size: 15px; font-weight: 500; color: var(--text-dark); }
-        
-        .badge { font-size: 9px; padding: 3px 10px; border-radius: 15px; font-weight: bold; color: white; }
-        .bg-sopir { background: #f1c40f; color: #000; }
-        .bg-walking { background: #e67e22; }
     </style>
 </head>
 <body>
@@ -71,94 +60,64 @@
 
 <div class="accordion-item sec-trans">
     <div class="accordion-header header-trans" onclick="toggleAccordion('trans-body', 'trans-arrow')">
-        <span>🚗 送迎 Antar-Jemput</span><span id="trans-arrow" class="arrow">▶</span>
+        <span>🚗 送迎 Antar-Jemput (Driver View)</span><span id="trans-arrow" class="arrow">▶</span>
     </div>
     <div id="trans-body" class="accordion-content"><div id="transContent"></div></div>
-</div>
-
-<div class="accordion-item sec-duty">
-    <div class="accordion-header header-duty" onclick="toggleAccordion('duty-body', 'duty-arrow')">
-        <span>📋 伝道 Grup Pelayanan</span><span id="duty-arrow" class="arrow">▶</span>
-    </div>
-    <div id="duty-body" class="accordion-content"><div id="dutyContent"></div></div>
 </div>
 
 <script>
     const db = {
         "6/30": {
             drivers: [
-                {drv: "Yunus", slots: ["帝后1", "帝后2"]},
-                {drv: "Erik", slots: ["帝后3", "帝后4"]},
-                {drv: "Melody", slots: ["帝后5", "帝后6"]},
-                {drv: "Jammy", slots: ["帝后7", "帝后8"]},
-                {drv: "陳皇傑", slots: ["帝后9", "帝后10"]},
-                {drv: "Tommy", slots: ["帝后11", "帝后12"]},
-                {drv: "Nikai", slots: ["天子閣1", "天子閣2", "天子閣3"]}
-            ],
-            delegates: [
-                {g:"Grup A", slot:"帝后1", name:"Yunus", role:"Sopir"},
-                {g:"Grup B", slot:"天子閣1", name:"Nikai", role:"Sopir"}
+                { drv: "Yunus", slots: ["帝后1", "帝后2"] },
+                { drv: "Erik", slots: ["帝后3", "帝后4"] },
+                { drv: "Melody", slots: ["帝后5", "帝后6"] },
+                { drv: "Jammy", slots: ["帝后7", "帝后8"] },
+                { drv: "陳皇傑", slots: ["帝后9", "帝后10"] },
+                { drv: "Tommy", slots: ["帝后11", "帝后12"] },
+                { drv: "Nikai", slots: ["天子閣1", "天子閣2", "天子閣3"] }
             ]
         },
         "7/2": {
             drivers: [
-                {drv: "Nikai", slots: ["帝后1", "帝后2"]},
-                {drv: "Yusuf", slots: ["帝后3", "帝后4"]},
-                {drv: "Erik", slots: ["帝后5", "帝后6"]},
-                {drv: "周宛錚", slots: ["帝后7", "帝后8"]},
-                {drv: "Melody", slots: ["帝后9", "帝后10"]},
-                {drv: "Selia", slots: ["帝后11", "帝后12"]},
-                {drv: "陳皇傑", slots: ["帝后13", "帝后14"]},
-                {drv: "Tommy", slots: ["帝后15", "帝后16"]}
-            ],
-            delegates: [
-                {g:"Grup A", slot:"帝后1", name:"Nikai", role:"Sopir"}
+                { drv: "Nikai", slots: ["帝后1", "帝后2"] },
+                { drv: "Yusuf", slots: ["帝后3", "帝后4"] },
+                { drv: "Erik", slots: ["帝后5", "帝后6"] },
+                { drv: "周宛錚", slots: ["帝后7", "帝后8"] },
+                { drv: "Melody", slots: ["帝后9", "帝后10"] },
+                { drv: "Selia", slots: ["帝后11", "帝后12"] },
+                { drv: "陳皇傑", slots: ["帝后13", "帝后14"] },
+                { drv: "Tommy", slots: ["帝后15", "帝后16"] }
             ]
         },
         "7/6": {
             drivers: [
-                {drv: "Erik", slots: ["帝后1", "帝后2"]},
-                {drv: "Nikai", slots: ["帝后3", "帝后4", "帝后5"]},
-                {drv: "Melody", slots: ["天子閣1", "天子閣2"]},
-                {drv: "Yunus", slots: ["天子閣3", "天子閣4", "天子閣5"]},
-                {drv: "周宛錚", slots: ["天子閣6", "天子閣7"]},
-                {drv: "Jammy", slots: ["天子閣8", "天子閣9", "天子閣10"]},
-                {drv: "Selia", slots: ["天子閣11", "天子閣12", "天子閣13"]}
-            ],
-            delegates: [
-                {g:"Grup A", slot:"帝后1", name:"Erik", role:"Sopir"}
+                { drv: "Erik", slots: ["帝后1", "帝后2"] },
+                { drv: "Nikai", slots: ["帝后3", "帝后4", "帝后5"] },
+                { drv: "Melody", slots: ["天子閣1", "天子閣2"] },
+                { drv: "Yunus", slots: ["天子閣3", "天子閣4", "天子閣5"] },
+                { drv: "周宛錚", slots: ["天子閣6", "天子閣7"] },
+                { drv: "Jammy", slots: ["天子閣8", "天子閣9", "天子閣10"] },
+                { drv: "Selia", slots: ["天子閣11", "天子閣12", "天子閣13"] }
             ]
         }
     };
 
     function toggleAccordion(contentId, arrowId) {
-        const content = document.getElementById(contentId);
-        const arrow = document.getElementById(arrowId);
-        content.classList.toggle('open');
-        arrow.classList.toggle('rotate');
+        document.getElementById(contentId).classList.toggle('open');
+        document.getElementById(arrowId).classList.toggle('rotate');
     }
 
-    function initFilters() {
+    function init() {
         const dateSel = document.getElementById('dateSelect');
         const userSel = document.getElementById('userSelect');
-        const today = new Date();
-        today.setHours(0,0,0,0);
-
         const allNames = new Set();
-        Object.keys(db).sort((a,b) => {
-            const [am, ad] = a.split('/'); const [bm, bd] = b.split('/');
-            return new Date(2026, am-1, ad) - new Date(2026, bm-1, bd);
-        }).forEach(dateStr => {
-            const [m, d] = dateStr.split('/');
-            const targetDate = new Date(today.getFullYear(), m - 1, d);
 
-            if (targetDate >= today) {
-                const opt = document.createElement('option');
-                opt.value = dateStr; opt.textContent = dateStr;
-                dateSel.appendChild(opt);
-                db[dateStr].drivers.forEach(dr => allNames.add(dr.drv));
-                db[dateStr].delegates.forEach(dl => allNames.add(dl.name));
-            }
+        Object.keys(db).forEach(date => {
+            const opt = document.createElement('option');
+            opt.value = date; opt.textContent = date;
+            dateSel.appendChild(opt);
+            db[date].drivers.forEach(d => allNames.add(d.drv));
         });
 
         Array.from(allNames).sort().forEach(n => {
@@ -166,53 +125,35 @@
             opt.value = n; opt.textContent = n;
             userSel.appendChild(opt);
         });
+        render();
     }
 
     function render() {
         const date = document.getElementById('dateSelect').value;
-        if (!date) return;
         const user = document.getElementById('userSelect').value;
         const data = db[date];
+        let html = '';
 
-        // 🚗 送迎の表示
-        let transH = '';
         data.drivers.forEach(d => {
-            let rows = '';
             const isDriverMe = (user && d.drv === user);
+            let rows = '';
             d.slots.forEach(s => {
-                const p = data.delegates.find(del => del.slot === s);
-                const isPassMe = (user && p && p.name === user);
                 rows += `
                     <div class="passenger-row">
                         <div class="slot-mini">${s}</div>
-                        <div class="passenger-name ${isPassMe ? 'is-highlight' : ''}">${p ? p.name : '(Kosong)'}</div>
+                        <div class="passenger-name">(Assigning...)</div>
                     </div>`;
             });
-            transH += `<div class="card"><div class="driver-main ${isDriverMe ? 'is-highlight' : ''}">🚗 Supir: ${d.drv}</div>${rows}</div>`;
-        });
-        document.getElementById('transContent').innerHTML = transH;
-
-        // 📋 伝道の表示
-        let dutyH = ''; let curG = '';
-        data.delegates.forEach(p => {
-            if (p.g !== curG) { dutyH += `<div class="group-title">${p.g}</div>`; curG = p.g; }
-            const isNameMe = (user && p.name === user);
-            dutyH += `
+            html += `
                 <div class="card">
-                    <div>
-                        <div class="slot-tag">${p.slot || 'Lokal'}</div>
-                        <div class="person-name ${isNameMe ? 'is-highlight' : ''}">${p.name}</div>
-                    </div>
-                    <div style="text-align:right">
-                        <span class="badge ${p.role==='Sopir'?'bg-sopir':'bg-walking'}">${p.role}</span>
-                    </div>
+                    <div class="driver-main ${isDriverMe ? 'is-highlight' : ''}">🚗 Driver: ${d.drv}</div>
+                    ${rows}
                 </div>`;
         });
-        document.getElementById('dutyContent').innerHTML = dutyH || '<p style="padding:10px">No Duty Data</p>';
+        document.getElementById('transContent').innerHTML = html;
     }
 
-    initFilters();
-    render();
+    init();
 </script>
 </body>
 </html>
