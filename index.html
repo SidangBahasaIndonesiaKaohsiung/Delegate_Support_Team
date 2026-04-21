@@ -11,10 +11,8 @@
             --soft-green-label: #5a7d6a;
             --soft-green-border: #c2d6cc;
             --trans-accent: #5d9cec;
-            --duty-accent: #6ebf91;
             --highlight-red: #d63031; 
             --text-dark: #2d3436;
-            --text-light: #636e72;
         }
 
         body { font-family: 'Lexend', 'Noto Sans TC', sans-serif; background-color: #fcfdfc; margin: 0; padding: 0; color: var(--text-dark); }
@@ -28,25 +26,22 @@
         select { padding: 10px; border-radius: 10px; border: 1px solid var(--soft-green-border); font-size: 14px; background: #ffffff; width: 100%; font-weight: 600; outline: none; }
 
         .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white; border: 1px solid #eee; }
-        .accordion-header { padding: 15px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
-        .header-trans { background: var(--trans-accent); }
-        .header-duty { background: var(--duty-accent); }
+        .accordion-header { padding: 15px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; background: var(--trans-accent); }
         
-        .accordion-content { display: none; padding: 5px; background: #fdfdfd; }
+        .accordion-content { display: none; padding: 10px; background: #fdfdfd; }
         .accordion-content.open { display: block; }
 
         .arrow { font-size: 10px; transition: transform 0.3s; }
         .rotate { transform: rotate(90deg); }
 
-        .card { background: white; border-radius: 10px; margin: 8px; padding: 12px; border: 1.5px solid #eee; }
-        .sec-trans .card { border-color: #d9e6f7; border-left: 6px solid var(--trans-accent); }
+        .card { 
+            background: white; border-radius: 10px; margin-bottom: 8px; padding: 14px; 
+            border: 1.5px solid #d9e6f7; border-left: 6px solid var(--trans-accent);
+            font-size: 15px; line-height: 1.4;
+        }
 
-        .is-highlight { color: var(--highlight-red) !important; font-weight: 800 !important; }
-
-        .driver-main { font-size: 15px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
-        .passenger-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-top: 1px solid #f8f8f8; }
-        .slot-mini { font-size: 9px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: bold; min-width: 50px; text-align: center; color: var(--text-light); }
-        .passenger-name { font-size: 14px; color: var(--text-dark); }
+        /* 名前強調：赤字・太字 */
+        .name-highlight { color: var(--highlight-red) !important; font-weight: 800 !important; }
     </style>
 </head>
 <body>
@@ -58,49 +53,43 @@
     </div>
 </div>
 
-<div class="accordion-item sec-trans">
-    <div class="accordion-header header-trans" onclick="toggleAccordion('trans-body', 'trans-arrow')">
-        <span>🚗 送迎 Antar-Jemput (Driver View)</span><span id="trans-arrow" class="arrow">▶</span>
+<div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion('trans-body', 'trans-arrow')">
+        <span>🚗 送迎 Antar-Jemput</span><span id="trans-arrow" class="arrow">▶</span>
     </div>
     <div id="trans-body" class="accordion-content"><div id="transContent"></div></div>
 </div>
 
 <script>
     const db = {
-        "6/30": {
-            drivers: [
-                { drv: "Yunus", slots: ["帝后1", "帝后2"] },
-                { drv: "Erik", slots: ["帝后3", "帝后4"] },
-                { drv: "Melody", slots: ["帝后5", "帝后6"] },
-                { drv: "Jammy", slots: ["帝后7", "帝后8"] },
-                { drv: "陳皇傑", slots: ["帝后9", "帝后10"] },
-                { drv: "Tommy", slots: ["帝后11", "帝后12"] },
-                { drv: "Nikai", slots: ["天子閣1", "天子閣2", "天子閣3"] }
-            ]
-        },
-        "7/2": {
-            drivers: [
-                { drv: "Nikai", slots: ["帝后1", "帝后2"] },
-                { drv: "Yusuf", slots: ["帝后3", "帝后4"] },
-                { drv: "Erik", slots: ["帝后5", "帝后6"] },
-                { drv: "周宛錚", slots: ["帝后7", "帝后8"] },
-                { drv: "Melody", slots: ["帝后9", "帝后10"] },
-                { drv: "Selia", slots: ["帝后11", "帝后12"] },
-                { drv: "陳皇傑", slots: ["帝后13", "帝后14"] },
-                { drv: "Tommy", slots: ["帝后15", "帝后16"] }
-            ]
-        },
-        "7/6": {
-            drivers: [
-                { drv: "Erik", slots: ["帝后1", "帝后2"] },
-                { drv: "Nikai", slots: ["帝后3", "帝后4", "帝后5"] },
-                { drv: "Melody", slots: ["天子閣1", "天子閣2"] },
-                { drv: "Yunus", slots: ["天子閣3", "天子閣4", "天子閣5"] },
-                { drv: "周宛錚", slots: ["天子閣6", "天子閣7"] },
-                { drv: "Jammy", slots: ["天子閣8", "天子閣9", "天子閣10"] },
-                { drv: "Selia", slots: ["天子閣11", "天子閣12", "天子閣13"] }
-            ]
-        }
+        "6/30": [
+            { drv: "Yunus", s: "帝后1, 帝后2" },
+            { drv: "Erik", s: "帝后3, 帝后4" },
+            { drv: "Melody", s: "帝后5, 帝后6" },
+            { drv: "Jammy", s: "帝后7, 帝后8" },
+            { drv: "陳皇傑", s: "帝后9, 帝后10" },
+            { drv: "Tommy", s: "帝后11, 帝后12" },
+            { drv: "Nikai", s: "天子閣1, 天子閣2, 天子閣3" }
+        ],
+        "7/2": [
+            { drv: "Nikai", s: "帝后1, 帝后2" },
+            { drv: "Yusuf", s: "帝后3, 帝后4" },
+            { drv: "Erik", s: "帝后5, 帝后6" },
+            { drv: "周宛錚", s: "帝后7, 帝后8" },
+            { drv: "Melody", s: "帝后9, 帝后10" },
+            { drv: "Selia", s: "帝后11, 帝后12" },
+            { drv: "陳皇傑", s: "帝后13, 帝后14" },
+            { drv: "Tommy", s: "帝后15, 帝后16" }
+        ],
+        "7/6": [
+            { drv: "Erik", s: "帝后1, 帝后2" },
+            { drv: "Nikai", s: "帝后3, 帝后4, 帝后5" },
+            { drv: "Melody", s: "天子閣1, 天子閣2" },
+            { drv: "Yunus", s: "天子閣3, 天子閣4, 天子閣5" },
+            { drv: "周宛錚", s: "天子閣6, 天子閣7" },
+            { drv: "Jammy", s: "天子閣8, 天子閣9, 天子閣10" },
+            { drv: "Selia", s: "天子閣11, 天子閣12, 天子閣13" }
+        ]
     };
 
     function toggleAccordion(contentId, arrowId) {
@@ -117,7 +106,7 @@
             const opt = document.createElement('option');
             opt.value = date; opt.textContent = date;
             dateSel.appendChild(opt);
-            db[date].drivers.forEach(d => allNames.add(d.drv));
+            db[date].forEach(item => allNames.add(item.drv));
         });
 
         Array.from(allNames).sort().forEach(n => {
@@ -134,21 +123,10 @@
         const data = db[date];
         let html = '';
 
-        data.drivers.forEach(d => {
-            const isDriverMe = (user && d.drv === user);
-            let rows = '';
-            d.slots.forEach(s => {
-                rows += `
-                    <div class="passenger-row">
-                        <div class="slot-mini">${s}</div>
-                        <div class="passenger-name">(Assigning...)</div>
-                    </div>`;
-            });
-            html += `
-                <div class="card">
-                    <div class="driver-main ${isDriverMe ? 'is-highlight' : ''}">🚗 Driver: ${d.drv}</div>
-                    ${rows}
-                </div>`;
+        data.forEach(item => {
+            const isMe = (user && item.drv === user);
+            const nameSpan = `<span class="${isMe ? 'name-highlight' : ''}">${item.drv}</span>`;
+            html += `<div class="card">🚗 ${nameSpan}: ${item.s}</div>`;
         });
         document.getElementById('transContent').innerHTML = html;
     }
