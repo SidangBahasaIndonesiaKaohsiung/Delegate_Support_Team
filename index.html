@@ -43,7 +43,7 @@
             transition: all 0.2s ease-in-out;
         }
 
-        /* --- 名前を選んだ時の島全体の強調効果 --- */
+        /* 名前を選んだ時の島の変化 */
         .is-me-card {
             background-color: var(--highlight-bg) !important;
             border: 3px solid var(--highlight-purple) !important;
@@ -54,10 +54,10 @@
         .name-highlight { color: var(--highlight-red); font-weight: 800; }
 
         .hotel-link {
-            font-size: 11px; padding: 5px 10px; border-radius: 8px;
+            font-size: 11px; padding: 6px 12px; border-radius: 8px;
             background: white; color: var(--trans-accent);
             text-decoration: none; font-weight: 700; border: 1.5px solid var(--trans-accent);
-            white-space: nowrap;
+            white-space: nowrap; display: inline-block;
         }
         .hotel-link:active { background: var(--trans-accent); color: white; }
     </style>
@@ -79,10 +79,10 @@
 </div>
 
 <script>
-    // Google Maps検索用URL（エンコード済み）
+    // 指定された正しいURLを反映
     const hotelUrls = {
-        "帝后": "https://www.google.com/maps/search/?api=1&query=Empress+Hotel+Kaohsiung",
-        "天子閣": "https://www.google.com/maps/search/?api=1&query=Ten-Face+Hotel+Kaohsiung"
+        "帝后": "https://maps.app.goo.gl/Fgyf4fjaFsWoHRax5",
+        "天子閣": "https://maps.app.goo.gl/ECXuxu3BWNxhPFrm7"
     };
 
     const db = {
@@ -104,8 +104,10 @@
     };
 
     function toggleAccordion(id, arrowId) {
-        document.getElementById(id).classList.toggle('open');
-        document.getElementById(arrowId).classList.toggle('rotate');
+        const content = document.getElementById(id);
+        const arrow = document.getElementById(arrowId);
+        content.classList.toggle('open');
+        arrow.classList.toggle('rotate');
     }
 
     function init() {
@@ -133,14 +135,14 @@
             const cardClass = isMe ? 'card is-me-card' : 'card';
             const namePart = `<span class="${isMe ? 'name-highlight' : ''}">${item.n}</span>`;
             
-            // スロット名からホテルキー（帝后 or 天子閣）を判定
+            // 帝后が含まれるか、それ以外（天子閣）かでURLを決定
             const hotelKey = item.s.includes("帝后") ? "帝后" : "天子閣";
             const mapUrl = hotelUrls[hotelKey];
             
             html += `
                 <div class="${cardClass}">
                     <div>🚗 ${namePart}: ${item.s}</div>
-                    <a href="${mapUrl}" class="hotel-link" target="_blank">MAP 📍</a>
+                    <a href="${mapUrl}" class="hotel-link" target="_blank" rel="noopener noreferrer">MAP 📍</a>
                 </div>`;
         });
         document.getElementById('transContent').innerHTML = html;
