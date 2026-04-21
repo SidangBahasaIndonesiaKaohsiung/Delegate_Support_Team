@@ -36,10 +36,8 @@
             background: white; border-radius: 10px; margin-bottom: 12px; padding: 14px; 
             border: 1.5px solid #d9e6f7; border-left: 6px solid var(--trans-accent);
             display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.2s ease-in-out;
         }
 
-        /* 自分の名前が含まれるグループの強調 */
         .is-me-card {
             background-color: var(--highlight-bg) !important;
             border: 3px solid var(--highlight-purple) !important;
@@ -49,10 +47,11 @@
         .name-highlight { color: var(--highlight-red); font-weight: 800; }
 
         .hotel-link {
-            font-size: 11px; padding: 8px 14px; border-radius: 8px;
-            background: white; color: var(--trans-accent);
-            text-decoration: none; font-weight: 700; border: 2px solid var(--trans-accent);
+            font-size: 11px; padding: 10px 14px; border-radius: 8px;
+            background: var(--trans-accent); color: white;
+            text-decoration: none; font-weight: 700;
             white-space: nowrap; display: inline-block;
+            border: none; cursor: pointer;
         }
     </style>
 </head>
@@ -84,7 +83,6 @@
     const URL_TEIO = "https://maps.app.goo.gl/Fgyf4fjaFsWoHRax5"; 
     const URL_TENSI = "https://maps.app.goo.gl/ECXuxu3BWNxhPFrm7"; 
 
-    // 画像から抽出した正確なデータ
     const db = {
         "6/30": [
             { n: "Yunus", s: "帝后1, 帝后2, SAITO CHIEMI, Sayo, Tina" },
@@ -119,23 +117,19 @@
         const uSel = document.getElementById('userSelect');
         const allNames = new Set();
 
-        // 日付と名前のリストを生成
         Object.keys(db).forEach(date => {
             const opt = document.createElement('option');
             opt.value = date; opt.textContent = date;
             dSel.appendChild(opt);
 
             db[date].forEach(item => {
-                allNames.add(item.n); // ドライバー名
+                allNames.add(item.n);
                 item.s.split(', ').forEach(name => {
-                    if (!name.includes('帝后') && !name.includes('天子閣')) {
-                        allNames.add(name); // ゲスト名
-                    }
+                    if (!name.includes('帝后') && !name.includes('天子閣')) allNames.add(name);
                 });
             });
         });
 
-        // 名前リストをアルファベット順にソートして追加
         Array.from(allNames).sort().forEach(name => {
             const opt = document.createElement('option');
             opt.value = name; opt.textContent = name;
@@ -153,14 +147,11 @@
         
         let html = '';
         db[date].forEach(item => {
-            // 自分の名前が含まれるかチェック
             const isMe = (selectedUser && (item.n === selectedUser || item.s.includes(selectedUser)));
             const cardClass = isMe ? 'card is-me-card' : 'card';
             
-            // テキスト表示の組み立て
             let contentText = `🚗 <strong>${item.n}</strong>: ${item.s}`;
             if (selectedUser && contentText.includes(selectedUser)) {
-                // 選択した名前を赤文字で強調
                 const regex = new RegExp(`(${selectedUser})`, 'g');
                 contentText = contentText.replace(regex, `<span class="name-highlight">$1</span>`);
             }
@@ -169,14 +160,14 @@
             
             html += `
                 <div class="${cardClass}">
-                    <div style="flex:1; padding-right:10px;">${contentText}</div>
-                    <a href="${mapUrl}" class="hotel-link" target="_blank" rel="noopener noreferrer">MAP 📍</a>
+                    <div style="flex:1;">${contentText}</div>
+                    <button onclick="window.open('${mapUrl}', '_blank')" class="hotel-link">MAP 📍</button>
                 </div>`;
         });
         container.innerHTML = html;
     }
 
-    window.onload = init;
+    init();
 </script>
 </body>
 </html>
