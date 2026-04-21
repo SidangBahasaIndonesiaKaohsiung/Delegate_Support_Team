@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jadwal Pelayanan Kaohsiung</title>
+    <title>Jadwal Lengkap Kaohsiung</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #6c5ce7;
             --highlight-bg: #f3ebff;
-            --highlight-border: #a569bd;
+            --highlight-border: #a569bd; /* Ungu */
             --driver: #fff9c4;
             --walking: #ffe0b2;
             --special: #f3e5f5;
@@ -19,19 +19,16 @@
         }
 
         body { font-family: 'Lexend', sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px; color: var(--text-dark); }
-
         .sticky-header { position: sticky; top: 0; background: #f0f2f5; z-index: 100; padding-bottom: 12px; }
         .filter-card {
             background: white; padding: 16px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);
             display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px;
         }
-
         .input-box { display: flex; flex-direction: column; }
         label { font-size: 10px; font-weight: bold; color: var(--text-light); text-transform: uppercase; margin-bottom: 4px; }
         select { padding: 12px; border-radius: 10px; border: 1px solid #e1e4e8; font-size: 14px; background: #f8f9fa; outline: none; }
 
-        h2 { font-size: 14px; margin: 20px 0 10px 5px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid var(--primary); padding-left: 8px; }
-
+        h2 { font-size: 14px; margin: 20px 0 10px 5px; color: var(--primary); text-transform: uppercase; border-left: 4px solid var(--primary); padding-left: 8px; }
         .group-label { font-size: 10px; font-weight: bold; color: white; background: var(--text-light); padding: 2px 10px; border-radius: 20px; display: inline-block; margin: 10px 0 5px 5px; }
 
         .card {
@@ -39,8 +36,7 @@
             display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.03); border-left: 5px solid transparent; transition: all 0.2s;
         }
-
-        .card.is-me { background: var(--highlight-bg); border-left-color: var(--highlight-border); transform: scale(1.01); box-shadow: 0 4px 12px rgba(165, 105, 189, 0.2); }
+        .card.is-me { background: var(--highlight-bg); border-left-color: var(--highlight-border); transform: scale(1.01); box-shadow: 0 4px 12px rgba(165, 105, 189, 0.3); }
         .is-me .person-name { color: var(--highlight-border); font-weight: 700; }
 
         .info-main { display: flex; flex-direction: column; gap: 2px; }
@@ -51,134 +47,117 @@
         .badge { font-size: 10px; padding: 3px 8px; border-radius: 6px; font-weight: bold; display: inline-block; }
         .bg-sopir { background: var(--driver); }
         .bg-jalan { background: var(--walking); }
-        .bg-jemput { background: var(--special); }
+        .bg-special { background: var(--special); }
         .bg-pending { background: var(--pending); }
-        
         .no-lunch { color: #d63031; font-size: 9px; font-weight: bold; display: block; margin-top: 2px; }
-
-        .transport-section { margin-bottom: 30px; }
     </style>
 </head>
 <body>
 
 <div class="sticky-header">
     <div class="filter-card">
-        <div class="input-box">
-            <label>Tanggal (Hari)</label>
-            <select id="dateSelect" onchange="render()">
-                <option value="6/30">30 Juni</option>
-                <option value="7/2">2 Juli</option>
-                <option value="7/6">6 Juli</option>
-            </select>
-        </div>
-        <div class="input-box">
-            <label>Nama Saya</label>
-            <select id="userSelect" onchange="render()">
-                <option value="">-- Pilih --</option>
-            </select>
-        </div>
+        <div class="input-box"><label>Tanggal</label><select id="dateSelect" onchange="render()"><option value="6/30">30 Juni</option><option value="7/2">2 Juli</option><option value="7/6">6 Juli</option></select></div>
+        <div class="input-box"><label>Nama Saya</label><select id="userSelect" onchange="render()"><option value="">-- Pilih --</option></select></div>
     </div>
 </div>
 
 <div id="content">
-    <section class="transport-section">
-        <h2>Daftar Antar-Jemput (Transport)</h2>
-        <div id="transportContent"></div>
-    </section>
-
-    <section class="duty-section">
-        <h2>Tugas Grup Pelayanan</h2>
-        <div id="dutyContent"></div>
-    </section>
+    <section><h2>Transport (Pengantaran)</h2><div id="transContent"></div></section>
+    <section><h2>Grup Pelayanan (Duty)</h2><div id="dutyContent"></div></section>
 </div>
 
 <script>
-    const URL_EMPRESS = "https://maps.app.goo.gl/tZeRVo8L2vxhAyMdA";
-    const URL_EMPEROR = "https://maps.app.goo.gl/ECXuxu3BWNxhPFrm7";
+    const URL_Q21 = "https://maps.app.goo.gl/tZeRVo8L2vxhAyMdA";
+    const URL_TENZ = "https://maps.app.goo.gl/ECXuxu3BWNxhPFrm7";
 
-    // Data 1: Antar-Jemput (Transport)
-    const transportDB = {
-        "6/30": [
-            { loc: "Empress 1-2", n: "Yunus" }, { loc: "Empress 3-4", n: "Erik" }, { loc: "Empress 5-6", n: "Melody" },
-            { loc: "Empress 7-8", n: "Jammy" }, { loc: "Empress 9-10", n: "Chen Huang-Chieh" }, { loc: "Empress 11-12", n: "Tommy" },
-            { loc: "Emperor 1-3", n: "Nikai" }
-        ],
-        "7/2": [
-            { loc: "Empress 1-2", n: "Nikai" }, { loc: "Empress 3-4", n: "Yusuf" }, { loc: "Empress 5-6", n: "Erik" },
-            { loc: "Empress 7-8", n: "Chou Wan-Cheng" }, { loc: "Empress 9-10", n: "Melody" }, { loc: "Empress 11-12", n: "Selia" },
-            { loc: "Empress 13-14", n: "Chen Huang-Chieh" }, { loc: "Empress 15-16", n: "Tommy" }
-        ],
-        "7/6": [
-            { loc: "Empress 1-2", n: "Erik" }, { loc: "Empress 3-5", n: "Nikai" }, { loc: "Emperor 1-2", n: "Melody" },
-            { loc: "Emperor 3-5", n: "Yunus" }, { loc: "Emperor 6-7", n: "Chou Wan-Cheng" }, { loc: "Emperor 8-10", n: "Jammy" },
-            { loc: "Emperor 11-13", n: "Selia" }
-        ]
-    };
-
-    // Data 2: Tugas Grup (Duty)
-    const dutyDB = {
-        "6/30": [
-            { g: "A", loc: "Empress", n: "Yunus", r: "Sopir", t: "sopir" }, { g: "A", loc: "Empress", n: "SAITO CHIEMI", r: "Lokal", t: "" }, { g: "A", loc: "Empress", n: "Sayo", r: "Lokal", t: "" },
-            { g: "B", loc: "Empress", n: "Erik", r: "Sopir", t: "sopir" }, { g: "B", loc: "Empress", n: "Dina", r: "Lokal", t: "" }, { g: "B", loc: "Empress", n: "Linling", r: "Lokal", t: "" },
-            { g: "C", loc: "Empress", n: "Melody", r: "Sopir", t: "sopir" }, { g: "C", loc: "Empress", n: "Lilian", r: "Lokal", t: "" },
-            { g: "D", loc: "Empress", n: "Jammy", r: "Sopir", t: "sopir" }, { g: "D", loc: "Empress", n: "Chang Chu-Hsuan", r: "Lokal", t: "" },
-            { g: "E", loc: "Empress", n: "Daud", r: "Jack", t: "jemput" }, { g: "E", loc: "Empress", n: "Lusi", r: "Jack", t: "jemput" }, { g: "E", loc: "Empress", n: "Ken", r: "Lokal", t: "", l: false },
-            { g: "F", loc: "Empress", n: "Tommy", r: "Sopir", t: "sopir" }, { g: "F", loc: "Empress", n: "Linda", r: "Lokal", t: "" }, { g: "F", loc: "Empress", n: "Wang Ya-Chen", r: "Belum Pasti", t: "pending" },
-            { g: "G", loc: "Emperor", n: "Nikai", r: "Sopir", t: "sopir" }, { g: "G", loc: "Emperor", n: "Henokh", r: "Lokal", t: "" }, { g: "G", loc: "Emperor", n: "Joselin", r: "Lokal", t: "" }
-        ],
-        "7/2": [
-            { g: "A", loc: "Empress", n: "Nikai", r: "Sopir", t: "sopir" }, { g: "A", loc: "Empress", n: "Mei", r: "Lokal", t: "" }, { g: "A", loc: "Empress", n: "Tina", r: "Lokal", t: "" },
-            { g: "B", loc: "Empress", n: "Yusuf", r: "Sopir", t: "sopir" }, { g: "B", loc: "Empress", n: "Joan", r: "Lokal", t: "" }, { g: "B", loc: "Empress", n: "Huang Shih-Yin", r: "Belum Pasti", t: "pending" },
-            { g: "C", loc: "Empress", n: "Erik", r: "Sopir", t: "sopir" }, { g: "C", loc: "Empress", n: "Dina", r: "Lokal", t: "" },
-            { g: "D", loc: "Empress", n: "Chou Wan-Cheng", r: "Sopir", t: "sopir" }, { g: "D", loc: "Empress", n: "Elli", r: "Lokal", t: "", l: false }, { g: "D", loc: "Empress", n: "Linling", r: "Lokal", t: "" },
-            { g: "E", loc: "Empress", n: "Melody", r: "Jalan Kaki", t: "jalan" }, { g: "E", loc: "Empress", n: "Chang Chu-Hsuan", r: "Jalan Kaki", t: "jalan" }, { g: "E", loc: "Empress", n: "Joselin", r: "Jalan Kaki", t: "jalan" },
-            { g: "F", loc: "Empress", n: "Selia", r: "Sopir", t: "sopir" }, { g: "F", loc: "Empress", n: "SAITO CHIEMI", r: "Lokal", t: "" }, { g: "F", loc: "Empress", n: "Daud", r: "Lokal", t: "" }, { g: "F", loc: "Empress", n: "Lusi", r: "Lokal", t: "" },
-            { g: "G", loc: "Empress", n: "Yunus", r: "Sopir", t: "sopir", l: false }, { g: "G", loc: "Empress", n: "Ken", r: "Lokal", t: "", l: false },
-            { g: "H", loc: "Empress", n: "Tommy", r: "Sopir", t: "sopir" }, { g: "H", loc: "Empress", n: "Linda", r: "Lokal", t: "" }, { g: "H", loc: "Empress", n: "Wang Ya-Chen", r: "Lokal", t: "" }
-        ],
-        "7/6": [
-            { g: "A", loc: "Empress", n: "Erik", r: "Sopir", t: "sopir" }, { g: "A", loc: "Empress", n: "Dina", r: "Lokal", t: "" },
-            { g: "B", loc: "Empress", n: "Nikai", r: "Jalan Kaki", t: "jalan" }, { g: "B", loc: "Empress", n: "Ken", r: "Jalan Kaki", t: "jalan" }, { g: "B", loc: "Empress", n: "Matsumiya", r: "Jalan Kaki", t: "jalan" }, { g: "B", loc: "Empress", n: "Lilian", r: "Lokal", t: "" }, { g: "B", loc: "Empress", n: "Vina", r: "Lokal", t: "" },
-            { g: "C", loc: "Emperor", n: "Melody", r: "Sopir", t: "sopir" }, { g: "C", loc: "Emperor", n: "Huang Shih-Yin", r: "Lokal", t: "" },
-            { g: "D", loc: "Emperor", n: "Yunus", r: "Jalan Kaki", t: "jalan" }, { g: "D", loc: "Emperor", n: "Yoshiya", r: "Jalan Kaki", t: "jalan" }, { g: "D", loc: "Emperor", n: "Jamie", r: "Jalan Kaki", t: "jalan" }, { g: "D", loc: "Emperor", n: "Elli", r: "Lokal", t: "", l: false }, { g: "D", loc: "Emperor", n: "Lina", r: "Lokal", t: "" },
-            { g: "E", loc: "Emperor", n: "Chou Wan-Cheng", r: "Sopir", t: "sopir" }, { g: "E", loc: "Emperor", n: "Wang Ya-Chen", r: "Lokal", t: "" },
-            { g: "F", loc: "Emperor", n: "Jammy", r: "Sopir", t: "sopir" }, { g: "F", loc: "Emperor", n: "Stephanie", r: "Lokal", t: "" }, { g: "F", loc: "Emperor", n: "Rut", r: "Lokal", t: "", l: false },
-            { g: "G", loc: "Emperor", n: "Selia", r: "Sopir", t: "sopir" }, { g: "G", loc: "Emperor", n: "Linling", r: "Lokal", t: "" }, { g: "G", loc: "Emperor", n: "Sayo", r: "Lokal", t: "" }
-        ]
+    const db = {
+        "6/30": {
+            trans: [
+                {l:"帝后1", n:"Yunus"}, {l:"帝后2", n:"Yunus"}, {l:"帝后3", n:"Erik"}, {l:"帝后4", n:"Erik"},
+                {l:"帝后5", n:"Melody"}, {l:"帝后6", n:"Melody"}, {l:"帝后7", n:"Jammy"}, {l:"帝后8", n:"Jammy"},
+                {l:"帝后9", n:"陳皇傑"}, {l:"帝后10", n:"陳皇傑"}, {l:"帝后11", n:"Tommy"}, {l:"帝后12", n:"Tommy"},
+                {l:"天子閣1", n:"Nikai"}, {l:"天子閣2", n:"Nikai"}, {l:"天子閣3", n:"Nikai"}
+            ],
+            duty: [
+                {g:"A", l:"帝后1", n:"Yunus", t:"sopir", r:"Sopir"}, {g:"A", l:"帝后2", n:"SAITO CHIEMI", r:"Lokal"}, {g:"A", l:"Tina", n:"Sayo", r:"Lokal"},
+                {g:"B", l:"帝后3", n:"Erik", t:"sopir", r:"Sopir"}, {g:"B", l:"帝后4", n:"Dina", r:"Lokal"}, {g:"Stephanie", n:"Linling", r:"Lokal"},
+                {g:"C", l:"帝后5", n:"Melody", t:"sopir", r:"Sopir"}, {g:"C", l:"帝后6", n:"Lilian", r:"Lokal"},
+                {g:"D", l:"帝后7", n:"Jammy", t:"sopir", r:"Sopir"}, {g:"D", l:"帝后8", n:"張苧萱", r:"Lokal"},
+                {g:"E", l:"帝后9", n:"Daud", t:"special", r:"Jack"}, {g:"E", l:"帝后10", n:"Lusi", t:"special", r:"Jack"}, {g:"Ken", n:"松宮 (劉) 麗娟", r:"Lokal", lunch:false},
+                {g:"F", l:"帝后11", n:"Tommy", t:"sopir", r:"Sopir"}, {g:"F", l:"帝后12", n:"Linda", r:"Lokal"}, {g:"", n:"王雅貞", t:"pending", r:"Belum Pasti"},
+                {g:"G", l:"天子閣1", n:"Nikai", t:"sopir", r:"Sopir"}, {g:"天子閣2", n:"Henokh", r:"Lokal"}, {g:"天子閣3", n:"Joselin", r:"Lokal"}
+            ]
+        },
+        "7/2": {
+            trans: [
+                {l:"帝后1", n:"Nikai"}, {l:"帝后2", n:"Nikai"}, {l:"帝后3", n:"Yusuf"}, {l:"帝后4", n:"Yusuf"},
+                {l:"帝后5", n:"Erik"}, {l:"帝后6", n:"Erik"}, {l:"帝后7", n:"周宛錚"}, {l:"帝后8", n:"周宛錚"},
+                {l:"帝后9", n:"Melody"}, {l:"帝后10", n:"Melody"}, {l:"帝后11", n:"Selia"}, {l:"帝后12", n:"Selia"},
+                {l:"帝后13", n:"陳皇傑"}, {l:"帝后14", n:"陳皇傑"}, {l:"帝后15", n:"Tommy"}, {l:"帝后16", n:"Tommy"}
+            ],
+            duty: [
+                {g:"A", l:"帝后1", n:"Nikai", t:"sopir", r:"Sopir"}, {g:"A", l:"帝后2", n:"Mei", r:"Lokal"}, {g:"Vina", n:"Tina", r:"Lokal"},
+                {g:"B", l:"帝后3", n:"Yusuf", t:"sopir", r:"Sopir"}, {g:"B", l:"帝后4", n:"Joan", r:"Lokal"}, {g:"", n:"黃詩吟", t:"pending", r:"Belum Pasti"},
+                {g:"C", l:"帝后5", n:"Erik", t:"sopir", r:"Sopir"}, {g:"C", l:"帝后6", n:"Dina", r:"Lokal"},
+                {g:"D", l:"帝后7", n:"周宛錚", t:"sopir", r:"Sopir"}, {g:"帝后8", n:"Elli", r:"Lokal", lunch:false}, {g:"Sayo", n:"Linling", r:"Lokal"},
+                {g:"E", l:"帝后9", n:"Melody", t:"walking", r:"Jalan Kaki"}, {g:"帝后10", n:"張苧萱", r:"Jalan Kaki", t:"walking"}, {g:"Henokh", n:"Joselin", r:"Jalan Kaki", t:"walking"},
+                {g:"F", l:"帝后11", n:"Selia", t:"sopir", r:"Sopir"}, {g:"帝后12", n:"SAITO CHIEMI", r:"Lokal"}, {g:"Daud", n:"Lusi", r:"Lokal"},
+                {g:"G", l:"帝后13", n:"Yunus", t:"sopir", r:"Sopir", lunch:false}, {g:"帝后14", n:"Ken", r:"Lokal", lunch:false},
+                {g:"H", l:"帝后15", n:"Tommy", t:"sopir", r:"Sopir"}, {g:"帝后16", n:"Linda", r:"Lokal"}, {g:"Stephanie", n:"王雅貞", r:"Lokal"}
+            ]
+        },
+        "7/6": {
+            trans: [
+                {l:"帝后1", n:"Erik"}, {l:"帝后2", n:"Erik"}, {l:"帝后3", n:"Nikai"}, {l:"帝后4", n:"Nikai"},
+                {l:"帝后5", n:"Nikai"}, {l:"天子閣1", n:"Melody"}, {l:"天子閣2", n:"Melody"}, {l:"天子閣3", n:"Yunus"},
+                {l:"天子閣4", n:"Yunus"}, {l:"天子閣5", n:"Yunus"}, {l:"天子閣6", n:"周宛錚"}, {l:"天子閣7", n:"周宛錚"},
+                {l:"天子閣8", n:"Jammy"}, {l:"天子閣9", n:"Jammy"}, {l:"天子閣10", n:"Jammy"}, {l:"天子閣11", n:"Selia"},
+                {l:"天子閣12", n:"Selia"}, {l:"天子閣13", n:"Selia"}
+            ],
+            duty: [
+                {g:"A", l:"帝后1", n:"Erik", t:"sopir", r:"Sopir"}, {g:"A", l:"帝后2", n:"Dina", r:"Lokal"},
+                {g:"B", l:"帝后3", n:"Nikai", t:"walking", r:"Jalan Kaki"}, {g:"帝后4", n:"Ken", r:"Jalan Kaki", t:"walking"}, {g:"帝后5", n:"松宮 (劉) 麗娟", r:"Jalan Kaki", t:"walking"}, {g:"Lilian", n:"Vina", r:"Lokal"},
+                {g:"C", l:"天子閣1", n:"Melody", t:"sopir", r:"Sopir"}, {g:"天子閣2", n:"黃詩吟", r:"Lokal"},
+                {g:"D", l:"天子閣3", n:"Yunus", t:"walking", r:"Jalan Kaki"}, {g:"天子閣4", n:"Yoshiya", r:"Jalan Kaki", t:"walking"}, {g:"天子閣5", n:"Jamie", r:"Jalan Kaki", t:"walking"}, {g:"Elli", n:"Lina", r:"Lokal", lunch:false},
+                {g:"E", l:"天子閣6", n:"周宛錚", t:"sopir", r:"Sopir"}, {g:"天子閣7", n:"王雅貞", r:"Lokal"},
+                {g:"F", l:"天子閣8", n:"Jammy", t:"sopir", r:"Sopir"}, {g:"天子閣9", n:"Stephanie", r:"Lokal"}, {g:"天子閣10", n:"Rut", r:"Lokal", lunch:false},
+                {g:"G", l:"天子閣11", n:"Selia", t:"sopir", r:"Sopir"}, {g:"天子閣12", n:"Linling", r:"Lokal"}, {g:"天子閣13", n:"Sayo", r:"Lokal"}
+            ]
+        }
     };
 
     function render() {
         const date = document.getElementById('dateSelect').value;
-        const myName = document.getElementById('userSelect').value;
-        
-        // Render Transport
-        let transHtml = '';
-        transportDB[date].forEach(item => {
-            const isMe = myName && item.n.includes(myName);
-            const url = item.loc.includes("Empress") ? URL_EMPRESS : URL_EMPEROR;
-            const locName = item.loc.includes("Empress") ? "Q21 (Empress)" : "Tenz Go (Emperor)";
-            transHtml += `<div class="card ${isMe ? 'is-me' : ''}"><div class="info-main"><a href="${url}" target="_blank" class="location-link">${locName} ${item.loc.split(' ')[1]} 📍</a><span class="person-name">${item.n}</span></div><div class="status-box"><span class="badge bg-sopir">ANTAR</span></div></div>`;
-        });
-        document.getElementById('transportContent').innerHTML = transHtml;
+        const user = document.getElementById('userSelect').value;
+        const currentData = db[date];
 
-        // Render Duty
-        let dutyHtml = '';
-        let lastG = '';
-        dutyDB[date].forEach(item => {
-            if (item.g !== lastG) { dutyHtml += `<div class="group-label">GRUP ${item.g}</div>`; lastG = item.g; }
-            const isMe = myName && item.n.includes(myName);
-            const url = item.loc === "Empress" ? URL_EMPRESS : URL_EMPEROR;
-            dutyHtml += `<div class="card ${isMe ? 'is-me' : ''}"><div class="info-main"><a href="${url}" target="_blank" class="location-link">${item.loc === "Empress" ? "Q21 Hotel" : "Tenz Go Hotel"} 📍</a><span class="person-name">${item.n}</span></div><div class="status-box"><span class="badge bg-${item.t}">${item.r || 'Lokal'}</span>${item.l === false ? '<span class="no-lunch">Tanpa Makan</span>' : ''}</div></div>`;
+        // Transport
+        let transH = '';
+        currentData.trans.forEach(i => {
+            const isMe = user && i.n === user;
+            const url = i.l.includes('帝后') ? URL_Q21 : URL_TENZ;
+            transH += `<div class="card ${isMe?'is-me':''}"><div class="info-main"><a href="${url}" class="location-link" target="_blank">${i.l} 📍</a><span class="person-name">${i.n}</span></div><div class="status-box"><span class="badge bg-sopir">SOPIR</span></div></div>`;
         });
-        document.getElementById('dutyContent').innerHTML = dutyHtml;
+        document.getElementById('transContent').innerHTML = transH;
+
+        // Duty
+        let dutyH = ''; let lastG = 'NONE';
+        currentData.duty.forEach(i => {
+            if(i.g && i.g !== lastG) { dutyH += `<div class="group-label">GRUP ${i.g}</div>`; lastG = i.g; }
+            const isMe = user && (i.n === user || i.l === user);
+            const url = (i.l && i.l.includes('天子閣')) ? URL_TENZ : URL_Q21;
+            dutyH += `<div class="card ${isMe?'is-me':''}"><div class="info-main"><a href="${url}" class="location-link" target="_blank">${i.l || '-'} 📍</a><span class="person-name">${i.n}</span></div><div class="status-box"><span class="badge bg-${i.t}">${i.r || 'Lokal'}</span>${i.lunch===false?'<span class="no-lunch">Tanpa Makan</span>':''}</div></div>`;
+        });
+        document.getElementById('dutyContent').innerHTML = dutyH;
     }
 
-    // Init Name Dropdown
     const allNames = new Set();
-    Object.values(dutyDB).forEach(day => day.forEach(m => allNames.add(m.n)));
-    const sorted = Array.from(allNames).sort();
+    Object.values(db).forEach(day => {
+        day.trans.forEach(x => allNames.add(x.n));
+        day.duty.forEach(x => allNames.add(x.n));
+    });
     const sel = document.getElementById('userSelect');
-    sorted.forEach(n => { const o = document.createElement('option'); o.value = n; o.textContent = n; sel.appendChild(o); });
+    Array.from(allNames).sort().forEach(n => { const o = document.createElement('option'); o.value=n; o.textContent=n; sel.appendChild(o); });
 
     render();
 </script>
