@@ -12,14 +12,15 @@
             --soft-green-border: #c2d6cc;
             --primary-purple: #a569bd;
             --highlight-bg: #f3ebff;
-            --trans-accent: #5d9cec; /* 送迎（青） */
-            --duty-accent: #6ebf91;  /* 伝道（緑） */
+            --trans-accent: #5d9cec;
+            --duty-accent: #6ebf91;
             --text-dark: #2d3436;
             --text-light: #636e72;
         }
 
         body { font-family: 'Lexend', 'Noto Sans TC', sans-serif; background-color: #fcfdfc; margin: 0; padding: 0; color: var(--text-dark); }
         
+        /* フィルターバー（優しい緑） */
         .sticky-header { 
             position: sticky; top: 0; background: var(--soft-green-bg); z-index: 100; 
             padding: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-bottom: 1px solid var(--soft-green-border);
@@ -28,42 +29,43 @@
         .input-box label { font-size: 10px; font-weight: bold; color: var(--soft-green-label); margin-bottom: 4px; display: block; }
         select { padding: 10px; border-radius: 10px; border: 1px solid var(--soft-green-border); font-size: 14px; background: #ffffff; width: 100%; font-weight: 600; outline: none; }
 
-        .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white; }
+        /* アコーディオン */
+        .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white; border: 1px solid #eee; }
         .accordion-header { padding: 15px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
         .header-trans { background: var(--trans-accent); }
         .header-duty { background: var(--duty-accent); }
         
-        .accordion-content.hidden { display: none; }
-        .accordion-content { padding: 5px; }
+        /* 【重要】デフォルトで非表示にする設定 */
+        .accordion-content { display: none; padding: 5px; background: #fdfdfd; }
+        .accordion-content.open { display: block; } /* JSでこのクラスを付け外しする */
 
         .arrow { font-size: 10px; transition: transform 0.3s; }
-        .rotate { transform: rotate(90deg); }
+        .rotate { transform: rotate(90deg); } /* 閉：▶ / 開：▼ */
 
         .group-title { font-size: 11px; font-weight: bold; color: var(--duty-accent); margin: 15px 10px 5px; border-bottom: 1px solid #f0f0f0; }
 
-        /* --- 各島（カード）の枠線設定 --- */
+        /* --- 各島（カード）の1.5px枠線設定 --- */
         .card { 
             background: white; 
             border-radius: 10px; 
             margin: 8px; 
             padding: 12px; 
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-            border: 1.5px solid transparent; /* 初期値 */
+            position: relative;
         }
         
-        /* 送迎：青色の枠線 */
+        /* 送迎カードの枠線 */
         .sec-trans .card { border: 1.5px solid #d9e6f7; border-left: 6px solid var(--trans-accent); }
         
-        /* 伝道：緑色の枠線 */
+        /* 伝道カードの枠線 */
         .sec-duty .card { border: 1.5px solid #e1f2e9; border-left: 6px solid var(--duty-accent); display: flex; justify-content: space-between; align-items: center; }
 
-        /* 紫色ハイライト（自分を選択時） */
+        /* 【重要】紫色ハイライト（自分を選択時） */
         .card.is-me { 
             background: var(--highlight-bg); 
             border: 1.5px solid var(--primary-purple) !important; 
             border-left: 6px solid var(--primary-purple) !important; 
-            transform: scale(1.02); 
-            box-shadow: 0 4px 15px rgba(165, 105, 189, 0.25); 
+            transform: scale(1.01); 
             z-index: 10; 
         }
         .is-me .person-name, .is-me .driver-main { color: var(--primary-purple); font-weight: 800; }
@@ -75,7 +77,6 @@
         .slot-tag { font-size: 9px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-bottom: 3px; display: inline-block; color: var(--text-light); }
         .person-name { font-size: 15px; font-weight: 500; }
         
-        /* 伝道側のバッジ類 */
         .badge { font-size: 9px; padding: 3px 10px; border-radius: 15px; font-weight: bold; color: white; }
         .bg-sopir { background: #f1c40f; color: #000; }
         .bg-walking { background: #e67e22; }
@@ -86,20 +87,8 @@
 
 <div class="sticky-header">
     <div class="filter-card">
-        <div class="input-box">
-            <label>Tanggal / 日付</label>
-            <select id="dateSelect" onchange="render()">
-                <option value="6/30">6/30 (Selasa)</option>
-                <option value="7/2">7/2 (Kamis)</option>
-                <option value="7/6">7/6 (Senin)</option>
-            </select>
-        </div>
-        <div class="input-box">
-            <label>Nama / 氏名</label>
-            <select id="userSelect" onchange="render()">
-                <option value="">-- Pilih --</option>
-            </select>
-        </div>
+        <div class="input-box"><label>Tanggal / 日付</label><select id="dateSelect" onchange="render()"><option value="6/30">6/30</option><option value="7/2">7/2</option><option value="7/6">7/6</option></select></div>
+        <div class="input-box"><label>Nama / 氏名</label><select id="userSelect" onchange="render()"><option value="">-- Pilih --</option></select></div>
     </div>
 </div>
 
@@ -107,7 +96,7 @@
     <div class="accordion-header header-trans" onclick="toggleAccordion('trans-body', 'trans-arrow')">
         <span>🚗 送迎 Antar-Jemput</span><span id="trans-arrow" class="arrow">▶</span>
     </div>
-    <div id="trans-body" class="accordion-content hidden">
+    <div id="trans-body" class="accordion-content">
         <div id="transContent"></div>
     </div>
 </div>
@@ -116,7 +105,7 @@
     <div class="accordion-header header-duty" onclick="toggleAccordion('duty-body', 'duty-arrow')">
         <span>📋 伝道 Grup Pelayanan</span><span id="duty-arrow" class="arrow">▶</span>
     </div>
-    <div id="duty-body" class="accordion-content hidden">
+    <div id="duty-body" class="accordion-content">
         <div id="dutyContent"></div>
     </div>
 </div>
@@ -124,28 +113,18 @@
 <script>
     const db = {
         "6/30": {
-            drivers: [
-                {drv: "Yunus", slots: ["帝后1", "帝后2"]},
-                {drv: "Erik", slots: ["帝后3", "帝后4"]},
-                {drv: "Melody", slots: ["帝后5", "帝后6"]},
-                {drv: "Nikai", slots: ["天子閣1", "天子閣2", "天子閣3"]}
-            ],
-            delegates: [
-                {g:"Grup A", slot:"帝后1", name:"Yunus", role:"Sopir"},
-                {g:"Grup A", slot:"帝后2", name:"SAITO CHIEMI", role:"Lokal"},
-                {g:"Grup B", slot:"帝后3", name:"Erik", role:"Sopir"},
-                {g:"Grup B", slot:"帝后4", name:"Dina", role:"Lokal"},
-                {g:"Grup C", slot:"天子閣1", name:"Nikai", role:"Sopir"}
-            ]
+            drivers: [{drv: "Yunus", slots: ["帝后1", "帝后2"]}, {drv: "Erik", slots: ["帝后3", "帝后4"]}],
+            delegates: [{g:"Grup A", slot:"帝后1", name:"Yunus", role:"Sopir"}, {g:"Grup A", slot:"帝后2", name:"SAITO CHIEMI", role:"Lokal"}]
         },
         "7/2": { drivers: [], delegates: [] },
         "7/6": { drivers: [], delegates: [] }
     };
 
+    // アコーディオンの開閉制御
     function toggleAccordion(contentId, arrowId) {
         const content = document.getElementById(contentId);
         const arrow = document.getElementById(arrowId);
-        content.classList.toggle('hidden');
+        content.classList.toggle('open');
         arrow.classList.toggle('rotate');
     }
 
@@ -154,7 +133,7 @@
         const user = document.getElementById('userSelect').value;
         const data = db[date] || {drivers:[], delegates:[]};
 
-        // Render Transport (ANTARバッジ削除済み)
+        // 送迎表示
         let transH = '';
         data.drivers.forEach(d => {
             const passengers = d.slots.map(s => data.delegates.find(p => p.slot === s));
@@ -168,16 +147,17 @@
         });
         document.getElementById('transContent').innerHTML = transH || '<p style="padding:10px">No Data</p>';
 
-        // Render Duty
+        // 伝道表示
         let dutyH = ''; let curG = '';
         data.delegates.forEach(p => {
             if (p.g !== curG) { dutyH += `<div class="group-title">${p.g}</div>`; curG = p.g; }
             const isMe = user && p.name === user;
-            dutyH += `<div class="card ${isMe?'is-me':''}"><div><div class="slot-tag">${p.slot || 'Lokal'}</div><div class="person-name">${p.name}</div></div><div style="text-align:right"><span class="badge ${p.role==='Sopir'?'bg-sopir':'bg-walking'}">${p.role}</span>${p.lunch===false?'<span class="no-lunch">X NO LUNCH</span>':''}</div></div>`;
+            dutyH += `<div class="card ${isMe?'is-me':''}"><div><div class="slot-tag">${p.slot || 'Lokal'}</div><div class="person-name">${p.name}</div></div><div style="text-align:right"><span class="badge ${p.role==='Sopir'?'bg-sopir':'bg-walking'}">${p.role}</span></div></div>`;
         });
         document.getElementById('dutyContent').innerHTML = dutyH || '<p style="padding:10px">No Data</p>';
     }
 
+    // 名前リスト初期化
     const allNames = new Set();
     Object.values(db).forEach(day => {
         day.drivers.forEach(d => allNames.add(d.drv));
