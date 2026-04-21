@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Kaohsiung Schedule</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --soft-green-bg: #e8f3ed;
@@ -22,26 +19,56 @@
             --text-soft: #66757f;
             --card-border: #e9ecef;
             --shadow: 0 10px 26px rgba(32, 58, 43, 0.08);
+            --ink: #1f2933;
+            --muted: #5f6c76;
+            --line: #121212;
+            --sheet-line: #d6dde2;
+            --page: #f6f8fa;
+            --card: #ffffff;
+            --yellow: #fff200;
+            --orange: #f6a21a;
+            --green: #35ff13;
+            --pink: #e8cfd9;
+            --date-630: #faefc8;
+            --date-72: #dce8f7;
+            --date-76: #dcebd3;
+            --danger: #ff2b2b;
         }
 
         * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
             font-family: "Lexend", "Noto Sans TC", sans-serif;
             color: var(--text-dark);
+            color: var(--ink);
             background:
                 radial-gradient(circle at top left, rgba(93, 156, 236, 0.07), transparent 28%),
                 radial-gradient(circle at top right, rgba(243, 156, 18, 0.08), transparent 26%),
                 #fcfdfc;
+                radial-gradient(circle at top left, rgba(255, 242, 0, 0.18), transparent 26%),
+                radial-gradient(circle at top right, rgba(53, 255, 19, 0.08), transparent 20%),
+                var(--page);
         }
 
         .page {
             width: min(920px, calc(100% - 20px));
+            width: min(1320px, calc(100% - 24px));
             margin: 0 auto;
             padding: 0 0 28px;
+            padding: 24px 0 40px;
+        }
+
+        .hero {
+            margin-bottom: 18px;
+            padding: 20px 22px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.98));
+            box-shadow: 0 18px 40px rgba(38, 50, 56, 0.08);
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(1.7rem, 3vw, 2.4rem);
         }
 
         .sticky-header {
@@ -51,9 +78,14 @@
             padding: 12px 0;
             background: rgba(252, 253, 252, 0.92);
             backdrop-filter: blur(12px);
+        .hero p {
+            margin: 8px 0 0;
+            color: var(--muted);
+            line-height: 1.6;
         }
 
         .filter-card {
+        .schedule-grid {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
             gap: 10px;
@@ -62,6 +94,9 @@
             border-radius: 16px;
             background: var(--soft-green-bg);
             box-shadow: var(--shadow);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            align-items: start;
         }
 
         .input-box label {
@@ -70,6 +105,11 @@
             font-size: 11px;
             font-weight: 700;
             color: var(--soft-green-label);
+        .day-card {
+            overflow: hidden;
+            border-radius: 18px;
+            background: var(--card);
+            box-shadow: 0 18px 40px rgba(31, 41, 51, 0.08);
         }
 
         select {
@@ -83,17 +123,46 @@
             font-weight: 600;
             color: var(--text-dark);
             outline: none;
+        .day-card[data-theme="630"] {
+            --theme-bg: var(--date-630);
         }
 
         select:focus {
             border-color: var(--trans-accent);
             box-shadow: 0 0 0 3px rgba(93, 156, 236, 0.14);
+        .day-card[data-theme="72"] {
+            --theme-bg: var(--date-72);
+        }
+
+        .day-card[data-theme="76"] {
+            --theme-bg: var(--date-76);
+        }
+
+        .day-head {
+            padding: 14px 16px;
+            background: var(--theme-bg);
+            border-bottom: 1px solid rgba(18, 18, 18, 0.12);
+        }
+
+        .day-head h2 {
+            margin: 0;
+            font-size: 1.5rem;
         }
 
         .summary {
             margin: 14px 2px 0;
             color: var(--text-soft);
             font-size: 13px;
+        .day-body {
+            padding: 14px;
+        }
+
+        .group-row {
+            display: grid;
+            grid-template-columns: 34px minmax(0, 1fr);
+            gap: 10px;
+            align-items: start;
+            margin-bottom: 10px;
         }
 
         .accordion-item {
@@ -103,6 +172,8 @@
             overflow: hidden;
             background: #fff;
             box-shadow: var(--shadow);
+        .group-row:last-of-type {
+            margin-bottom: 16px;
         }
 
         .accordion-header {
@@ -110,39 +181,65 @@
             padding: 15px 16px;
             border: 0;
             color: #fff;
+        .group-label {
+            min-height: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font: inherit;
+            justify-content: center;
+            padding: 10px 0;
             font-weight: 700;
             cursor: pointer;
+            font-size: 1.45rem;
+            color: #222;
         }
 
         .bg-trans {
             background: var(--trans-accent);
+        .label-orange {
+            background: var(--orange);
         }
 
         .bg-evangel {
             background: var(--evangel-accent);
+        .table-wrap {
+            border: 2px solid var(--line);
+            background: #fff;
         }
 
         .accordion-content {
             display: none;
             padding: 12px;
             background: #fdfdfd;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
         }
 
         .accordion-content.open {
             display: block;
+        td {
+            padding: 6px 8px;
+            border: 1px solid var(--sheet-line);
+            vertical-align: middle;
+            font-size: 0.97rem;
+            line-height: 1.25;
+            word-break: break-word;
         }
 
         .arrow {
             font-size: 11px;
             transition: transform 0.25s ease;
+        td.place {
+            width: 52%;
         }
 
         .rotate {
             transform: rotate(90deg);
+        td.person {
+            font-weight: 500;
         }
 
         .card {
@@ -156,31 +253,50 @@
             border-left: 6px solid #ccc;
             border-radius: 12px;
             background: #fff;
+        .bg-yellow {
+            background: var(--yellow);
         }
 
         .card:last-child {
             margin-bottom: 0;
+        .bg-green {
+            background: var(--green);
         }
 
         .border-evangel {
             border-left-color: var(--evangel-accent);
+        .bg-pink {
+            background: var(--pink);
         }
 
         .is-me-card {
             background: var(--highlight-bg);
             border-color: rgba(139, 95, 191, 0.5);
             border-left-color: var(--highlight-purple);
+        .text-red {
+            color: var(--danger);
+            font-weight: 700;
         }
 
         .card-main {
             flex: 1;
             min-width: 0;
+        .legend,
+        .meal-list {
+            display: grid;
+            gap: 8px;
         }
 
         .card-title {
             margin: 0 0 8px;
             font-size: 15px;
             font-weight: 800;
+        .legend-row,
+        .meal-row {
+            display: grid;
+            grid-template-columns: 84px minmax(0, 1fr);
+            align-items: center;
+            gap: 10px;
         }
 
         .card-list {
@@ -188,11 +304,17 @@
             color: var(--text-dark);
             line-height: 1.7;
             font-size: 14px;
+        .legend-chip {
+            height: 28px;
+            border: 1px solid rgba(18, 18, 18, 0.14);
         }
 
         .name-highlight {
             color: var(--highlight-red);
             font-weight: 800;
+        .legend-label,
+        .meal-note {
+            font-size: 0.98rem;
         }
 
         .hotel-link {
@@ -206,8 +328,18 @@
             color: var(--text-dark);
             text-decoration: none;
             font-size: 12px;
+        .meal-name {
             font-weight: 700;
             white-space: nowrap;
+            font-size: 1.02rem;
+        }
+
+        .sheet-preview {
+            margin-top: 24px;
+            padding: 16px 18px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 12px 28px rgba(31, 41, 51, 0.06);
         }
 
         .hotel-link:hover,
@@ -215,6 +347,9 @@
             border-color: var(--trans-accent);
             color: var(--trans-accent);
             outline: none;
+        .sheet-preview h3 {
+            margin: 0 0 10px;
+            font-size: 1rem;
         }
 
         .empty {
@@ -225,23 +360,71 @@
             color: var(--text-soft);
             text-align: center;
             font-size: 13px;
+        .sheet-table {
+            overflow-x: auto;
+        }
+
+        .sheet-table table td {
+            border-color: rgba(18, 18, 18, 0.08);
+            padding: 8px 10px;
+            font-size: 0.95rem;
+        }
+
+        .sheet-table .date-cell {
+            font-weight: 700;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.12);
+        }
+
+        .sheet-table .col-630 {
+            background: var(--date-630);
+        }
+
+        .sheet-table .col-72 {
+            background: var(--date-72);
+        }
+
+        .sheet-table .col-76 {
+            background: var(--date-76);
+        }
+
+        @media (max-width: 1080px) {
+            .schedule-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 680px) {
+        @media (max-width: 640px) {
             .page {
                 width: min(100%, calc(100% - 14px));
+                padding-top: 14px;
             }
 
             .filter-card {
                 grid-template-columns: 1fr;
+            .hero,
+            .day-body,
+            .sheet-preview {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .group-row {
+                grid-template-columns: 28px minmax(0, 1fr);
+                gap: 8px;
             }
 
             .card {
                 flex-direction: column;
+            .group-label {
+                font-size: 1.15rem;
             }
 
             .hotel-link {
                 width: 100%;
+            td {
+                font-size: 0.9rem;
+                padding: 6px;
             }
         }
     </style>
@@ -272,6 +455,9 @@
         <div id="trans-body" class="accordion-content">
             <div id="transContent"></div>
         </div>
+    <section class="hero">
+        <h1>Kaohsiung Schedule</h1>
+        <p>画像の表に合わせて、日付ごとの割り当てをそのまま見やすく並べた版です。</p>
     </section>
 
     <section class="accordion-item">
@@ -282,6 +468,11 @@
         <div id="evangel-body" class="accordion-content open">
             <div id="evangelContent"></div>
         </div>
+    <section class="schedule-grid" id="scheduleGrid"></section>
+
+    <section class="sheet-preview">
+        <h3>Simple Summary</h3>
+        <div class="sheet-table" id="summaryTable"></div>
     </section>
 </div>
 
@@ -318,16 +509,259 @@
             { n: "Selia", s: "天子閣11, 天子閣12, 天子閣13, Linling, Sayo" }
         ]
     };
+    const schedules = [
+        {
+            theme: "630",
+            date: "6/30",
+            groups: [
+                {
+                    label: "A",
+                    rows: [
+                        ["帝后1", "Yunus", "yellow"],
+                        ["帝后2", "SAITO CHIEMI", ""],
+                        ["Tina", "Sayo", ""]
+                    ]
+                },
+                {
+                    label: "B",
+                    rows: [
+                        ["帝后3", "Eric", "yellow"],
+                        ["帝后4", "Dina", ""],
+                        ["Stephanie", "Linling", ""]
+                    ]
+                },
+                {
+                    label: "C",
+                    rows: [
+                        ["帝后5", "Melody", "yellow"],
+                        ["帝后6", "Lilian", ""]
+                    ]
+                },
+                {
+                    label: "D",
+                    rows: [
+                        ["帝后7", "Jammy", "yellow"],
+                        ["帝后8", "張苧萱", ""]
+                    ]
+                },
+                {
+                    label: "E",
+                    labelColor: "orange",
+                    rows: [
+                        ["帝后9", "Daud", "pink"],
+                        ["帝后10", "Lusi", "pink"],
+                        ["Ken", "松宮（劉）麗娟", "text-red"]
+                    ]
+                },
+                {
+                    label: "F",
+                    rows: [
+                        ["帝后11", "Tommy", "yellow"],
+                        ["帝后12", "Linda", ""],
+                        ["", "王雅貞", "green"]
+                    ]
+                },
+                {
+                    label: "G",
+                    labelColor: "orange",
+                    rows: [
+                        ["天子閣1", "Nikai", "yellow"],
+                        ["天子閣2", "Henokh", ""],
+                        ["天子閣3", "Joselin", ""]
+                    ]
+                }
+            ],
+            legend: [
+                ["yellow", "司機"],
+                ["orange", "走路傳道"],
+                ["green", "還沒確定"],
+                ["pink", "Jack接送"]
+            ],
+            meals: [["Ken", "x 午餐"]]
+        },
+        {
+            theme: "72",
+            date: "7/2",
+            groups: [
+                {
+                    label: "A",
+                    rows: [
+                        ["帝后1", "Nikai", "yellow"],
+                        ["帝后2", "Mei", ""],
+                        ["Vina", "Tina", ""]
+                    ]
+                },
+                {
+                    label: "B",
+                    rows: [
+                        ["帝后3", "Yusuf", "yellow"],
+                        ["帝后4", "Joan", ""],
+                        ["", "黃詩吟", "green"]
+                    ]
+                },
+                {
+                    label: "C",
+                    rows: [
+                        ["帝后5", "Eric", "yellow"],
+                        ["帝后6", "Dina", ""]
+                    ]
+                },
+                {
+                    label: "D",
+                    rows: [
+                        ["帝后7", "周宛錚", "yellow"],
+                        ["帝后8", "Elli", "text-red"],
+                        ["Sayo", "Linling", ""]
+                    ]
+                },
+                {
+                    label: "E",
+                    labelColor: "orange",
+                    rows: [
+                        ["帝后9", "Melody", "yellow"],
+                        ["帝后10", "張苧萱", ""],
+                        ["Henokh", "Joselin", ""]
+                    ]
+                },
+                {
+                    label: "F",
+                    rows: [
+                        ["帝后11", "Selia", "yellow"],
+                        ["帝后12", "SAITO CHIEMI", ""],
+                        ["Daud", "Lusi", ""]
+                    ]
+                },
+                {
+                    label: "G",
+                    rows: [
+                        ["帝后13", "Yunus", "yellow text-red"],
+                        ["帝后14", "Ken", "pink text-red"]
+                    ]
+                },
+                {
+                    label: "H",
+                    labelColor: "orange",
+                    rows: [
+                        ["帝后15", "Tommy", "yellow"],
+                        ["帝后16", "Linda", ""],
+                        ["Stephanie", "王雅貞", ""]
+                    ]
+                }
+            ],
+            legend: [
+                ["yellow", "司機"],
+                ["orange", "走路傳道"],
+                ["green", "還沒確定"],
+                ["pink", "Jack接送"]
+            ],
+            meals: [
+                ["Yunus", "x 午餐"],
+                ["Ken", "x 午餐"],
+                ["Elli", "x 午餐"]
+            ]
+        },
+        {
+            theme: "76",
+            date: "7/6",
+            groups: [
+                {
+                    label: "A",
+                    rows: [
+                        ["帝后1", "Eric", "yellow"],
+                        ["帝后2", "Dina", ""]
+                    ]
+                },
+                {
+                    label: "B",
+                    labelColor: "orange",
+                    rows: [
+                        ["帝后3", "Nikai", "yellow"],
+                        ["帝后4", "Ken", ""],
+                        ["帝后5", "松宮（劉）麗娟", ""],
+                        ["Lilian", "Vina", ""]
+                    ]
+                },
+                {
+                    label: "C",
+                    rows: [
+                        ["天子閣1", "Melody", "yellow"],
+                        ["天子閣2", "黃詩吟", ""]
+                    ]
+                },
+                {
+                    label: "D",
+                    labelColor: "orange",
+                    rows: [
+                        ["天子閣3", "Yunus", "yellow"],
+                        ["天子閣4", "Yoshiya", ""],
+                        ["天子閣5", "Jamie", ""],
+                        ["Elli", "Lina", "text-red"]
+                    ]
+                },
+                {
+                    label: "E",
+                    rows: [
+                        ["天子閣6", "周宛錚", "yellow"],
+                        ["天子閣7", "王雅貞", ""]
+                    ]
+                },
+                {
+                    label: "F",
+                    rows: [
+                        ["天子閣8", "Jammy", "yellow"],
+                        ["天子閣9", "Stephanie", ""],
+                        ["天子閣10", "Rut", "text-red"]
+                    ]
+                },
+                {
+                    label: "G",
+                    rows: [
+                        ["天子閣11", "Selia", "yellow"],
+                        ["天子閣12", "Linling", ""],
+                        ["天子閣13", "Sayo", ""]
+                    ]
+                }
+            ],
+            legend: [
+                ["yellow", "司機"],
+                ["orange", "走路傳道"]
+            ],
+            meals: [
+                ["Rut", "x 午餐"],
+                ["Elli", "x 午餐"]
+            ]
+        }
+    ];
 
     const splitAssignments = value => value.split(",").map(item => item.trim()).filter(Boolean);
     const isHotel = name => HOTEL_KEYWORDS.some(keyword => name.includes(keyword));
+    const simpleSummary = [
+        ["帝后1", "Yunus", "帝后1", "Nikai", "帝后1", "Erik"],
+        ["帝后2", "Yunus", "帝后2", "Nikai", "帝后2", "Erik"],
+        ["帝后3", "Erik", "帝后3", "Yusuf", "帝后3", "Nikai"],
+        ["帝后4", "Erik", "帝后4", "Yusuf", "帝后4", "Nikai"],
+        ["帝后5", "Melody", "帝后5", "Erik", "帝后5", "Nikai"],
+        ["帝后6", "Melody", "帝后6", "Erik", "天子閣1", "Melody"],
+        ["帝后7", "Jammy", "帝后7", "周宛錚", "天子閣2", "Melody"],
+        ["帝后8", "Jammy", "帝后8", "周宛錚", "天子閣3", "Yunus"],
+        ["帝后9", "陳皇傑", "帝后9", "Melody", "天子閣4", "Yunus"],
+        ["帝后10", "陳皇傑", "帝后10", "Melody", "天子閣5", "Yunus"],
+        ["帝后11", "Tommy", "帝后11", "Selia", "天子閣6", "周宛錚"],
+        ["帝后12", "Tommy", "帝后12", "Selia", "天子閣7", "周宛錚"],
+        ["天子閣1", "Nikai", "帝后13", "陳皇傑", "天子閣8", "Jammy"],
+        ["天子閣2", "Nikai", "帝后14", "陳皇傑", "天子閣9", "Jammy"],
+        ["天子閣3", "Nikai", "帝后15", "Tommy", "天子閣10", "Jammy"],
+        ["", "", "帝后16", "Tommy", "天子閣11", "Selia"],
+        ["", "", "", "", "天子閣12", "Selia"],
+        ["", "", "", "", "天子閣13", "Selia"]
+    ];
 
     function escapeHtml(value) {
         return String(value)
+        return String(value ?? "")
             .replaceAll("&", "&amp;")
             .replaceAll("<", "&lt;")
             .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
             .replaceAll("'", "&#39;");
     }
 
@@ -337,6 +771,15 @@
         const isOpen = content.classList.toggle("open");
         arrow.classList.toggle("rotate", isOpen);
         button.setAttribute("aria-expanded", String(isOpen));
+    function buildPersonClass(type) {
+        if (!type) return "";
+        return type.split(" ").map(token => {
+            if (token === "yellow") return "bg-yellow";
+            if (token === "green") return "bg-green";
+            if (token === "pink") return "bg-pink";
+            if (token === "text-red") return "text-red";
+            return "";
+        }).filter(Boolean).join(" ");
     }
 
     function init() {
@@ -344,12 +787,32 @@
         const uSel = document.getElementById("userSelect");
         const allNames = new Set();
         const dates = Object.keys(dbEvangel);
+    function renderDayCard(day) {
+        const groupsHtml = day.groups.map(group => {
+            const labelClass = group.labelColor === "orange" ? "group-label label-orange" : "group-label";
+            const rowsHtml = group.rows.map(([place, person, type]) => `
+                <tr>
+                    <td class="place">${escapeHtml(place)}</td>
+                    <td class="person ${buildPersonClass(type)}">${escapeHtml(person)}</td>
+                </tr>
+            `).join("");
 
         dates.forEach(date => {
             const opt = document.createElement("option");
             opt.value = date;
             opt.textContent = date;
             dSel.appendChild(opt);
+            return `
+                <div class="group-row">
+                    <div class="${labelClass}">${escapeHtml(group.label)}</div>
+                    <div class="table-wrap">
+                        <table>
+                            <tbody>${rowsHtml}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }).join("");
 
             dbEvangel[date].forEach(item => {
                 allNames.add(item.n);
@@ -358,6 +821,12 @@
                     .forEach(name => allNames.add(name));
             });
         });
+        const legendHtml = day.legend.map(([color, label]) => `
+            <div class="legend-row">
+                <div class="legend-chip ${color === "yellow" ? "bg-yellow" : ""} ${color === "orange" ? "label-orange" : ""} ${color === "green" ? "bg-green" : ""} ${color === "pink" ? "bg-pink" : ""}"></div>
+                <div class="legend-label">${escapeHtml(label)}</div>
+            </div>
+        `).join("");
 
         Array.from(allNames).sort((a, b) => a.localeCompare(b, "zh-Hant")).forEach(name => {
             const opt = document.createElement("option");
@@ -365,12 +834,30 @@
             opt.textContent = name;
             uSel.appendChild(opt);
         });
+        const mealsHtml = day.meals.map(([name, note]) => `
+            <div class="meal-row">
+                <div class="meal-name text-red">${escapeHtml(name)}</div>
+                <div class="meal-note">${escapeHtml(note)}</div>
+            </div>
+        `).join("");
 
         if (dates.length > 0) {
             dSel.value = dates[0];
         }
 
         render();
+        return `
+            <article class="day-card" data-theme="${day.theme}">
+                <div class="day-head">
+                    <h2>${escapeHtml(day.date)}</h2>
+                </div>
+                <div class="day-body">
+                    ${groupsHtml}
+                    <div class="legend">${legendHtml}</div>
+                    ${mealsHtml ? `<div class="meal-list" style="margin-top:12px;">${mealsHtml}</div>` : ""}
+                </div>
+            </article>
+        `;
     }
 
     function formatAssignmentList(assignments, selectedUser) {
@@ -416,12 +903,40 @@
                 </article>
             `;
         }).join("");
+    function renderSummaryTable() {
+        const rowsHtml = simpleSummary.map(row => `
+            <tr>
+                <td class="col-630">${escapeHtml(row[0])}</td>
+                <td class="col-630">${escapeHtml(row[1])}</td>
+                <td class="col-72">${escapeHtml(row[2])}</td>
+                <td class="col-72">${escapeHtml(row[3])}</td>
+                <td class="col-76">${escapeHtml(row[4])}</td>
+                <td class="col-76">${escapeHtml(row[5])}</td>
+            </tr>
+        `).join("");
 
         evContainer.innerHTML = evHtml;
         document.getElementById("transContent").innerHTML = '<div class="empty">Daftar sedang diperbarui...</div>';
+        return `
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="date-cell col-630">6/30</td>
+                        <td class="date-cell col-630"></td>
+                        <td class="date-cell col-72">7/2</td>
+                        <td class="date-cell col-72"></td>
+                        <td class="date-cell col-76">7/6</td>
+                        <td class="date-cell col-76"></td>
+                    </tr>
+                    ${rowsHtml}
+                </tbody>
+            </table>
+        `;
     }
 
     window.addEventListener("DOMContentLoaded", init);
+    document.getElementById("scheduleGrid").innerHTML = schedules.map(renderDayCard).join("");
+    document.getElementById("summaryTable").innerHTML = renderSummaryTable();
 </script>
 </body>
 </html>
