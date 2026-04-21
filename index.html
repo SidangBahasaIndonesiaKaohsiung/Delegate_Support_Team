@@ -1,244 +1,235 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delegate Support Schedule</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <title>Jadwal Transportasi & Pelayanan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #5d3fd3; /* メインの紫 */
-            --bg: #f8f9fa;
+            --primary: #6c5ce7;
+            --bg: #f0f2f5;
             --card-bg: #ffffff;
-            --text: #2d3436;
-            /* 凡例カラー */
+            --text-main: #2d3436;
+            --text-sub: #636e72;
+            /* Status Colors */
             --driver: #fff9c4;
             --walking: #ffe0b2;
             --pending: #c8e6c9;
             --special: #f3e5f5;
+            --highlight: #a569bd;
         }
 
         body {
-            font-family: 'Noto Sans JP', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg);
-            color: var(--text);
+            color: var(--text-main);
             margin: 0;
-            padding: 20px;
-            line-height: 1.6;
+            padding: env(safe-area-inset-top) 15px;
         }
 
-        .app-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        header {
+        .header {
             text-align: center;
-            margin-bottom: 30px;
+            padding: 25px 0;
         }
 
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+            margin: 0;
             color: var(--primary);
-            margin-bottom: 10px;
+            letter-spacing: -0.5px;
         }
 
-        /* コントロールパネル */
-        .controls {
+        /* Filter Section */
+        .filter-section {
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 18px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 12px;
         }
 
-        .field-group {
-            display: flex;
-            flex-direction: column;
-        }
-
+        .input-group { display: flex; flex-direction: column; }
+        
         label {
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #636e72;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            margin-bottom: 6px;
         }
 
         select {
-            padding: 12px;
-            border: 2px solid #dfe6e9;
-            border-radius: 8px;
-            font-size: 1rem;
+            appearance: none;
+            background-color: #f8f9fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.95rem;
+            color: var(--text-main);
             outline: none;
-            transition: border-color 0.3s;
         }
 
-        select:focus {
-            border-color: var(--primary);
-        }
-
-        /* スケジュールカード */
+        /* Schedule Card */
         .card {
             background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 15px;
-            overflow: hidden;
-            border-left: 5px solid #dfe6e9;
-            transition: all 0.3s ease;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .card.active-user {
-            border-left-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(93, 63, 211, 0.15);
-            background-color: #f0edff;
+        .card.active {
+            border: 2px solid var(--highlight);
+            box-shadow: 0 8px 20px rgba(165, 105, 189, 0.2);
+            transform: scale(1.02);
         }
 
-        .card-header {
-            padding: 10px 15px;
-            background: #f1f2f6;
-            font-weight: bold;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
+        .card-title {
+            background: #f8f9fa;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            border-bottom: 1px solid #eee;
+            border-radius: 16px 16px 0 0;
         }
 
-        .card-body {
-            padding: 15px;
-        }
+        .member-list { padding: 8px 16px; }
 
-        .member-row {
+        .member-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #f1f2f6;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f1f1;
         }
 
-        .member-row:last-child { border-bottom: none; }
+        .member-item:last-child { border-bottom: none; }
 
-        .role-badge {
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-right: 10px;
+        .info-box { display: flex; align-items: center; gap: 10px; }
+
+        .tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            min-width: 65px;
+            text-align: center;
         }
 
-        /* ステータス別スタイル */
         .bg-driver { background: var(--driver); }
         .bg-walking { background: var(--walking); }
         .bg-special { background: var(--special); }
         .bg-pending { background: var(--pending); }
-        .text-alert { color: #d63031; font-weight: bold; }
 
-        .user-highlight {
-            color: var(--primary);
-            font-weight: bold;
-        }
+        .name { font-size: 0.95rem; font-weight: 500; }
+        .my-name { color: var(--highlight); font-weight: 700; }
+        .no-lunch { font-size: 0.75rem; color: #eb4d4b; font-weight: 700; }
 
         @media (max-width: 480px) {
-            .controls { grid-template-columns: 1fr; }
+            .filter-section { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <header>
-        <h1>International Convention Support</h1>
-    </header>
-
-    <div class="controls">
-        <div class="field-group">
-            <label>Date Selection</label>
-            <select id="dateSelect" onchange="renderData()">
-                <option value="6/30">June 30</option>
-                <option value="7/2">July 2</option>
-                <option value="7/6">July 6</option>
-            </select>
-        </div>
-        <div class="field-group">
-            <label>Search Name</label>
-            <select id="userSelect" onchange="renderData()">
-                <option value="">-- 全員表示 --</option>
-                <option value="Yunus">Yunus</option>
-                <option value="Eric">Eric</option>
-                <option value="Nikai">Nikai</option>
-                <option value="Ken">Ken</option>
-                <option value="Melody">Melody</option>
-                <option value="Tommy">Tommy</option>
-                <option value="Elli">Elli</option>
-            </select>
-        </div>
-    </div>
-
-    <div id="content"></div>
+<div class="header">
+    <h1>Jadwal Pelayanan Delegasi</h1>
 </div>
 
+<div class="filter-section">
+    <div class="input-group">
+        <label>Pilih Tanggal</label>
+        <select id="dateSelect" onchange="render()">
+            <option value="6/30">30 Juni</option>
+            <option value="7/2">2 Juli</option>
+            <option value="7/6">6 Juli</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label>Nama Saya</label>
+        <select id="userSelect" onchange="render()">
+            <option value="">-- Pilih Nama --</option>
+            <option value="Yunus">Yunus</option>
+            <option value="Eric">Eric</option>
+            <option value="Nikai">Nikai</option>
+            <option value="Ken">Ken</option>
+            <option value="Melody">Melody</option>
+            <option value="Tommy">Tommy</option>
+            <option value="Elli">Elli</option>
+            <option value="Selia">Selia</option>
+        </select>
+    </div>
+</div>
+
+<div id="mainContent"></div>
+
 <script>
-    const db = {
+    const data = {
         "6/30": [
-            { id: "A", members: [{r: "帝后1", n: "Yunus", t: "driver"}, {r: "帝后2", n: "SAITO CHIEMI"}, {r: "Tina", n: "Sayo"}] },
-            { id: "B", members: [{r: "帝后3", n: "Eric", t: "driver"}, {r: "帝后4", n: "Dina"}, {r: "Stephanie", n: "Linling"}] },
-            { id: "C", members: [{r: "帝后5", n: "Melody", t: "driver"}, {r: "帝后6", n: "Lilian"}] },
-            { id: "E", members: [{r: "帝后9", n: "Daud", t: "special"}, {r: "帝后10", n: "Lusi", t: "special"}, {r: "Ken", n: "松宮 麗娟", t: "alert"}] }
+            { grp: "Grup A", list: [{r: "Sopir 1", n: "Yunus", s: "driver"}, {r: "Sopir 2", n: "SAITO CHIEMI", s: ""}, {r: "Pendamping", n: "Sayo", s: ""}] },
+            { grp: "Grup B", list: [{r: "Sopir 3", n: "Eric", s: "driver"}, {r: "Sopir 4", n: "Dina", s: ""}, {r: "Pendamping", n: "Linling", s: ""}] },
+            { grp: "Grup E", list: [{r: "Jemputan", n: "Daud", s: "special"}, {r: "Jemputan", n: "Lusi", s: "special"}, {r: "Ken", n: "Matsumiya Reijuan", s: "no-lunch"}] }
         ],
         "7/2": [
-            { id: "A", members: [{r: "帝后1", n: "Nikai", t: "driver"}, {r: "帝后2", n: "Mei"}, {r: "Vina", n: "Tina"}] },
-            { id: "B", members: [{r: "帝后3", n: "Yusuf", t: "driver"}, {r: "帝后4", n: "Joan"}, {r: "未確定", n: "黄詩吟", t: "pending"}] },
-            { id: "E", members: [{r: "帝后9", n: "Melody", t: "walking"}, {r: "帝后10", n: "張苧萱", t: "walking"}, {r: "Henokh", n: "Joselin", t: "walking"}] }
+            { grp: "Grup A", list: [{r: "Sopir 1", n: "Nikai", s: "driver"}, {r: "Sopir 2", n: "Mei", s: ""}, {r: "Pendamping", n: "Tina", s: ""}] },
+            { grp: "Grup E", list: [{r: "Jalan Kaki", n: "Melody", s: "walking"}, {r: "Jalan Kaki", n: "Chang Chu Hsuan", s: "walking"}, {r: "Jalan Kaki", n: "Joselin", s: "walking"}] },
+            { grp: "Grup G", list: [{r: "Sopir 13", n: "Yunus", s: "driver"}, {r: "Tanpa Makan", n: "Ken", s: "no-lunch"}] }
         ],
         "7/6": [
-            { id: "A", members: [{r: "帝后1", n: "Eric", t: "driver"}, {r: "帝后2", n: "Dina"}] },
-            { id: "B", members: [{r: "帝后3", n: "Nikai", t: "walking"}, {r: "帝后4", n: "Ken", t: "walking"}, {r: "Lilian", n: "Vina", t: "walking"}] }
+            { grp: "Grup A", list: [{r: "Sopir 1", n: "Eric", s: "driver"}, {r: "Sopir 2", n: "Dina", s: ""}] },
+            { grp: "Grup B", list: [{r: "Jalan Kaki", n: "Nikai", s: "walking"}, {r: "Jalan Kaki", n: "Ken", s: "walking"}, {r: "Jalan Kaki", n: "Vina", s: "walking"}] },
+            { grp: "Grup D", list: [{r: "Jalan Kaki", n: "Yunus", s: "walking"}, {r: "Tanpa Makan", n: "Elli", s: "no-lunch"}] }
         ]
     };
 
-    function renderData() {
-        const date = document.getElementById('dateSelect').value;
-        const user = document.getElementById('userSelect').value;
-        const container = document.getElementById('content');
+    function render() {
+        const selectedDate = document.getElementById('dateSelect').value;
+        const myName = document.getElementById('userSelect').value;
+        const container = document.getElementById('mainContent');
         
         let html = '';
-        db[date].forEach(group => {
-            const hasUser = group.members.some(m => m.n.includes(user) || m.r.includes(user)) && user !== "";
+        data[selectedDate].forEach(item => {
+            const isMeInGroup = item.list.some(m => m.n.includes(myName) && myName !== "");
             
-            html += `
-                <div class="card ${hasUser ? 'active-user' : ''}">
-                    <div class="card-header">Group ${group.id}</div>
-                    <div class="card-body">
-                        ${group.members.map(m => `
-                            <div class="member-row">
-                                <span>
-                                    <span class="role-badge ${getBadgeClass(m.t)}">${m.r}</span>
-                                    <span class="${m.n.includes(user) && user !== '' ? 'user-highlight' : ''}">${m.n}</span>
-                                </span>
-                                ${m.t === 'alert' ? '<span class="text-alert">x 午餐</span>' : ''}
+            html += `<div class="card ${isMeInGroup ? 'active' : ''}">
+                <div class="card-title">${item.grp}</div>
+                <div class="member-list">
+                    ${item.list.map(m => {
+                        const isMe = m.n.includes(myName) && myName !== "";
+                        return `
+                        <div class="member-item">
+                            <div class="info-box">
+                                <span class="tag ${getTagClass(m.s)}">${getRoleId(m.r)}</span>
+                                <span class="name ${isMe ? 'my-name' : ''}">${m.n}</span>
                             </div>
-                        `).join('')}
-                    </div>
+                            ${m.s === 'no-lunch' ? '<span class="no-lunch">Tanpa Makan</span>' : ''}
+                        </div>`;
+                    }).join('')}
                 </div>
-            `;
+            </div>`;
         });
         container.innerHTML = html;
     }
 
-    function getBadgeClass(type) {
-        switch(type) {
-            case 'driver': return 'bg-driver';
-            case 'walking': return 'bg-walking';
-            case 'special': return 'bg-special';
-            case 'pending': return 'bg-pending';
-            default: return '';
-        }
+    function getTagClass(s) {
+        if (s === 'driver') return 'bg-driver';
+        if (s === 'walking') return 'bg-walking';
+        if (s === 'special') return 'bg-special';
+        return '';
     }
 
-    renderData();
+    function getRoleId(r) {
+        // 必要に応じて名称の変換をここで行う
+        return r;
+    }
+
+    render();
 </script>
 </body>
 </html>
