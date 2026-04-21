@@ -2,231 +2,222 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Transportasi & Pelayanan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jadwal Pelayanan Kaohsiung</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #6c5ce7;
-            --bg: #f0f2f5;
-            --card-bg: #ffffff;
-            --text-main: #2d3436;
-            --text-sub: #636e72;
-            /* Status Colors */
+            --highlight-bg: #f3ebff;
+            --highlight-border: #a569bd;
             --driver: #fff9c4;
             --walking: #ffe0b2;
-            --pending: #c8e6c9;
             --special: #f3e5f5;
-            --highlight: #a569bd;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
+            font-family: 'Lexend', sans-serif;
+            background-color: #f0f2f5;
+            color: var(--text-dark);
             margin: 0;
-            padding: env(safe-area-inset-top) 15px;
+            padding: 10px;
         }
 
-        .header {
-            text-align: center;
-            padding: 25px 0;
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background: #f0f2f5;
+            z-index: 100;
+            padding-bottom: 12px;
         }
 
-        h1 {
-            font-size: 1.4rem;
-            margin: 0;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-
-        /* Filter Section */
-        .filter-section {
-            background: var(--card-bg);
-            padding: 18px;
+        .filter-card {
+            background: white;
+            padding: 16px;
             border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.2fr;
             gap: 12px;
         }
 
-        .input-group { display: flex; flex-direction: column; }
-        
-        label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-sub);
-            margin-bottom: 6px;
-        }
-
+        .input-box { display: flex; flex-direction: column; }
+        label { font-size: 10px; font-weight: bold; color: var(--text-light); text-transform: uppercase; margin-bottom: 4px; }
         select {
-            appearance: none;
-            background-color: #f8f9fa;
-            border: 1px solid #e1e4e8;
+            padding: 12px;
             border-radius: 10px;
-            padding: 10px 12px;
-            font-size: 0.95rem;
-            color: var(--text-main);
+            border: 1px solid #e1e4e8;
+            font-size: 14px;
+            background: #f8f9fa;
+            color: var(--text-dark);
             outline: none;
         }
 
-        /* Schedule Card */
+        .group-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+            background: var(--text-light);
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 15px 0 8px 8px;
+        }
+
         .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .card.active {
-            border: 2px solid var(--highlight);
-            box-shadow: 0 8px 20px rgba(165, 105, 189, 0.2);
-            transform: scale(1.02);
-        }
-
-        .card-title {
-            background: #f8f9fa;
-            padding: 8px 16px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-sub);
-            border-bottom: 1px solid #eee;
-            border-radius: 16px 16px 0 0;
-        }
-
-        .member-list { padding: 8px 16px; }
-
-        .member-item {
+            background: white;
+            border-radius: 14px;
+            margin-bottom: 8px;
+            padding: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #f1f1f1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            border-left: 5px solid transparent;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .member-item:last-child { border-bottom: none; }
-
-        .info-box { display: flex; align-items: center; gap: 10px; }
-
-        .tag {
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 6px;
-            min-width: 65px;
-            text-align: center;
+        .card.is-me {
+            background: var(--highlight-bg);
+            border-left-color: var(--highlight-border);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 92, 231, 0.15);
         }
 
-        .bg-driver { background: var(--driver); }
-        .bg-walking { background: var(--walking); }
-        .bg-special { background: var(--special); }
-        .bg-pending { background: var(--pending); }
-
-        .name { font-size: 0.95rem; font-weight: 500; }
-        .my-name { color: var(--highlight); font-weight: 700; }
-        .no-lunch { font-size: 0.75rem; color: #eb4d4b; font-weight: 700; }
-
-        @media (max-width: 480px) {
-            .filter-section { grid-template-columns: 1fr; }
+        .info-main { display: flex; flex-direction: column; gap: 4px; }
+        .location-link { 
+            font-size: 11px; 
+            font-weight: bold; 
+            color: var(--primary); 
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 3px;
         }
+        .location-link:after { content: '📍'; font-size: 10px; }
+        
+        .person-name { font-size: 16px; font-weight: 600; }
+        .is-me .person-name { color: var(--highlight-border); }
+
+        .status-box { text-align: right; }
+        .badge {
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .bg-sopir { background: var(--driver); color: #856404; }
+        .bg-jalan { background: var(--walking); color: #855d04; }
+        .bg-jemput { background: var(--special); color: #512da8; }
+        
+        .no-lunch { 
+            color: #d63031; 
+            font-size: 10px; 
+            font-weight: bold; 
+            margin-top: 5px; 
+            display: block;
+            border: 1px solid #ffcccc;
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: #fff5f5;
+        }
+
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>Jadwal Pelayanan Delegasi</h1>
-</div>
-
-<div class="filter-section">
-    <div class="input-group">
-        <label>Pilih Tanggal</label>
-        <select id="dateSelect" onchange="render()">
-            <option value="6/30">30 Juni</option>
-            <option value="7/2">2 Juli</option>
-            <option value="7/6">6 Juli</option>
-        </select>
-    </div>
-    <div class="input-group">
-        <label>Nama Saya</label>
-        <select id="userSelect" onchange="render()">
-            <option value="">-- Pilih Nama --</option>
-            <option value="Yunus">Yunus</option>
-            <option value="Eric">Eric</option>
-            <option value="Nikai">Nikai</option>
-            <option value="Ken">Ken</option>
-            <option value="Melody">Melody</option>
-            <option value="Tommy">Tommy</option>
-            <option value="Elli">Elli</option>
-            <option value="Selia">Selia</option>
-        </select>
+<div class="sticky-header">
+    <div class="filter-card">
+        <div class="input-box">
+            <label>Tanggal</label>
+            <select id="dateSelect" onchange="render()">
+                <option value="6/30">30 Juni</option>
+                <option value="7/2">2 Juli</option>
+                <option value="7/6">6 Juli</option>
+            </select>
+        </div>
+        <div class="input-box">
+            <label>Nama Saya</label>
+            <select id="userSelect" onchange="render()">
+                <option value="">-- Cari --</option>
+                <option value="Yunus">Yunus</option>
+                <option value="Eric">Eric</option>
+                <option value="Nikai">Nikai</option>
+                <option value="Ken">Ken</option>
+                <option value="Elli">Elli</option>
+                <option value="Melody">Melody</option>
+                <option value="Tommy">Tommy</option>
+            </select>
+        </div>
     </div>
 </div>
 
-<div id="mainContent"></div>
+<div id="content"></div>
 
 <script>
-    const data = {
+    // Kaohsiung Hotels Mapping
+    const MAPS = {
+        "Q21 (Empress)": "https://goo.gl/maps/yHn5R2Tz5Nn5mF9D9", // 高雄帝后大飯店
+        "Tenz Go (Emperor)": "https://goo.gl/maps/7GYezXLGjNKskwXX7" // 高雄天子閣飯店
+    };
+
+    const db = {
         "6/30": [
-            { grp: "Grup A", list: [{r: "Sopir 1", n: "Yunus", s: "driver"}, {r: "Sopir 2", n: "SAITO CHIEMI", s: ""}, {r: "Pendamping", n: "Sayo", s: ""}] },
-            { grp: "Grup B", list: [{r: "Sopir 3", n: "Eric", s: "driver"}, {r: "Sopir 4", n: "Dina", s: ""}, {r: "Pendamping", n: "Linling", s: ""}] },
-            { grp: "Grup E", list: [{r: "Jemputan", n: "Daud", s: "special"}, {r: "Jemputan", n: "Lusi", s: "special"}, {r: "Ken", n: "Matsumiya Reijuan", s: "no-lunch"}] }
+            { g: "A", loc: "Q21 (Empress)", name: "Yunus", role: "Sopir", type: "sopir" },
+            { g: "A", loc: "Q21 (Empress)", name: "SAITO CHIEMI", role: "Lokal", type: "" },
+            { g: "B", loc: "Q21 (Empress)", name: "Eric", role: "Sopir", type: "sopir" },
+            { g: "E", loc: "Q21 (Empress)", name: "Daud", role: "Jemputan", type: "jemput" },
+            { g: "E", loc: "Q21 (Empress)", name: "Ken", role: "Lokal", type: "", lunch: false },
+            { g: "G", loc: "Tenz Go (Emperor)", name: "Nikai", role: "Sopir", type: "sopir" }
         ],
         "7/2": [
-            { grp: "Grup A", list: [{r: "Sopir 1", n: "Nikai", s: "driver"}, {r: "Sopir 2", n: "Mei", s: ""}, {r: "Pendamping", n: "Tina", s: ""}] },
-            { grp: "Grup E", list: [{r: "Jalan Kaki", n: "Melody", s: "walking"}, {r: "Jalan Kaki", n: "Chang Chu Hsuan", s: "walking"}, {r: "Jalan Kaki", n: "Joselin", s: "walking"}] },
-            { grp: "Grup G", list: [{r: "Sopir 13", n: "Yunus", s: "driver"}, {r: "Tanpa Makan", n: "Ken", s: "no-lunch"}] }
+            { g: "A", loc: "Q21 (Empress)", name: "Nikai", role: "Sopir", type: "sopir" },
+            { g: "E", loc: "Q21 (Empress)", name: "Melody", role: "Jalan Kaki", type: "jalan" },
+            { g: "G", loc: "Q21 (Empress)", name: "Yunus", role: "Sopir", type: "sopir" },
+            { g: "G", loc: "Q21 (Empress)", name: "Ken", role: "Lokal", type: "", lunch: false }
         ],
         "7/6": [
-            { grp: "Grup A", list: [{r: "Sopir 1", n: "Eric", s: "driver"}, {r: "Sopir 2", n: "Dina", s: ""}] },
-            { grp: "Grup B", list: [{r: "Jalan Kaki", n: "Nikai", s: "walking"}, {r: "Jalan Kaki", n: "Ken", s: "walking"}, {r: "Jalan Kaki", n: "Vina", s: "walking"}] },
-            { grp: "Grup D", list: [{r: "Jalan Kaki", n: "Yunus", s: "walking"}, {r: "Tanpa Makan", n: "Elli", s: "no-lunch"}] }
+            { g: "A", loc: "Q21 (Empress)", name: "Eric", role: "Sopir", type: "sopir" },
+            { g: "B", loc: "Q21 (Empress)", name: "Nikai", role: "Jalan Kaki", type: "jalan" },
+            { g: "D", loc: "Tenz Go (Emperor)", name: "Yunus", role: "Jalan Kaki", type: "jalan" },
+            { g: "D", loc: "Tenz Go (Emperor)", name: "Elli", role: "Lokal", type: "", lunch: false }
         ]
     };
 
     function render() {
-        const selectedDate = document.getElementById('dateSelect').value;
+        const date = document.getElementById('dateSelect').value;
         const myName = document.getElementById('userSelect').value;
-        const container = document.getElementById('mainContent');
+        const container = document.getElementById('content');
         
         let html = '';
-        data[selectedDate].forEach(item => {
-            const isMeInGroup = item.list.some(m => m.n.includes(myName) && myName !== "");
+        let lastGroup = '';
+
+        db[date].forEach(item => {
+            if (item.g !== lastGroup) {
+                html += `<div class="group-label">GRUP ${item.g}</div>`;
+                lastGroup = item.g;
+            }
+
+            const isMe = myName && item.name.includes(myName);
+            const mapUrl = MAPS[item.loc] || "#";
             
-            html += `<div class="card ${isMeInGroup ? 'active' : ''}">
-                <div class="card-title">${item.grp}</div>
-                <div class="member-list">
-                    ${item.list.map(m => {
-                        const isMe = m.n.includes(myName) && myName !== "";
-                        return `
-                        <div class="member-item">
-                            <div class="info-box">
-                                <span class="tag ${getTagClass(m.s)}">${getRoleId(m.r)}</span>
-                                <span class="name ${isMe ? 'my-name' : ''}">${m.n}</span>
-                            </div>
-                            ${m.s === 'no-lunch' ? '<span class="no-lunch">Tanpa Makan</span>' : ''}
-                        </div>`;
-                    }).join('')}
+            html += `
+                <div class="card ${isMe ? 'is-me' : ''}">
+                    <div class="info-main">
+                        <a href="${mapUrl}" target="_blank" class="location-link">${item.loc}</a>
+                        <span class="person-name">${item.name}</span>
+                    </div>
+                    <div class="status-box">
+                        ${item.role && item.type ? `<span class="badge bg-${item.type}">${item.role}</span>` : `<span class="badge" style="color:#bbb">Lokal</span>`}
+                        ${item.lunch === false ? `<span class="no-lunch">Tanpa Makan</span>` : ''}
+                    </div>
                 </div>
-            </div>`;
+            `;
         });
         container.innerHTML = html;
-    }
-
-    function getTagClass(s) {
-        if (s === 'driver') return 'bg-driver';
-        if (s === 'walking') return 'bg-walking';
-        if (s === 'special') return 'bg-special';
-        return '';
-    }
-
-    function getRoleId(r) {
-        // 必要に応じて名称の変換をここで行う
-        return r;
     }
 
     render();
