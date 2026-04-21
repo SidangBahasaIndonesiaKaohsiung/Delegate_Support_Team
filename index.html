@@ -12,6 +12,7 @@
             --soft-green-border: #c2d6cc;
             --trans-accent: #5d9cec;
             --highlight-red: #d63031; 
+            --highlight-purple: #a569bd;
             --text-dark: #2d3436;
         }
 
@@ -19,7 +20,7 @@
         
         .sticky-header { 
             position: sticky; top: 0; background: var(--soft-green-bg); z-index: 100; 
-            padding: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-bottom: 1px solid var(--soft-green-border);
+            padding: 12px; border-bottom: 1px solid var(--soft-green-border);
         }
         .filter-card { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; max-width: 600px; margin: 0 auto; }
         .input-box label { font-size: 10px; font-weight: bold; color: var(--soft-green-label); margin-bottom: 4px; display: block; }
@@ -34,14 +35,33 @@
         .arrow { font-size: 10px; transition: transform 0.3s; }
         .rotate { transform: rotate(90deg); }
 
+        /* --- 送迎カードのスタイル --- */
         .card { 
-            background: white; border-radius: 10px; margin-bottom: 8px; padding: 14px; 
+            background: white; border-radius: 10px; margin-bottom: 12px; padding: 14px; 
             border: 1.5px solid #d9e6f7; border-left: 6px solid var(--trans-accent);
-            font-size: 15px; font-weight: 500;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* 選択した名前だけを赤字・太字にする */
-        .name-highlight { color: var(--highlight-red) !important; font-weight: 800 !important; }
+        /* 自分を選択した時の島全体の変化 */
+        .card.is-me-card {
+            border: 1.5px solid var(--highlight-purple) !important;
+            border-left: 8px solid var(--highlight-purple) !important;
+            background: #f9f5ff;
+            box-shadow: 0 6px 15px rgba(165, 105, 189, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .name-highlight { color: var(--highlight-red); font-weight: 800; }
+
+        /* ホテルリンクボタン */
+        .hotel-link {
+            font-size: 11px; padding: 5px 8px; border-radius: 6px;
+            background: #f0f4f8; color: var(--trans-accent);
+            text-decoration: none; font-weight: 600; border: 1px solid #d9e6f7;
+            white-space: nowrap; margin-left: 10px;
+        }
+        .hotel-link:hover { background: var(--trans-accent); color: white; }
     </style>
 </head>
 <body>
@@ -61,33 +81,25 @@
 </div>
 
 <script>
+    const hotelUrls = {
+        "帝后": "https://maps.app.goo.gl/hotel-example-kingship",
+        "天子閣": "https://maps.app.goo.gl/hotel-example-tenzige"
+    };
+
     const db = {
         "6/30": [
-            { n: "Yunus", s: "帝后1, 帝后2" },
-            { n: "Erik", s: "帝后3, 帝后4" },
-            { n: "Melody", s: "帝后5, 帝后6" },
-            { n: "Jammy", s: "帝后7, 帝后8" },
-            { n: "陳皇傑", s: "帝后9, 帝后10" },
-            { n: "Tommy", s: "帝后11, 帝后12" },
+            { n: "Yunus", s: "帝后1, 帝后2" }, { n: "Erik", s: "帝后3, 帝后4" }, { n: "Melody", s: "帝后5, 帝后6" },
+            { n: "Jammy", s: "帝后7, 帝后8" }, { n: "陳皇傑", s: "帝后9, 帝后10" }, { n: "Tommy", s: "帝后11, 帝后12" },
             { n: "Nikai", s: "天子閣1, 天子閣2, 天子閣3" }
         ],
         "7/2": [
-            { n: "Nikai", s: "帝后1, 帝后2" },
-            { n: "Yusuf", s: "帝后3, 帝后4" },
-            { n: "Erik", s: "帝后5, 帝后6" },
-            { n: "周宛錚", s: "帝后7, 帝后8" },
-            { n: "Melody", s: "帝后9, 帝后10" },
-            { n: "Selia", s: "帝后11, 帝后12" },
-            { n: "陳皇傑", s: "帝后13, 帝后14" },
-            { n: "Tommy", s: "帝后15, 帝后16" }
+            { n: "Nikai", s: "帝后1, 帝后2" }, { n: "Yusuf", s: "帝后3, 帝后4" }, { n: "Erik", s: "帝后5, 帝后6" },
+            { n: "周宛錚", s: "帝后7, 帝后8" }, { n: "Melody", s: "帝后9, 帝后10" }, { n: "Selia", s: "帝后11, 帝后12" },
+            { n: "陳皇傑", s: "帝后13, 帝后14" }, { n: "Tommy", s: "帝后15, 帝后16" }
         ],
         "7/6": [
-            { n: "Erik", s: "帝后1, 帝后2" },
-            { n: "Nikai", s: "帝后3, 帝后4, 帝后5" },
-            { n: "Melody", s: "天子閣1, 天子閣2" },
-            { n: "Yunus", s: "天子閣3, 天子閣4, 天子閣5" },
-            { n: "周宛錚", s: "天子閣6, 天子閣7" },
-            { n: "Jammy", s: "天子閣8, 天子閣9, 天子閣10" },
+            { n: "Erik", s: "帝后1, 帝后2" }, { n: "Nikai", s: "帝后3, 帝后4, 帝后5" }, { n: "Melody", s: "天子閣1, 天子閣2" },
+            { n: "Yunus", s: "天子閣3, 天子閣4, 天子閣5" }, { n: "周宛錚", s: "天子閣6, 天子閣7" }, { n: "Jammy", s: "天子閣8, 天子閣9, 天子閣10" },
             { n: "Selia", s: "天子閣11, 天子閣12, 天子閣13" }
         ]
     };
@@ -101,20 +113,19 @@
         const dateSel = document.getElementById('dateSelect');
         const userSel = document.getElementById('userSelect');
         const allNames = new Set();
-
         Object.keys(db).forEach(date => {
-            const opt = document.createElement('option');
-            opt.value = date; opt.textContent = date;
-            dateSel.appendChild(opt);
+            const opt = document.createElement('option'); opt.value = date; opt.textContent = date; dateSel.appendChild(opt);
             db[date].forEach(item => allNames.add(item.n));
         });
-
         Array.from(allNames).sort().forEach(name => {
-            const opt = document.createElement('option');
-            opt.value = name; opt.textContent = name;
-            userSel.appendChild(opt);
+            const opt = document.createElement('option'); opt.value = name; opt.textContent = name; userSel.appendChild(opt);
         });
         render();
+    }
+
+    function getLink(slotStr) {
+        const key = slotStr.includes("帝后") ? "帝后" : "天子閣";
+        return `<a href="${hotelUrls[key]}" class="hotel-link" target="_blank">MAP 📍</a>`;
     }
 
     function render() {
@@ -125,8 +136,14 @@
 
         data.forEach(item => {
             const isMe = (user && item.n === user);
+            const cardClass = isMe ? 'card is-me-card' : 'card';
             const namePart = `<span class="${isMe ? 'name-highlight' : ''}">${item.n}</span>`;
-            html += `<div class="card">🚗 ${namePart}: ${item.s}</div>`;
+            
+            html += `
+                <div class="${cardClass}">
+                    <div>🚗 ${namePart}: ${item.s}</div>
+                    ${getLink(item.s)}
+                </div>`;
         });
         document.getElementById('transContent').innerHTML = html;
     }
