@@ -7,81 +7,120 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --nav-bg: #2d3436;
-            --primary-purple: #a569bd;
+            /* 優しい緑のパレット */
+            --soft-green-bg: #e8f3ed;    /* フィルターバー背景 */
+            --soft-green-label: #5a7d6a; /* ラベル色 */
+            --soft-green-border: #c2d6cc;
+            
+            --primary-purple: #a569bd;   /* 自分のマーカー（紫色） */
             --highlight-bg: #f3ebff;
-            --trans-accent: #0984e3;
-            --duty-accent: #1abc9c;
+            
+            --trans-accent: #0984e3;     /* 送迎（青） */
+            --duty-accent: #6ebf91;      /* 伝道（優しい緑） */
+            
             --text-dark: #2d3436;
             --text-light: #636e72;
         }
 
-        body { font-family: 'Lexend', 'Noto Sans TC', sans-serif; background-color: #f8f9fa; margin: 0; padding: 0; color: var(--text-dark); }
+        body { font-family: 'Lexend', 'Noto Sans TC', sans-serif; background-color: #fcfdfc; margin: 0; padding: 0; color: var(--text-dark); }
         
-        /* Filter Bar */
-        .sticky-header { position: sticky; top: 0; background: var(--nav-bg); z-index: 100; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .filter-card { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; max-width: 600px; margin: 0 auto; }
-        .input-box label { font-size: 10px; font-weight: bold; color: #dfe6e9; text-transform: uppercase; margin-bottom: 4px; display: block; }
-        select { padding: 10px; border-radius: 8px; border: none; font-size: 14px; background: #ffffff; width: 100%; font-weight: 600; outline: none; }
-
-        /* Accordion Styling */
-        .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: white; }
-        
-        .accordion-header { 
-            padding: 15px; color: white; cursor: pointer; display: flex; 
-            justify-content: space-between; align-items: center; font-weight: 700;
-            transition: opacity 0.2s;
+        /* フィルターバー（優しい緑ベース） */
+        .sticky-header { 
+            position: sticky; 
+            top: 0; 
+            background: var(--soft-green-bg); 
+            z-index: 100; 
+            padding: 12px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--soft-green-border);
         }
-        .accordion-header:active { opacity: 0.8; }
+        .filter-card { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; max-width: 600px; margin: 0 auto; }
+        .input-box label { 
+            font-size: 10px; 
+            font-weight: bold; 
+            color: var(--soft-green-label); 
+            text-transform: uppercase; 
+            margin-bottom: 4px; 
+            display: block; 
+        }
+        select { 
+            padding: 10px; 
+            border-radius: 10px; 
+            border: 1px solid var(--soft-green-border); 
+            font-size: 14px; 
+            background: #ffffff; 
+            width: 100%; 
+            font-weight: 600; 
+            outline: none;
+            color: var(--text-dark);
+        }
+
+        /* アコーディオン */
+        .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white; }
+        .accordion-header { padding: 15px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
         .header-trans { background: var(--trans-accent); }
         .header-duty { background: var(--duty-accent); }
-        
-        .accordion-content { display: block; padding: 5px; } /* Default open, can be toggled */
+        .accordion-content { display: block; padding: 5px; }
         .accordion-content.hidden { display: none; }
-
         .arrow { font-size: 12px; transition: transform 0.3s; }
         .rotate { transform: rotate(180deg); }
 
-        /* Card Styling */
-        .card {
-            background: white; border-radius: 10px; margin: 8px; padding: 12px;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05); border-left: 5px solid transparent;
-        }
-        .sec-trans .card { border-left-color: var(--trans-accent); }
-        .sec-duty .card { border-left-color: var(--duty-accent); }
+        .group-title { font-size: 11px; font-weight: bold; color: var(--duty-accent); margin: 15px 10px 5px; border-bottom: 1px solid #f0f0f0; }
 
-        /* Highlight Me */
+        /* カード */
+        .card { background: white; border-radius: 10px; margin: 8px; padding: 12px; border-left: 5px solid transparent; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+        .sec-trans .card { border-left-color: var(--trans-accent); }
+        .sec-duty .card { border-left-color: var(--duty-accent); display: flex; justify-content: space-between; align-items: center; }
+
+        /* 自分のマーカー（紫色）ハイライト */
         .card.is-me { 
             background: var(--highlight-bg); 
             border-left-color: var(--primary-purple) !important; 
             transform: scale(1.02); 
-            box-shadow: 0 4px 15px rgba(165, 105, 189, 0.3);
+            box-shadow: 0 4px 15px rgba(165, 105, 189, 0.25); 
+            z-index: 10; 
         }
-        .is-me .person-name { color: var(--primary-purple); font-weight: 800; }
+        .is-me .person-name, .is-me .driver-main { color: var(--primary-purple); font-weight: 800; }
 
-        .slot-tag { font-size: 9px; background: #eee; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-bottom: 3px; display: inline-block; }
+        /* 送迎リストの表示 */
+        .driver-main { font-size: 15px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .passenger-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; border-top: 1px solid #f8f8f8; }
+        .slot-mini { font-size: 9px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: bold; min-width: 42px; text-align: center; color: var(--text-light); }
+        .passenger-name { font-size: 14px; }
+
+        /* 伝道リストの表示 */
+        .slot-tag { font-size: 9px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-bottom: 3px; display: inline-block; color: var(--text-light); }
         .person-name { font-size: 15px; font-weight: 500; }
-        .sub-info { font-size: 11px; color: var(--text-light); }
-
-        .badge { font-size: 9px; padding: 3px 8px; border-radius: 15px; font-weight: bold; color: white; }
+        .badge { font-size: 9px; padding: 3px 10px; border-radius: 15px; font-weight: bold; color: white; }
         .bg-sopir { background: #f1c40f; color: #000; }
         .bg-walking { background: #e67e22; }
+        .no-lunch { color: #d63031; font-size: 9px; font-weight: bold; display: block; margin-top: 3px; }
     </style>
 </head>
 <body>
 
 <div class="sticky-header">
     <div class="filter-card">
-        <div class="input-box"><label>Tanggal / 日期</label><select id="dateSelect" onchange="render()"><option value="6/30">6/30</option><option value="7/2">7/2</option><option value="7/6">7/6</option></select></div>
-        <div class="input-box"><label>Nama / 姓名</label><select id="userSelect" onchange="render()"><option value="">-- Cari Nama --</option></select></div>
+        <div class="input-box">
+            <label>Tanggal / 日付</label>
+            <select id="dateSelect" onchange="render()">
+                <option value="6/30">6/30 (Selasa)</option>
+                <option value="7/2">7/2 (Kamis)</option>
+                <option value="7/6">7/6 (Senin)</option>
+            </select>
+        </div>
+        <div class="input-box">
+            <label>Cari Nama / 姓名検索</label>
+            <select id="userSelect" onchange="render()">
+                <option value="">-- Pilih --</option>
+            </select>
+        </div>
     </div>
 </div>
 
 <div class="accordion-item sec-trans">
     <div class="accordion-header header-trans" onclick="toggleAccordion('trans-body', 'trans-arrow')">
-        <span>🚗 接送表 Daftar Antar-Jemput</span>
-        <span id="trans-arrow" class="arrow">▼</span>
+        <span>🚗 送迎 Antar-Jemput</span><span id="trans-arrow" class="arrow">▼</span>
     </div>
     <div id="trans-body" class="accordion-content">
         <div id="transContent"></div>
@@ -90,8 +129,7 @@
 
 <div class="accordion-item sec-duty">
     <div class="accordion-header header-duty" onclick="toggleAccordion('duty-body', 'duty-arrow')">
-        <span>📋 服務分組 Grup Pelayanan</span>
-        <span id="duty-arrow" class="arrow">▼</span>
+        <span>📋 伝道 Grup Pelayanan</span><span id="duty-arrow" class="arrow">▼</span>
     </div>
     <div id="duty-body" class="accordion-content">
         <div id="dutyContent"></div>
@@ -99,25 +137,28 @@
 </div>
 
 <script>
+    // データ入力（前回の形式を維持）
     const db = {
         "6/30": {
             drivers: [
-                {slot:"帝后1", drv:"Yunus"}, {slot:"帝后2", drv:"Yunus"}, {slot:"帝后3", drv:"Erik"}, {slot:"帝后4", drv:"Erik"},
-                {slot:"帝后5", drv:"Melody"}, {slot:"帝后6", drv:"Melody"}, {slot:"天子閣1", drv:"Nikai"}
+                {drv: "Yunus", slots: ["帝后1", "帝后2"]},
+                {drv: "Erik", slots: ["帝后3", "帝后4"]},
+                {drv: "Melody", slots: ["帝后5", "帝后6"]},
+                {drv: "Jammy", slots: ["帝后7", "帝后8"]},
+                {drv: "陳皇傑", slots: ["帝后9", "帝后10"]},
+                {drv: "Tommy", slots: ["帝后11", "帝后12"]},
+                {drv: "Nikai", slots: ["天子閣1", "天子閣2", "天子閣3"]}
             ],
             delegates: [
-                {slot:"帝后1", name:"Yunus", role:"Sopir"}, {slot:"帝后2", name:"SAITO CHIEMI", role:"Lokal"}, {slot:"帝后3", name:"Erik", role:"Sopir"}, {slot:"帝后4", name:"Dina", role:"Lokal"},
-                {slot:"天子閣1", name:"Nikai", role:"Sopir"}
+                {g:"Grup A", slot:"帝后1", name:"Yunus", role:"Sopir"},
+                {g:"Grup A", slot:"帝后2", name:"SAITO CHIEMI", role:"Lokal"},
+                {g:"Grup B", slot:"帝后3", name:"Erik", role:"Sopir"},
+                {g:"Grup B", slot:"帝后4", name:"Dina", role:"Lokal", lunch:false},
+                {g:"Grup C", slot:"天子閣1", name:"Nikai", role:"Sopir"}
             ]
         },
-        "7/2": {
-            drivers: [{slot:"帝后1", drv:"Nikai"}, {slot:"帝后2", drv:"Nikai"}],
-            delegates: [{slot:"帝后1", name:"Nikai", role:"Sopir"}, {slot:"帝后2", name:"Mei", role:"Lokal"}]
-        },
-        "7/6": {
-            drivers: [{slot:"帝后1", drv:"Erik"}],
-            delegates: [{slot:"帝后1", name:"Erik", role:"Sopir"}]
-        }
+        "7/2": { drivers: [], delegates: [] },
+        "7/6": { drivers: [], delegates: [] }
     };
 
     function toggleAccordion(contentId, arrowId) {
@@ -130,31 +171,55 @@
     function render() {
         const date = document.getElementById('dateSelect').value;
         const user = document.getElementById('userSelect').value;
-        const data = db[date];
+        const data = db[date] || {drivers:[], delegates:[]};
 
+        // Render Transport
         let transH = '';
         data.drivers.forEach(d => {
-            const pass = data.delegates.find(p => p.slot === d.slot);
-            const isMe = user && (d.drv === user || (pass && pass.name === user));
-            transH += `<div class="card ${isMe?'is-me':''}">
-                <div><div class="slot-tag">${d.slot}</div><div class="person-name">${pass ? pass.name : '<i>(Kosong)</i>'}</div><div class="sub-info">Supir: ${d.drv}</div></div>
-                <span class="badge" style="background:var(--trans-accent)">ANTAR</span>
-            </div>`;
-        });
-        document.getElementById('transContent').innerHTML = transH;
+            const passengers = d.slots.map(s => data.delegates.find(p => p.slot === s));
+            const isMe = user && (d.drv === user || passengers.some(p => p && p.name === user));
+            
+            let passengerRows = '';
+            d.slots.forEach(s => {
+                const p = data.delegates.find(del => del.slot === s);
+                passengerRows += `
+                    <div class="passenger-row">
+                        <div class="slot-mini">${s}</div>
+                        <div class="passenger-name">${p ? p.name : '<i>(Kosong)</i>'}</div>
+                    </div>`;
+            });
 
+            transH += `
+                <div class="card ${isMe?'is-me':''}">
+                    <div class="driver-main">🚗 Supir: ${d.drv}</div>
+                    ${passengerRows}
+                </div>`;
+        });
+        document.getElementById('transContent').innerHTML = transH || '<p style="padding:10px; color:#aaa;">No Data</p>';
+
+        // Render Duty
         let dutyH = '';
+        let currentGroup = '';
         data.delegates.forEach(p => {
+            if (p.g !== currentGroup) {
+                dutyH += `<div class="group-title">${p.g}</div>`;
+                currentGroup = p.g;
+            }
             const isMe = user && p.name === user;
             dutyH += `<div class="card ${isMe?'is-me':''}">
-                <div><div class="slot-tag" style="background:var(--duty-accent); color:white;">${p.slot || 'Lokal'}</div><div class="person-name">${p.name}</div></div>
-                <span class="badge ${p.role==='Sopir'?'bg-sopir':'bg-walking'}">${p.role}</span>
+                <div>
+                    <div class="slot-tag">${p.slot || 'Lokal'}</div>
+                    <div class="person-name">${p.name}</div>
+                </div>
+                <div style="text-align:right">
+                    <span class="badge ${p.role==='Sopir'?'bg-sopir':'bg-walking'}">${p.role}</span>
+                    ${p.lunch===false?'<span class="no-lunch">X NO LUNCH</span>':''}
+                </div>
             </div>`;
         });
-        document.getElementById('dutyContent').innerHTML = dutyH;
+        document.getElementById('dutyContent').innerHTML = dutyH || '<p style="padding:10px; color:#aaa;">No Data</p>';
     }
 
-    // Initialize names
     const allNames = new Set();
     Object.values(db).forEach(day => {
         day.drivers.forEach(d => allNames.add(d.drv));
