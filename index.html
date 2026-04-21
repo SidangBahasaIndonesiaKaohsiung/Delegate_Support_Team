@@ -90,19 +90,30 @@
 
     const db = {
         "6/30": [
-            { n: "Yunus", s: "帝后1, 帝后2" }, { n: "Erik", s: "帝后3, 帝后4" }, { n: "Melody", s: "帝后5, 帝后6" },
-            { n: "Jammy", s: "帝后7, 帝后8" }, { n: "陳皇傑", s: "帝后9, 帝后10" }, { n: "Tommy", s: "帝后11, 帝后12" },
-            { n: "Nikai", s: "天子閣1, 天子閣2, 天子閣3" }
+            { n: "Yunus", s: "帝后1, 帝后2, SAITO CHIEMI, Sayo, Tina" },
+            { n: "Eric", s: "帝后3, 帝后4, Dina, Linling, Stephanie" },
+            { n: "Melody", s: "帝后5, 帝后6, Lilian" },
+            { n: "Jammy", s: "帝后7, 帝后8, 張苧萱" },
+            { n: "Tommy", s: "帝后11, 帝后12, Linda, 王雅貞" },
+            { n: "Nikai", s: "天子閣1, 天子閣2, 天子閣3, Henokh, Joselin" }
         ],
         "7/2": [
-            { n: "Nikai", s: "帝后1, 帝后2" }, { n: "Yusuf", s: "帝后3, 帝后4" }, { n: "Erik", s: "帝后5, 帝后6" },
-            { n: "周宛錚", s: "帝后7, 帝后8" }, { n: "Melody", s: "帝后9, 帝后10" }, { n: "Selia", s: "帝后11, 帝后12" },
-            { n: "陳皇傑", s: "帝后13, 帝后14" }, { n: "Tommy", s: "帝后15, 帝后16" }
+            { n: "Nikai", s: "帝后1, 帝后2, Mei, Tina, Vina" },
+            { n: "Yusuf", s: "帝后3, 帝后4, Joan, 黃詩吟" },
+            { n: "Eric", s: "帝后5, 帝后6, Dina" },
+            { n: "周宛錚", s: "帝后7, 帝后8, Elli, Linling, Sayo" },
+            { n: "Melody", s: "帝后9, 帝后10, 張苧萱, Joselin, Henokh" },
+            { n: "Selia", s: "帝后11, 帝后12, SAITO CHIEMI, Lusi, Daud" },
+            { n: "Tommy", s: "帝后15, 帝后16, Linda, 王雅貞, Stephanie" }
         ],
         "7/6": [
-            { n: "Erik", s: "帝后1, 帝后2" }, { n: "Nikai", s: "帝后3, 帝后4, 帝后5" }, { n: "Melody", s: "天子閣1, 天子閣2" },
-            { n: "Yunus", s: "天子閣3, 天子閣4, 天子閣5" }, { n: "周宛錚", s: "天子閣6, 天子閣7" }, { n: "Jammy", s: "天子閣8, 天子閣9, 天子閣10" },
-            { n: "Selia", s: "天子閣11, 天子閣12, 天子閣13" }
+            { n: "Eric", s: "帝后1, 帝后2, Dina" },
+            { n: "Nikai", s: "帝后3, 帝后4, 帝后5, Ken, 松宮（劉）麗娟, Vina, Lilian" },
+            { n: "Melody", s: "天子閣1, 天子閣2, 黃詩吟" },
+            { n: "Yunus", s: "天子閣3, 天子閣4, 天子閣5, Yoshiya, Jamie, Lina, Elli" },
+            { n: "周宛錚", s: "天子閣6, 天子閣7, 王雅貞" },
+            { n: "Jammy", s: "天子閣8, 天子閣9, 天子閣10, Stephanie, Rut" },
+            { n: "Selia", s: "天子閣11, 天子閣12, 天子閣13, Linling, Sayo" }
         ]
     };
 
@@ -135,8 +146,6 @@
             const isMe = (user && item.n === user);
             const cardClass = isMe ? 'card is-me-card' : 'card';
             const namePart = `<span class="${isMe ? 'name-highlight' : ''}">${item.n}</span>`;
-            
-            // ロジック: 「帝后」が含まれれば URL_TEIO(.../7)、それ以外は URL_TENSI(.../8)
             const mapUrl = item.s.indexOf("帝后") !== -1 ? URL_TEIO : URL_TENSI;
             
             html += `
