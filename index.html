@@ -13,6 +13,7 @@
             --trans-accent: #5d9cec;
             --highlight-red: #d63031; 
             --highlight-purple: #a569bd;
+            --highlight-bg: #f3ebff; /* 選んだ時の島の背景色 */
             --text-dark: #2d3436;
         }
 
@@ -29,39 +30,38 @@
         .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white; border: 1px solid #eee; }
         .accordion-header { padding: 15px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; background: var(--trans-accent); }
         
+        /* デフォルトは閉じる */
         .accordion-content { display: none; padding: 10px; background: #fdfdfd; }
         .accordion-content.open { display: block; }
 
         .arrow { font-size: 10px; transition: transform 0.3s; }
         .rotate { transform: rotate(90deg); }
 
-        /* --- 送迎カードのスタイル --- */
+        /* --- 通常の島 --- */
         .card { 
             background: white; border-radius: 10px; margin-bottom: 12px; padding: 14px; 
             border: 1.5px solid #d9e6f7; border-left: 6px solid var(--trans-accent);
             display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.2s ease-in-out;
         }
 
-        /* 自分を選択した時の島全体の変化 */
-        .card.is-me-card {
-            border: 1.5px solid var(--highlight-purple) !important;
-            border-left: 8px solid var(--highlight-purple) !important;
-            background: #f9f5ff;
-            box-shadow: 0 6px 15px rgba(165, 105, 189, 0.2);
-            transform: translateY(-2px);
+        /* --- ★重要：名前を選んだ時の島全体の変化 --- */
+        .is-me-card {
+            background-color: var(--highlight-bg) !important; /* 島の色を薄紫に */
+            border: 3px solid var(--highlight-purple) !important; /* 枠線を太く */
+            border-left: 10px solid var(--highlight-purple) !important;
+            transform: scale(1.02); /* 少し大きく */
+            box-shadow: 0 4px 15px rgba(165, 105, 189, 0.3);
         }
 
         .name-highlight { color: var(--highlight-red); font-weight: 800; }
 
-        /* ホテルリンクボタン */
         .hotel-link {
-            font-size: 11px; padding: 5px 8px; border-radius: 6px;
-            background: #f0f4f8; color: var(--trans-accent);
-            text-decoration: none; font-weight: 600; border: 1px solid #d9e6f7;
-            white-space: nowrap; margin-left: 10px;
+            font-size: 11px; padding: 5px 10px; border-radius: 8px;
+            background: white; color: var(--trans-accent);
+            text-decoration: none; font-weight: 700; border: 1.5px solid var(--trans-accent);
+            white-space: nowrap;
         }
-        .hotel-link:hover { background: var(--trans-accent); color: white; }
     </style>
 </head>
 <body>
@@ -82,8 +82,8 @@
 
 <script>
     const hotelUrls = {
-        "帝后": "https://maps.app.goo.gl/hotel-example-kingship",
-        "天子閣": "https://maps.app.goo.gl/hotel-example-tenzige"
+        "帝后": "https://maps.app.goo.gl/hotel0",
+        "天子閣": "https://maps.app.goo.gl/hotel1"
     };
 
     const db = {
@@ -104,28 +104,25 @@
         ]
     };
 
-    function toggleAccordion(contentId, arrowId) {
-        document.getElementById(contentId).classList.toggle('open');
-        document.getElementById(arrowId).classList.toggle('rotate');
+    function toggleAccordion(id, arrowId) {
+        const content = document.getElementById(id);
+        const arrow = document.getElementById(arrowId);
+        content.classList.toggle('open');
+        arrow.classList.toggle('rotate');
     }
 
     function init() {
-        const dateSel = document.getElementById('dateSelect');
-        const userSel = document.getElementById('userSelect');
-        const allNames = new Set();
-        Object.keys(db).forEach(date => {
-            const opt = document.createElement('option'); opt.value = date; opt.textContent = date; dateSel.appendChild(opt);
-            db[date].forEach(item => allNames.add(item.n));
+        const dSel = document.getElementById('dateSelect');
+        const uSel = document.getElementById('userSelect');
+        const names = new Set();
+        Object.keys(db).forEach(d => {
+            const o = document.createElement('option'); o.value = d; o.textContent = d; dSel.appendChild(o);
+            db[d].forEach(i => names.add(i.n));
         });
-        Array.from(allNames).sort().forEach(name => {
-            const opt = document.createElement('option'); opt.value = name; opt.textContent = name; userSel.appendChild(opt);
+        Array.from(names).sort().forEach(n => {
+            const o = document.createElement('option'); o.value = n; o.textContent = n; uSel.appendChild(o);
         });
         render();
-    }
-
-    function getLink(slotStr) {
-        const key = slotStr.includes("帝后") ? "帝后" : "天子閣";
-        return `<a href="${hotelUrls[key]}" class="hotel-link" target="_blank">MAP 📍</a>`;
     }
 
     function render() {
@@ -138,11 +135,12 @@
             const isMe = (user && item.n === user);
             const cardClass = isMe ? 'card is-me-card' : 'card';
             const namePart = `<span class="${isMe ? 'name-highlight' : ''}">${item.n}</span>`;
+            const hotelKey = item.s.includes("帝后") ? "帝后" : "天子閣";
             
             html += `
                 <div class="${cardClass}">
                     <div>🚗 ${namePart}: ${item.s}</div>
-                    ${getLink(item.s)}
+                    <a href="${hotelUrls[hotelKey]}" class="hotel-link" target="_blank">MAP 📍</a>
                 </div>`;
         });
         document.getElementById('transContent').innerHTML = html;
