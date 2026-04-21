@@ -135,6 +135,8 @@
             const isMe = (user && item.n === user);
             const cardClass = isMe ? 'card is-me-card' : 'card';
             const namePart = `<span class="${isMe ? 'name-highlight' : ''}">${item.n}</span>`;
+            
+            // ロジック: 「帝后」が含まれれば URL_TEIO(.../7)、それ以外は URL_TENSI(.../8)
             const mapUrl = item.s.indexOf("帝后") !== -1 ? URL_TEIO : URL_TENSI;
             
             html += `
