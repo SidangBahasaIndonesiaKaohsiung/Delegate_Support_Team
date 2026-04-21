@@ -3,113 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>奉仕割当スケジュール</title>
+    <title>Delegate Support Schedule</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        
-        .controls { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
-        select { padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 16px; }
+        :root {
+            --primary: #5d3fd3; /* メインの紫 */
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+            /* 凡例カラー */
+            --driver: #fff9c4;
+            --walking: #ffe0b2;
+            --pending: #c8e6c9;
+            --special: #f3e5f5;
+        }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        th { background-color: #eee; }
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-        /* セル背景色の定義 */
-        .driver { background-color: #ffff00; } /* 黄色 */
-        .walking { background-color: #f39c12; } /* オレンジ */
-        .pending { background-color: #2ecc71; } /* 黄緑 */
-        .special { background-color: #e8daef; } /* 薄紫 */
-        .no-lunch { color: #e74c3c; font-weight: bold; } /* 赤字 */
+        .app-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-        /* 自分の名前が選ばれた時のハイライト */
-        .highlight { background-color: #a569bd !important; color: white !important; }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        /* コントロールパネル */
+        .controls {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #636e72;
+        }
+
+        select {
+            padding: 12px;
+            border: 2px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            border-color: var(--primary);
+        }
+
+        /* スケジュールカード */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-left: 5px solid #dfe6e9;
+            transition: all 0.3s ease;
+        }
+
+        .card.active-user {
+            border-left-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(93, 63, 211, 0.15);
+            background-color: #f0edff;
+        }
+
+        .card-header {
+            padding: 10px 15px;
+            background: #f1f2f6;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .member-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f2f6;
+        }
+
+        .member-row:last-child { border-bottom: none; }
+
+        .role-badge {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* ステータス別スタイル */
+        .bg-driver { background: var(--driver); }
+        .bg-walking { background: var(--walking); }
+        .bg-special { background: var(--special); }
+        .bg-pending { background: var(--pending); }
+        .text-alert { color: #d63031; font-weight: bold; }
+
+        .user-highlight {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        @media (max-width: 480px) {
+            .controls { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>国際大会 奉仕割当表</h2>
+<div class="app-container">
+    <header>
+        <h1>International Convention Support</h1>
+    </header>
 
     <div class="controls">
-        <label>日付選択:</label>
-        <select id="dateSelect" onchange="updateTable()">
-            <option value="6/30">6/30</option>
-            <option value="7/2">7/2</option>
-            <option value="7/6">7/6</option>
-        </select>
-
-        <label>自分の名前を選択:</label>
-        <select id="userSelect" onchange="updateTable()">
-            <option value="">-- 未選択 --</option>
-            <option value="Yunus">Yunus</option>
-            <option value="Eric">Eric</option>
-            <option value="Melody">Melody</option>
-            <option value="Nikai">Nikai</option>
-            <option value="Tommy">Tommy</option>
-            <option value="Ken">Ken</option>
-            <option value="Elli">Elli</option>
+        <div class="field-group">
+            <label>Date Selection</label>
+            <select id="dateSelect" onchange="renderData()">
+                <option value="6/30">June 30</option>
+                <option value="7/2">July 2</option>
+                <option value="7/6">July 6</option>
             </select>
+        </div>
+        <div class="field-group">
+            <label>Search Name</label>
+            <select id="userSelect" onchange="renderData()">
+                <option value="">-- 全員表示 --</option>
+                <option value="Yunus">Yunus</option>
+                <option value="Eric">Eric</option>
+                <option value="Nikai">Nikai</option>
+                <option value="Ken">Ken</option>
+                <option value="Melody">Melody</option>
+                <option value="Tommy">Tommy</option>
+                <option value="Elli">Elli</option>
+            </select>
+        </div>
     </div>
 
-    <div id="tableContainer">
-        </div>
+    <div id="content"></div>
 </div>
 
 <script>
-    const scheduleData = {
+    const db = {
         "6/30": [
-            { group: "A", items: [{pos: "帝后1", name: "Yunus", type: "driver"}, {pos: "帝后2", name: "SAITO CHIEMI"}, {pos: "Tina", name: "Sayo"}] },
-            { group: "B", items: [{pos: "帝后3", name: "Eric", type: "driver"}, {pos: "帝后4", name: "Dina"}, {pos: "Stephanie", name: "Linling"}] },
-            { group: "C", items: [{pos: "帝后5", name: "Melody", type: "driver"}, {pos: "帝后6", name: "Lilian"}] },
-            { group: "E", items: [{pos: "帝后9", name: "Daud", type: "special"}, {pos: "帝后10", name: "Lusi", type: "special"}, {pos: "Ken", name: "松宮（劉）麗娟", type: "no-lunch"}] },
-            { group: "G", items: [{pos: "天子閣1", name: "Nikai", type: "driver"}, {pos: "天子閣2", name: "Henokh"}, {pos: "天子閣3", name: "Joselin"}] }
+            { id: "A", members: [{r: "帝后1", n: "Yunus", t: "driver"}, {r: "帝后2", n: "SAITO CHIEMI"}, {r: "Tina", n: "Sayo"}] },
+            { id: "B", members: [{r: "帝后3", n: "Eric", t: "driver"}, {r: "帝后4", n: "Dina"}, {r: "Stephanie", n: "Linling"}] },
+            { id: "C", members: [{r: "帝后5", n: "Melody", t: "driver"}, {r: "帝后6", n: "Lilian"}] },
+            { id: "E", members: [{r: "帝后9", n: "Daud", t: "special"}, {r: "帝后10", n: "Lusi", t: "special"}, {r: "Ken", n: "松宮 麗娟", t: "alert"}] }
         ],
         "7/2": [
-            { group: "A", items: [{pos: "帝后1", name: "Nikai", type: "driver"}, {pos: "帝后2", name: "Mei"}, {pos: "Vina", name: "Tina"}] },
-            { group: "B", items: [{pos: "帝后3", name: "Yusuf", type: "driver"}, {pos: "帝后4", name: "Joan"}, {pos: "", name: "黄詩吟", type: "pending"}] },
-            { group: "E", items: [{pos: "帝后9", name: "Melody", type: "walking"}, {pos: "帝后10", name: "張苧萱", type: "walking"}, {pos: "Henokh", name: "Joselin", type: "walking"}] },
-            { group: "G", items: [{pos: "帝后13", name: "Yunus", type: "driver"}, {pos: "帝后14", name: "Ken", type: "no-lunch-bg"}] }
+            { id: "A", members: [{r: "帝后1", n: "Nikai", t: "driver"}, {r: "帝后2", n: "Mei"}, {r: "Vina", n: "Tina"}] },
+            { id: "B", members: [{r: "帝后3", n: "Yusuf", t: "driver"}, {r: "帝后4", n: "Joan"}, {r: "未確定", n: "黄詩吟", t: "pending"}] },
+            { id: "E", members: [{r: "帝后9", n: "Melody", t: "walking"}, {r: "帝后10", n: "張苧萱", t: "walking"}, {r: "Henokh", n: "Joselin", t: "walking"}] }
         ],
         "7/6": [
-            { group: "A", items: [{pos: "帝后1", name: "Eric", type: "driver"}, {pos: "帝后2", name: "Dina"}] },
-            { group: "B", items: [{pos: "帝后3", name: "Nikai", type: "walking"}, {pos: "帝后4", name: "Ken", type: "walking"}, {pos: "Lilian", name: "Vina", type: "walking"}] },
-            { group: "D", items: [{pos: "天子閣3", name: "Yunus", type: "walking"}, {pos: "Elli", name: "Lina", type: "no-lunch"}] }
+            { id: "A", members: [{r: "帝后1", n: "Eric", t: "driver"}, {r: "帝后2", n: "Dina"}] },
+            { id: "B", members: [{r: "帝后3", n: "Nikai", t: "walking"}, {r: "帝后4", n: "Ken", t: "walking"}, {r: "Lilian", n: "Vina", t: "walking"}] }
         ]
     };
 
-    function updateTable() {
+    function renderData() {
         const date = document.getElementById('dateSelect').value;
-        const currentUser = document.getElementById('userSelect').value;
-        const container = document.getElementById('tableContainer');
-        const data = scheduleData[date];
-
-        let html = `<h3>日付: ${date}</h3><table><tr><th>区分</th><th>役割/位置</th><th>氏名</th></tr>`;
-
-        data.forEach(section => {
-            section.items.forEach((item, index) => {
-                const isUser = (item.name.includes(currentUser) || item.pos.includes(currentUser)) && currentUser !== "";
-                const highlightClass = isUser ? 'highlight' : '';
-                const typeClass = item.type || '';
-                const noLunchClass = (item.type === 'no-lunch') ? 'no-lunch' : '';
-
-                html += `<tr class="${highlightClass}">`;
-                if (index === 0) {
-                    html += `<td rowspan="${section.items.length}">${section.group}</td>`;
-                }
-                html += `<td class="${typeClass}">${item.pos}</td>`;
-                html += `<td class="${typeClass} ${noLunchClass}">${item.name}</td>`;
-                html += `</tr>`;
-            });
+        const user = document.getElementById('userSelect').value;
+        const container = document.getElementById('content');
+        
+        let html = '';
+        db[date].forEach(group => {
+            const hasUser = group.members.some(m => m.n.includes(user) || m.r.includes(user)) && user !== "";
+            
+            html += `
+                <div class="card ${hasUser ? 'active-user' : ''}">
+                    <div class="card-header">Group ${group.id}</div>
+                    <div class="card-body">
+                        ${group.members.map(m => `
+                            <div class="member-row">
+                                <span>
+                                    <span class="role-badge ${getBadgeClass(m.t)}">${m.r}</span>
+                                    <span class="${m.n.includes(user) && user !== '' ? 'user-highlight' : ''}">${m.n}</span>
+                                </span>
+                                ${m.t === 'alert' ? '<span class="text-alert">x 午餐</span>' : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
         });
-
-        html += `</table>`;
         container.innerHTML = html;
     }
 
-    // 初期表示
-    updateTable();
-</script>
+    function getBadgeClass(type) {
+        switch(type) {
+            case 'driver': return 'bg-driver';
+            case 'walking': return 'bg-walking';
+            case 'special': return 'bg-special';
+            case 'pending': return 'bg-pending';
+            default: return '';
+        }
+    }
 
+    renderData();
+</script>
 </body>
 </html>
