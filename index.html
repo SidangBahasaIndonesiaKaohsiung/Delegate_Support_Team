@@ -37,10 +37,10 @@
         .card { 
             background: white; border-radius: 10px; margin-bottom: 8px; padding: 14px; 
             border: 1.5px solid #d9e6f7; border-left: 6px solid var(--trans-accent);
-            font-size: 15px; line-height: 1.4;
+            font-size: 15px; font-weight: 500;
         }
 
-        /* 名前強調：赤字・太字 */
+        /* 選択した名前だけを赤字・太字にする */
         .name-highlight { color: var(--highlight-red) !important; font-weight: 800 !important; }
     </style>
 </head>
@@ -63,32 +63,32 @@
 <script>
     const db = {
         "6/30": [
-            { drv: "Yunus", s: "帝后1, 帝后2" },
-            { drv: "Erik", s: "帝后3, 帝后4" },
-            { drv: "Melody", s: "帝后5, 帝后6" },
-            { drv: "Jammy", s: "帝后7, 帝后8" },
-            { drv: "陳皇傑", s: "帝后9, 帝后10" },
-            { drv: "Tommy", s: "帝后11, 帝后12" },
-            { drv: "Nikai", s: "天子閣1, 天子閣2, 天子閣3" }
+            { n: "Yunus", s: "帝后1, 帝后2" },
+            { n: "Erik", s: "帝后3, 帝后4" },
+            { n: "Melody", s: "帝后5, 帝后6" },
+            { n: "Jammy", s: "帝后7, 帝后8" },
+            { n: "陳皇傑", s: "帝后9, 帝后10" },
+            { n: "Tommy", s: "帝后11, 帝后12" },
+            { n: "Nikai", s: "天子閣1, 天子閣2, 天子閣3" }
         ],
         "7/2": [
-            { drv: "Nikai", s: "帝后1, 帝后2" },
-            { drv: "Yusuf", s: "帝后3, 帝后4" },
-            { drv: "Erik", s: "帝后5, 帝后6" },
-            { drv: "周宛錚", s: "帝后7, 帝后8" },
-            { drv: "Melody", s: "帝后9, 帝后10" },
-            { drv: "Selia", s: "帝后11, 帝后12" },
-            { drv: "陳皇傑", s: "帝后13, 帝后14" },
-            { drv: "Tommy", s: "帝后15, 帝后16" }
+            { n: "Nikai", s: "帝后1, 帝后2" },
+            { n: "Yusuf", s: "帝后3, 帝后4" },
+            { n: "Erik", s: "帝后5, 帝后6" },
+            { n: "周宛錚", s: "帝后7, 帝后8" },
+            { n: "Melody", s: "帝后9, 帝后10" },
+            { n: "Selia", s: "帝后11, 帝后12" },
+            { n: "陳皇傑", s: "帝后13, 帝后14" },
+            { n: "Tommy", s: "帝后15, 帝后16" }
         ],
         "7/6": [
-            { drv: "Erik", s: "帝后1, 帝后2" },
-            { drv: "Nikai", s: "帝后3, 帝后4, 帝后5" },
-            { drv: "Melody", s: "天子閣1, 天子閣2" },
-            { drv: "Yunus", s: "天子閣3, 天子閣4, 天子閣5" },
-            { drv: "周宛錚", s: "天子閣6, 天子閣7" },
-            { drv: "Jammy", s: "天子閣8, 天子閣9, 天子閣10" },
-            { drv: "Selia", s: "天子閣11, 天子閣12, 天子閣13" }
+            { n: "Erik", s: "帝后1, 帝后2" },
+            { n: "Nikai", s: "帝后3, 帝后4, 帝后5" },
+            { n: "Melody", s: "天子閣1, 天子閣2" },
+            { n: "Yunus", s: "天子閣3, 天子閣4, 天子閣5" },
+            { n: "周宛錚", s: "天子閣6, 天子閣7" },
+            { n: "Jammy", s: "天子閣8, 天子閣9, 天子閣10" },
+            { n: "Selia", s: "天子閣11, 天子閣12, 天子閣13" }
         ]
     };
 
@@ -106,12 +106,12 @@
             const opt = document.createElement('option');
             opt.value = date; opt.textContent = date;
             dateSel.appendChild(opt);
-            db[date].forEach(item => allNames.add(item.drv));
+            db[date].forEach(item => allNames.add(item.n));
         });
 
-        Array.from(allNames).sort().forEach(n => {
+        Array.from(allNames).sort().forEach(name => {
             const opt = document.createElement('option');
-            opt.value = n; opt.textContent = n;
+            opt.value = name; opt.textContent = name;
             userSel.appendChild(opt);
         });
         render();
@@ -124,9 +124,9 @@
         let html = '';
 
         data.forEach(item => {
-            const isMe = (user && item.drv === user);
-            const nameSpan = `<span class="${isMe ? 'name-highlight' : ''}">${item.drv}</span>`;
-            html += `<div class="card">🚗 ${nameSpan}: ${item.s}</div>`;
+            const isMe = (user && item.n === user);
+            const namePart = `<span class="${isMe ? 'name-highlight' : ''}">${item.n}</span>`;
+            html += `<div class="card">🚗 ${namePart}: ${item.s}</div>`;
         });
         document.getElementById('transContent').innerHTML = html;
     }
