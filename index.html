@@ -28,9 +28,9 @@
         select { padding: 10px; border-radius: 10px; border: 1px solid var(--soft-green-border); font-size: 14px; background: #ffffff; width: 100%; font-weight: 600; outline: none; }
 
         .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white; border: 1px solid #eee; }
-        .accordion-header { padding: 15px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; background: var(--trans-accent); }
+        .accordion-header { padding: 15px; color: white; display: flex; justify-content: space-between; align-items: center; font-weight: 700; background: var(--trans-accent); }
         
-        .accordion-content { display: block; padding: 10px; background: #fdfdfd; }
+        .accordion-content { padding: 10px; background: #fdfdfd; }
 
         .card { 
             background: white; border-radius: 10px; margin-bottom: 12px; padding: 14px; 
@@ -39,6 +39,7 @@
             transition: all 0.2s ease-in-out;
         }
 
+        /* 自分の名前が含まれるグループの強調 */
         .is-me-card {
             background-color: var(--highlight-bg) !important;
             border: 3px solid var(--highlight-purple) !important;
@@ -83,6 +84,7 @@
     const URL_TEIO = "https://maps.app.goo.gl/Fgyf4fjaFsWoHRax5"; 
     const URL_TENSI = "https://maps.app.goo.gl/ECXuxu3BWNxhPFrm7"; 
 
+    // 画像から抽出した正確なデータ
     const db = {
         "6/30": [
             { n: "Yunus", s: "帝后1, 帝后2, SAITO CHIEMI, Sayo, Tina" },
@@ -115,50 +117,66 @@
     function init() {
         const dSel = document.getElementById('dateSelect');
         const uSel = document.getElementById('userSelect');
-        const names = new Set();
-        Object.keys(db).forEach(d => {
-            const o = document.createElement('option'); o.value = d; o.textContent = d; dSel.appendChild(o);
-            db[d].forEach(i => {
-                names.add(i.n); // 司機を追加
-                i.s.split(', ').forEach(p => { if(!p.includes('帝后') && !p.includes('天子閣')) names.add(p); }); // 乗客を追加
+        const allNames = new Set();
+
+        // 日付と名前のリストを生成
+        Object.keys(db).forEach(date => {
+            const opt = document.createElement('option');
+            opt.value = date; opt.textContent = date;
+            dSel.appendChild(opt);
+
+            db[date].forEach(item => {
+                allNames.add(item.n); // ドライバー名
+                item.s.split(', ').forEach(name => {
+                    if (!name.includes('帝后') && !name.includes('天子閣')) {
+                        allNames.add(name); // ゲスト名
+                    }
+                });
             });
         });
-        Array.from(names).sort().forEach(n => {
-            const o = document.createElement('option'); o.value = n; o.textContent = n; uSel.appendChild(o);
+
+        // 名前リストをアルファベット順にソートして追加
+        Array.from(allNames).sort().forEach(name => {
+            const opt = document.createElement('option');
+            opt.value = name; opt.textContent = name;
+            uSel.appendChild(opt);
         });
+
         render();
     }
 
     function render() {
         const date = document.getElementById('dateSelect').value;
-        const user = document.getElementById('userSelect').value;
+        const selectedUser = document.getElementById('userSelect').value;
         const container = document.getElementById('transContent');
         if (!db[date]) return;
         
         let html = '';
         db[date].forEach(item => {
-            // 司機名または乗客リストに名前が含まれているかチェック
-            const isMe = (user && (item.n === user || item.s.includes(user)));
+            // 自分の名前が含まれるかチェック
+            const isMe = (selectedUser && (item.n === selectedUser || item.s.includes(selectedUser)));
             const cardClass = isMe ? 'card is-me-card' : 'card';
             
-            // 選択された名前を強調表示
-            let displayText = `🚗 <strong>${item.n}</strong>: ${item.s}`;
-            if (user && displayText.includes(user)) {
-                displayText = displayText.replace(new RegExp(user, 'g'), `<span class="name-highlight">${user}</span>`);
+            // テキスト表示の組み立て
+            let contentText = `🚗 <strong>${item.n}</strong>: ${item.s}`;
+            if (selectedUser && contentText.includes(selectedUser)) {
+                // 選択した名前を赤文字で強調
+                const regex = new RegExp(`(${selectedUser})`, 'g');
+                contentText = contentText.replace(regex, `<span class="name-highlight">$1</span>`);
             }
             
-            const mapUrl = item.s.indexOf("帝后") !== -1 ? URL_TEIO : URL_TENSI;
+            const mapUrl = item.s.includes("帝后") ? URL_TEIO : URL_TENSI;
             
             html += `
                 <div class="${cardClass}">
-                    <div>${displayText}</div>
+                    <div style="flex:1; padding-right:10px;">${contentText}</div>
                     <a href="${mapUrl}" class="hotel-link" target="_blank" rel="noopener noreferrer">MAP 📍</a>
                 </div>`;
         });
         container.innerHTML = html;
     }
 
-    init();
+    window.onload = init;
 </script>
 </body>
 </html>
