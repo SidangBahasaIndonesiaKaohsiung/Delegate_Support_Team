@@ -30,11 +30,7 @@
         .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white; border: 1px solid #eee; }
         .accordion-header { padding: 15px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; background: var(--trans-accent); }
         
-        .accordion-content { display: none; padding: 10px; background: #fdfdfd; }
-        .accordion-content.open { display: block; }
-
-        .arrow { font-size: 10px; transition: transform 0.3s; }
-        .rotate { transform: rotate(90deg); }
+        .accordion-content { display: block; padding: 10px; background: #fdfdfd; }
 
         .card { 
             background: white; border-radius: 10px; margin-bottom: 12px; padding: 14px; 
@@ -47,7 +43,6 @@
             background-color: var(--highlight-bg) !important;
             border: 3px solid var(--highlight-purple) !important;
             border-left: 10px solid var(--highlight-purple) !important;
-            box-shadow: 0 4px 15px rgba(165, 105, 189, 0.3);
         }
 
         .name-highlight { color: var(--highlight-red); font-weight: 800; }
@@ -78,10 +73,10 @@
 </div>
 
 <div class="accordion-item">
-    <div class="accordion-header" onclick="toggleAccordion('trans-body', 'trans-arrow')">
-        <span>🚗 接送 Antar-Jemput</span><span id="trans-arrow" class="arrow">▶</span>
+    <div class="accordion-header">
+        <span>🚗 接送 Antar-Jemput</span>
     </div>
-    <div id="trans-body" class="accordion-content"><div id="transContent"></div></div>
+    <div class="accordion-content"><div id="transContent"></div></div>
 </div>
 
 <script>
@@ -117,18 +112,16 @@
         ]
     };
 
-    function toggleAccordion(id, arrowId) {
-        document.getElementById(id).classList.toggle('open');
-        document.getElementById(arrowId).classList.toggle('rotate');
-    }
-
     function init() {
         const dSel = document.getElementById('dateSelect');
         const uSel = document.getElementById('userSelect');
         const names = new Set();
         Object.keys(db).forEach(d => {
             const o = document.createElement('option'); o.value = d; o.textContent = d; dSel.appendChild(o);
-            db[d].forEach(i => names.add(i.n));
+            db[d].forEach(i => {
+                names.add(i.n); // 司機を追加
+                i.s.split(', ').forEach(p => { if(!p.includes('帝后') && !p.includes('天子閣')) names.add(p); }); // 乗客を追加
+            });
         });
         Array.from(names).sort().forEach(n => {
             const o = document.createElement('option'); o.value = n; o.textContent = n; uSel.appendChild(o);
@@ -139,22 +132,30 @@
     function render() {
         const date = document.getElementById('dateSelect').value;
         const user = document.getElementById('userSelect').value;
+        const container = document.getElementById('transContent');
         if (!db[date]) return;
         
         let html = '';
         db[date].forEach(item => {
-            const isMe = (user && item.n === user);
+            // 司機名または乗客リストに名前が含まれているかチェック
+            const isMe = (user && (item.n === user || item.s.includes(user)));
             const cardClass = isMe ? 'card is-me-card' : 'card';
-            const namePart = `<span class="${isMe ? 'name-highlight' : ''}">${item.n}</span>`;
+            
+            // 選択された名前を強調表示
+            let displayText = `🚗 <strong>${item.n}</strong>: ${item.s}`;
+            if (user && displayText.includes(user)) {
+                displayText = displayText.replace(new RegExp(user, 'g'), `<span class="name-highlight">${user}</span>`);
+            }
+            
             const mapUrl = item.s.indexOf("帝后") !== -1 ? URL_TEIO : URL_TENSI;
             
             html += `
                 <div class="${cardClass}">
-                    <div>🚗 ${namePart}: ${item.s}</div>
+                    <div>${displayText}</div>
                     <a href="${mapUrl}" class="hotel-link" target="_blank" rel="noopener noreferrer">MAP 📍</a>
                 </div>`;
         });
-        document.getElementById('transContent').innerHTML = html;
+        container.innerHTML = html;
     }
 
     init();
