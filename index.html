@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奉仕割当スケジュール</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        
+        .controls { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        select { padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 16px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+        th { background-color: #eee; }
+
+        /* セル背景色の定義 */
+        .driver { background-color: #ffff00; } /* 黄色 */
+        .walking { background-color: #f39c12; } /* オレンジ */
+        .pending { background-color: #2ecc71; } /* 黄緑 */
+        .special { background-color: #e8daef; } /* 薄紫 */
+        .no-lunch { color: #e74c3c; font-weight: bold; } /* 赤字 */
+
+        /* 自分の名前が選ばれた時のハイライト */
+        .highlight { background-color: #a569bd !important; color: white !important; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>国際大会 奉仕割当表</h2>
+
+    <div class="controls">
+        <label>日付選択:</label>
+        <select id="dateSelect" onchange="updateTable()">
+            <option value="6/30">6/30</option>
+            <option value="7/2">7/2</option>
+            <option value="7/6">7/6</option>
+        </select>
+
+        <label>自分の名前を選択:</label>
+        <select id="userSelect" onchange="updateTable()">
+            <option value="">-- 未選択 --</option>
+            <option value="Yunus">Yunus</option>
+            <option value="Eric">Eric</option>
+            <option value="Melody">Melody</option>
+            <option value="Nikai">Nikai</option>
+            <option value="Tommy">Tommy</option>
+            <option value="Ken">Ken</option>
+            <option value="Elli">Elli</option>
+            </select>
+    </div>
+
+    <div id="tableContainer">
+        </div>
+</div>
+
+<script>
+    const scheduleData = {
+        "6/30": [
+            { group: "A", items: [{pos: "帝后1", name: "Yunus", type: "driver"}, {pos: "帝后2", name: "SAITO CHIEMI"}, {pos: "Tina", name: "Sayo"}] },
+            { group: "B", items: [{pos: "帝后3", name: "Eric", type: "driver"}, {pos: "帝后4", name: "Dina"}, {pos: "Stephanie", name: "Linling"}] },
+            { group: "C", items: [{pos: "帝后5", name: "Melody", type: "driver"}, {pos: "帝后6", name: "Lilian"}] },
+            { group: "E", items: [{pos: "帝后9", name: "Daud", type: "special"}, {pos: "帝后10", name: "Lusi", type: "special"}, {pos: "Ken", name: "松宮（劉）麗娟", type: "no-lunch"}] },
+            { group: "G", items: [{pos: "天子閣1", name: "Nikai", type: "driver"}, {pos: "天子閣2", name: "Henokh"}, {pos: "天子閣3", name: "Joselin"}] }
+        ],
+        "7/2": [
+            { group: "A", items: [{pos: "帝后1", name: "Nikai", type: "driver"}, {pos: "帝后2", name: "Mei"}, {pos: "Vina", name: "Tina"}] },
+            { group: "B", items: [{pos: "帝后3", name: "Yusuf", type: "driver"}, {pos: "帝后4", name: "Joan"}, {pos: "", name: "黄詩吟", type: "pending"}] },
+            { group: "E", items: [{pos: "帝后9", name: "Melody", type: "walking"}, {pos: "帝后10", name: "張苧萱", type: "walking"}, {pos: "Henokh", name: "Joselin", type: "walking"}] },
+            { group: "G", items: [{pos: "帝后13", name: "Yunus", type: "driver"}, {pos: "帝后14", name: "Ken", type: "no-lunch-bg"}] }
+        ],
+        "7/6": [
+            { group: "A", items: [{pos: "帝后1", name: "Eric", type: "driver"}, {pos: "帝后2", name: "Dina"}] },
+            { group: "B", items: [{pos: "帝后3", name: "Nikai", type: "walking"}, {pos: "帝后4", name: "Ken", type: "walking"}, {pos: "Lilian", name: "Vina", type: "walking"}] },
+            { group: "D", items: [{pos: "天子閣3", name: "Yunus", type: "walking"}, {pos: "Elli", name: "Lina", type: "no-lunch"}] }
+        ]
+    };
+
+    function updateTable() {
+        const date = document.getElementById('dateSelect').value;
+        const currentUser = document.getElementById('userSelect').value;
+        const container = document.getElementById('tableContainer');
+        const data = scheduleData[date];
+
+        let html = `<h3>日付: ${date}</h3><table><tr><th>区分</th><th>役割/位置</th><th>氏名</th></tr>`;
+
+        data.forEach(section => {
+            section.items.forEach((item, index) => {
+                const isUser = (item.name.includes(currentUser) || item.pos.includes(currentUser)) && currentUser !== "";
+                const highlightClass = isUser ? 'highlight' : '';
+                const typeClass = item.type || '';
+                const noLunchClass = (item.type === 'no-lunch') ? 'no-lunch' : '';
+
+                html += `<tr class="${highlightClass}">`;
+                if (index === 0) {
+                    html += `<td rowspan="${section.items.length}">${section.group}</td>`;
+                }
+                html += `<td class="${typeClass}">${item.pos}</td>`;
+                html += `<td class="${typeClass} ${noLunchClass}">${item.name}</td>`;
+                html += `</tr>`;
+            });
+        });
+
+        html += `</table>`;
+        container.innerHTML = html;
+    }
+
+    // 初期表示
+    updateTable();
+</script>
+
+</body>
+</html>
