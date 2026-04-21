@@ -10,16 +10,16 @@
             --soft-green-bg: #e8f3ed;
             --soft-green-label: #5a7d6a;
             --soft-green-border: #c2d6cc;
-            --primary-purple: #a569bd;
-            --highlight-bg: #f3ebff;
             --trans-accent: #5d9cec;
             --duty-accent: #6ebf91;
+            --highlight-red: #d63031; /* 自分を選んだ時の赤 */
             --text-dark: #2d3436;
             --text-light: #636e72;
         }
 
         body { font-family: 'Lexend', 'Noto Sans TC', sans-serif; background-color: #fcfdfc; margin: 0; padding: 0; color: var(--text-dark); }
         
+        /* フィルターバー */
         .sticky-header { 
             position: sticky; top: 0; background: var(--soft-green-bg); z-index: 100; 
             padding: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-bottom: 1px solid var(--soft-green-border);
@@ -28,12 +28,12 @@
         .input-box label { font-size: 10px; font-weight: bold; color: var(--soft-green-label); margin-bottom: 4px; display: block; }
         select { padding: 10px; border-radius: 10px; border: 1px solid var(--soft-green-border); font-size: 14px; background: #ffffff; width: 100%; font-weight: 600; outline: none; }
 
+        /* アコーディオン */
         .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white; border: 1px solid #eee; }
         .accordion-header { padding: 15px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
         .header-trans { background: var(--trans-accent); }
         .header-duty { background: var(--duty-accent); }
         
-        /* デフォルトは閉じる */
         .accordion-content { display: none; padding: 5px; background: #fdfdfd; }
         .accordion-content.open { display: block; }
 
@@ -42,29 +42,22 @@
 
         .group-title { font-size: 11px; font-weight: bold; color: var(--duty-accent); margin: 15px 10px 5px; border-bottom: 1px solid #f0f0f0; }
 
-        /* 枠線1.5px */
-        .card { 
-            background: white; border-radius: 10px; margin: 8px; padding: 12px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04); position: relative;
-        }
+        /* カードと枠線（1.5px） */
+        .card { background: white; border-radius: 10px; margin: 8px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
         .sec-trans .card { border: 1.5px solid #d9e6f7; border-left: 6px solid var(--trans-accent); }
         .sec-duty .card { border: 1.5px solid #e1f2e9; border-left: 6px solid var(--duty-accent); display: flex; justify-content: space-between; align-items: center; }
 
-        /* 紫色ハイライト */
-        .card.is-me { 
-            background: var(--highlight-bg); 
-            border: 1.5px solid var(--primary-purple) !important; 
-            border-left: 6px solid var(--primary-purple) !important; 
-            transform: scale(1.01); z-index: 10; 
-        }
-        .is-me .person-name, .is-me .driver-main { color: var(--primary-purple); font-weight: 800; }
+        /* ★ 名前が一致した時の赤字・太字設定 ★ */
+        .is-highlight { color: var(--highlight-red) !important; font-weight: 800 !important; }
 
         .driver-main { font-size: 15px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
-        .passenger-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; border-top: 1px solid #f8f8f8; }
+        .passenger-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-top: 1px solid #f8f8f8; }
         .slot-mini { font-size: 9px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: bold; min-width: 42px; text-align: center; color: var(--text-light); }
-        .passenger-name { font-size: 14px; }
+        .passenger-name { font-size: 14px; color: var(--text-dark); }
+        
         .slot-tag { font-size: 9px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-bottom: 3px; display: inline-block; color: var(--text-light); }
-        .person-name { font-size: 15px; font-weight: 500; }
+        .person-name { font-size: 15px; font-weight: 500; color: var(--text-dark); }
+        
         .badge { font-size: 9px; padding: 3px 10px; border-radius: 15px; font-weight: bold; color: white; }
         .bg-sopir { background: #f1c40f; color: #000; }
         .bg-walking { background: #e67e22; }
@@ -94,16 +87,28 @@
 </div>
 
 <script>
-    // データをここに入力
+    // データを最新に保ってください
     const db = {
-        "4/20": { drivers: [], delegates: [] }, // 過ぎた日の例
-        "4/22": { // 明日の例
-            drivers: [{drv: "Yunus", slots: ["帝后1", "帝后2"]}],
-            delegates: [{g:"Grup A", slot:"帝后1", name:"Yunus", role:"Sopir"}]
+        "4/22": {
+            drivers: [
+                {drv: "Yunus", slots: ["帝后1", "帝后2"]},
+                {drv: "Erik", slots: ["帝后3", "帝后4"]},
+                {drv: "Melody", slots: ["帝后5", "帝后6"]},
+                {drv: "Jammy", slots: ["帝后7", "帝后8"]},
+                {drv: "Tommy", slots: ["帝后11", "帝后12"]},
+                {drv: "Nikai", slots: ["天子閣1", "天子閣2", "天子閣3"]}
+            ],
+            delegates: [
+                {g:"Grup A", slot:"帝后1", name:"Yunus", role:"Sopir"},
+                {g:"Grup A", slot:"帝后2", name:"SAITO CHIEMI", role:"Lokal"},
+                {g:"Grup B", slot:"帝后3", name:"Erik", role:"Sopir"},
+                {g:"Grup B", slot:"帝后4", name:"Dina", role:"Lokal"},
+                {g:"Grup C", slot:"天子閣1", name:"Nikai", role:"Sopir"}
+            ]
         },
         "6/30": {
-            drivers: [{drv: "Erik", slots: ["帝后3"]}],
-            delegates: [{g:"Grup B", slot:"帝后3", name:"Erik", role:"Sopir"}]
+            drivers: [{drv: "Yunus", slots: ["帝后1"]}],
+            delegates: [{g:"Grup A", slot:"帝后1", name:"Yunus", role:"Sopir"}]
         }
     };
 
@@ -121,25 +126,19 @@
         today.setHours(0,0,0,0);
 
         const allNames = new Set();
-        
-        // 日付のフィルタリング
         Object.keys(db).sort().forEach(dateStr => {
             const [m, d] = dateStr.split('/');
             const targetDate = new Date(today.getFullYear(), m - 1, d);
 
             if (targetDate >= today) {
                 const opt = document.createElement('option');
-                opt.value = dateStr;
-                opt.textContent = dateStr;
+                opt.value = dateStr; opt.textContent = dateStr;
                 dateSel.appendChild(opt);
-
-                // 有効な日付のデータから名前を抽出
                 db[dateStr].drivers.forEach(dr => allNames.add(dr.drv));
                 db[dateStr].delegates.forEach(dl => allNames.add(dl.name));
             }
         });
 
-        // 名前リストの更新
         Array.from(allNames).sort().forEach(n => {
             const opt = document.createElement('option');
             opt.value = n; opt.textContent = n;
@@ -149,35 +148,50 @@
 
     function render() {
         const date = document.getElementById('dateSelect').value;
-        if (!date) {
-            document.getElementById('transContent').innerHTML = "No upcoming schedule.";
-            return;
-        }
+        if (!date) return;
         const user = document.getElementById('userSelect').value;
         const data = db[date];
 
-        // 送迎表示
+        // 🚗 送迎の表示
         let transH = '';
         data.drivers.forEach(d => {
-            const passengers = d.slots.map(s => data.delegates.find(p => p.slot === s));
-            const isMe = user && (d.drv === user || passengers.some(p => p && p.name === user));
             let rows = '';
+            const isDriverMe = (user && d.drv === user);
+            
             d.slots.forEach(s => {
                 const p = data.delegates.find(del => del.slot === s);
-                rows += `<div class="passenger-row"><div class="slot-mini">${s}</div><div class="passenger-name">${p ? p.name : '(Kosong)'}</div></div>`;
+                const isPassMe = (user && p && p.name === user);
+                rows += `
+                    <div class="passenger-row">
+                        <div class="slot-mini">${s}</div>
+                        <div class="passenger-name ${isPassMe ? 'is-highlight' : ''}">${p ? p.name : '(Kosong)'}</div>
+                    </div>`;
             });
-            transH += `<div class="card ${isMe?'is-me':''}"><div class="driver-main">🚗 Supir: ${d.drv}</div>${rows}</div>`;
+            transH += `
+                <div class="card">
+                    <div class="driver-main ${isDriverMe ? 'is-highlight' : ''}">🚗 Supir: ${d.drv}</div>
+                    ${rows}
+                </div>`;
         });
-        document.getElementById('transContent').innerHTML = transH || 'No Data';
+        document.getElementById('transContent').innerHTML = transH;
 
-        // 伝道表示
+        // 📋 伝道の表示
         let dutyH = ''; let curG = '';
         data.delegates.forEach(p => {
             if (p.g !== curG) { dutyH += `<div class="group-title">${p.g}</div>`; curG = p.g; }
-            const isMe = user && p.name === user;
-            dutyH += `<div class="card ${isMe?'is-me':''}"><div><div class="slot-tag">${p.slot || 'Lokal'}</div><div class="person-name">${p.name}</div></div><div style="text-align:right"><span class="badge ${p.role==='Sopir'?'bg-sopir':'bg-walking'}">${p.role}</span></div></div>`;
+            const isNameMe = (user && p.name === user);
+            dutyH += `
+                <div class="card">
+                    <div>
+                        <div class="slot-tag">${p.slot || 'Lokal'}</div>
+                        <div class="person-name ${isNameMe ? 'is-highlight' : ''}">${p.name}</div>
+                    </div>
+                    <div style="text-align:right">
+                        <span class="badge ${p.role==='Sopir'?'bg-sopir':'bg-walking'}">${p.role}</span>
+                    </div>
+                </div>`;
         });
-        document.getElementById('dutyContent').innerHTML = dutyH || 'No Data';
+        document.getElementById('dutyContent').innerHTML = dutyH;
     }
 
     initFilters();
