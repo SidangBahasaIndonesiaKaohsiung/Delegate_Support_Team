@@ -13,7 +13,7 @@
             --trans-accent: #5d9cec;
             --highlight-red: #d63031; 
             --highlight-purple: #a569bd;
-            --highlight-bg: #f3ebff; /* 選んだ時の島の背景色 */
+            --highlight-bg: #f3ebff;
             --text-dark: #2d3436;
         }
 
@@ -30,14 +30,12 @@
         .accordion-item { margin: 10px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: white; border: 1px solid #eee; }
         .accordion-header { padding: 15px; color: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; background: var(--trans-accent); }
         
-        /* デフォルトは閉じる */
         .accordion-content { display: none; padding: 10px; background: #fdfdfd; }
         .accordion-content.open { display: block; }
 
         .arrow { font-size: 10px; transition: transform 0.3s; }
         .rotate { transform: rotate(90deg); }
 
-        /* --- 通常の島 --- */
         .card { 
             background: white; border-radius: 10px; margin-bottom: 12px; padding: 14px; 
             border: 1.5px solid #d9e6f7; border-left: 6px solid var(--trans-accent);
@@ -45,12 +43,11 @@
             transition: all 0.2s ease-in-out;
         }
 
-        /* --- ★重要：名前を選んだ時の島全体の変化 --- */
+        /* --- 名前を選んだ時の島全体の強調効果 --- */
         .is-me-card {
-            background-color: var(--highlight-bg) !important; /* 島の色を薄紫に */
-            border: 3px solid var(--highlight-purple) !important; /* 枠線を太く */
+            background-color: var(--highlight-bg) !important;
+            border: 3px solid var(--highlight-purple) !important;
             border-left: 10px solid var(--highlight-purple) !important;
-            transform: scale(1.02); /* 少し大きく */
             box-shadow: 0 4px 15px rgba(165, 105, 189, 0.3);
         }
 
@@ -62,6 +59,7 @@
             text-decoration: none; font-weight: 700; border: 1.5px solid var(--trans-accent);
             white-space: nowrap;
         }
+        .hotel-link:active { background: var(--trans-accent); color: white; }
     </style>
 </head>
 <body>
@@ -81,9 +79,10 @@
 </div>
 
 <script>
+    // Google Maps検索用URL（エンコード済み）
     const hotelUrls = {
-        "帝后": "https://maps.app.goo.gl/hotel0",
-        "天子閣": "https://maps.app.goo.gl/hotel1"
+        "帝后": "https://www.google.com/maps/search/?api=1&query=Empress+Hotel+Kaohsiung",
+        "天子閣": "https://www.google.com/maps/search/?api=1&query=Ten-Face+Hotel+Kaohsiung"
     };
 
     const db = {
@@ -105,10 +104,8 @@
     };
 
     function toggleAccordion(id, arrowId) {
-        const content = document.getElementById(id);
-        const arrow = document.getElementById(arrowId);
-        content.classList.toggle('open');
-        arrow.classList.toggle('rotate');
+        document.getElementById(id).classList.toggle('open');
+        document.getElementById(arrowId).classList.toggle('rotate');
     }
 
     function init() {
@@ -128,19 +125,22 @@
     function render() {
         const date = document.getElementById('dateSelect').value;
         const user = document.getElementById('userSelect').value;
-        const data = db[date];
+        if (!db[date]) return;
+        
         let html = '';
-
-        data.forEach(item => {
+        db[date].forEach(item => {
             const isMe = (user && item.n === user);
             const cardClass = isMe ? 'card is-me-card' : 'card';
             const namePart = `<span class="${isMe ? 'name-highlight' : ''}">${item.n}</span>`;
+            
+            // スロット名からホテルキー（帝后 or 天子閣）を判定
             const hotelKey = item.s.includes("帝后") ? "帝后" : "天子閣";
+            const mapUrl = hotelUrls[hotelKey];
             
             html += `
                 <div class="${cardClass}">
                     <div>🚗 ${namePart}: ${item.s}</div>
-                    <a href="${hotelUrls[hotelKey]}" class="hotel-link" target="_blank">MAP 📍</a>
+                    <a href="${mapUrl}" class="hotel-link" target="_blank">MAP 📍</a>
                 </div>`;
         });
         document.getElementById('transContent').innerHTML = html;
