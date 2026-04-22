@@ -43,13 +43,20 @@
 
         .app-footer { position: fixed; bottom: 40px; left: 25px; right: 25px; z-index: 1000; }
         .app-button { 
-            display: flex; align-items: center; justify-content: center; 
-            background: var(--main-color); color: white; text-decoration: none; 
-            padding: 15px; border-radius: 50px; font-weight: bold; font-size: 1.1rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: 0.3s;
-        }
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: var(--main-color); 
+    color: white; 
+    text-decoration: none; 
+    padding: 10px;        /* ← 15pxから「10px」に変更（これで薄くなります） */
+    border-radius: 50px; 
+    font-weight: bold; 
+    font-size: 1rem;      /* 文字サイズも少し下げるとバランスが良いです */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+    border: 2px solid rgba(255,255,255,0.3);
+    transition: 0.3s;
+}
     </style>
 </head>
 <body class="theme-day1">
