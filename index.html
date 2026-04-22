@@ -12,7 +12,6 @@
         .theme-day3 { --main-color: #27ae60; --bg-color: #f1f9f5; --link-color: #27ae60; } 
 
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); margin: 0; padding-bottom: 140px; color: #333; transition: 0.4s; }
-        
         header { background: var(--main-color); color: white; padding: 20px 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.4s; }
         .main-title { display: block; font-size: 1.5rem; font-weight: 700; line-height: 1.2; }
         .sub-title { display: block; font-size: 0.85rem; font-weight: 400; margin-top: 6px; opacity: 0.9; }
@@ -31,7 +30,8 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); border: 2px solid var(--main-color); }
-        .card h2 { margin: 0 0 15px; font-size: 1.1rem; color: var(--main-color); text-align: center; border-bottom: 2px dashed var(--main-color); padding-bottom: 10px; }
+        .card h2 { margin: 0 0 5px; font-size: 1.1rem; color: var(--main-color); text-align: center; }
+        .card .ind-sub { text-align:center; font-size:0.8rem; color:#666; margin-bottom:10px; border-bottom: 2px dashed var(--main-color); padding-bottom: 10px; }
         
         table { width: 100%; border-collapse: collapse; }
         td { padding: 12px 8px; border-bottom: 1px solid #f0f0f0; font-size: 1rem; vertical-align: middle; }
@@ -40,9 +40,7 @@
         .highlight { background-color: var(--highlight) !important; font-weight: bold; color: black; box-shadow: inset 0 0 0 2px var(--main-color); border-radius: 8px; }
         .hotel-link { display: inline-block; margin-top: 4px; font-size: 0.85rem; color: var(--link-color); text-decoration: underline; font-weight: bold; }
         .room-no { font-weight: bold; color: #333; display: block; }
-        .lunch { color: #d32f2f; font-weight: bold; font-size: 0.85rem; }
 
-        /* アプリリンクボタン (浮かせる) */
         .app-footer { position: fixed; bottom: 40px; left: 25px; right: 25px; z-index: 1000; }
         .app-button { 
             display: flex; align-items: center; justify-content: center; 
@@ -52,8 +50,6 @@
             border: 2px solid rgba(255,255,255,0.3);
             transition: 0.3s;
         }
-        .app-button:active { transform: scale(0.95); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .lang-sub { display: block; font-size: 0.75rem; font-weight: normal; margin-top: 2px; }
     </style>
 </head>
 <body class="theme-day1">
@@ -67,7 +63,7 @@
     <div class="user-selector">
         <select id="nameSelect" onchange="highlightUser()">
             <option value="">-- 選擇名字 / Pilih Nama --</option>
-            <option value="Daud">Daud</option><option value="Dina">Dina</option><option value="Elli">Elli</option><option value="Eric">Eric</option><option value="Erik">Erik</option><option value="Jamie">Jamie</option><option value="Jammy">Jammy</option><option value="Joan">Joan</option><option value="Ken">Ken</option><option value="Lilian">Lilian</option><option value="Linda">Linda</option><option value="Linling">Linling</option><option value="Lusi">Lusi</option><option value="Mei">Mei</option><option value="Melody">Melody</option><option value="Nikai">Nikai</option><option value="Rut">Rut</option><option value="SAITO CHIEMI">SAITO CHIEMI</option><option value="Sayo">Sayo</option><option value="Selia">Selia</option><option value="Stephanie">Stephanie</option><option value="Tina">Tina</option><option value="Tommy">Tommy</option><option value="Vina">Vina</option><option value="Yoshiya">Yoshiya</option><option value="Yunus">Yunus</option><option value="Yusuf">Yusuf</option><option value="周宛錚">周宛錚</option><option value="松宮">松宮（劉）麗娟</option><option value="陳皇傑">陳皇傑</option><option value="張苧萱">張苧萱</option><option value="王雅貞">王雅貞</option><option value="黃詩吟">黃詩吟</option>
+            <option value="Daud">Daud</option><option value="Dina">Dina</option><option value="Elli">Elli</option><option value="Eric">Eric</option><option value="Erik">Erik</option><option value="Jamie">Jamie</option><option value="Jammy">Jammy</option><option value="Joan">Joan</option><option value="Ken">Ken</option><option value="Lilian">Lilian</option><option value="Linda">Linda</option><option value="Linling">Linling</option><option value="Lusi">Lusi</option><option value="Mei">Mei</option><option value="Melody">Melody</option><option value="Nikai">Nikai</option><option value="Rut">Rut</option><option value="SAITO">SAITO CHIEMI</option><option value="Sayo">Sayo</option><option value="Selia">Selia</option><option value="Stephanie">Stephanie</option><option value="Tina">Tina</option><option value="Tommy">Tommy</option><option value="Vina">Vina</option><option value="Yoshiya">Yoshiya</option><option value="Yunus">Yunus</option><option value="Yusuf">Yusuf</option><option value="周宛錚">周宛錚</option><option value="松宮">松宮麗娟</option><option value="陳皇傑">陳皇傑</option><option value="張苧萱">張苧萱</option><option value="王雅貞">王雅貞</option><option value="黃詩吟">黃詩吟</option>
         </select>
     </div>
     <div class="tabs">
@@ -80,16 +76,17 @@
 <div class="container">
     <!-- 6/30 -->
     <div id="day1" class="schedule-section active">
-        <h2>飯店接待安排 (6/30)</h2>
-    <div style="text-align:center; font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:10px;">Pendampingan di Hotel (Escort)</div>
-    <table>
+        <div class="card">
+            <h2>飯店接待安排 (6/30)</h2>
+            <div class="ind-sub">Pendampingan di Hotel (Escort)</div>
+            <table>
                 <tr data-name="Daud, Lusi"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Daud, Lusi</td></tr>
                 <tr data-name="Sayo"><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Sayo</td></tr>
             </table>
         </div>
         <div class="card">
             <h2>接送代表的安排 (6/30)</h2>
-            <div style="text-align:center; font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:10px;">Pengaturan Penjemputan Delegasi</div>
+            <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
             <table>
                 <tr data-name="Yunus"><td>帝后 1, 2</td><td>Yunus</td></tr>
                 <tr data-name="Erik"><td>帝后 3, 4</td><td>Erik</td></tr>
@@ -102,78 +99,77 @@
         </div>
         <div class="card">
             <h2>傳道小組安排 (6/30)</h2>
-            <h2>傳道小組安排 (6/30)</h2>
-    <div style="text-align:center; font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:10px;">Pengaturan Kelompok Pengabaran</div>
+            <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
             <table>
-                <tr data-name="Yunus, SAITO, Sayo, Tina"><td class="group-head">A</td><td>Yunus, Chiemi Saito, Sayo, Tina, 帝后1, 帝后2</td></tr>
-                <tr data-name="Eric, Dina, Linling, Stephanie"><td class="group-head">B</td><td>Eric, Dina, Linling, Stephanie, 帝后3, 帝后4</td></tr>
-                <tr data-name="Melody, Lilian"><td class="group-head">C</td><td>Melody, Lilian, 帝后5, 帝后6</td></tr>
-                <tr data-name="Jammy, 張苧萱"><td class="group-head">D</td><td>Jammy, 張苧萱, 帝后7, 帝后8</td></tr>
-                <tr data-name="Daud, Lusi, 松宮, Ken"><td class="group-head">E</td><td>Daud, Lusi, Ken (x Lunch), 松宮麗娟, 帝后9, 帝后10</td></tr>
-                <tr data-name="Tommy, Linda, 王雅貞"><td class="group-head">F</td><td>Tommy, Linda, 王雅貞, 帝后11, 帝后12 (Jack)</td></tr>
-                <tr data-name="Nikai, Henokh, Joselin"><td class="group-head">G</td><td>Nikai, Henokh, Joselin, 天子閣1, 天子閣2, 天子閣3</td></tr>
+                <tr data-name="Yunus, SAITO, Sayo, Tina"><td class="group-head">A</td><td>Yunus, Chiemi Saito, Sayo, Tina (帝后1, 2)</td></tr>
+                <tr data-name="Eric, Dina, Linling, Stephanie"><td class="group-head">B</td><td>Eric, Dina, Linling, Stephanie (帝后3, 4)</td></tr>
+                <tr data-name="Melody, Lilian"><td class="group-head">C</td><td>Melody, Lilian (帝后5, 6)</td></tr>
+                <tr data-name="Jammy, 張苧萱"><td class="group-head">D</td><td>Jammy, 張苧萱 (帝后7, 8)</td></tr>
+                <tr data-name="Daud, Lusi, 松宮, Ken"><td class="group-head">E</td><td>Daud, Lusi, Ken (x Lunch), 松宮麗娟 (帝后9, 10)</td></tr>
+                <tr data-name="Tommy, Linda, 王雅貞"><td class="group-head">F</td><td>Tommy, Linda, 王雅貞 (帝后11, 12, Jack)</td></tr>
+                <tr data-name="Nikai, Henokh, Joselin"><td class="group-head">G</td><td>Nikai, Henokh, Joselin (天子閣1, 2, 3)</td></tr>
             </table>
         </div>
     </div>
 
     <!-- 7/2 -->
     <div id="day2" class="schedule-section">
-        <h2>飯店接待安排 (7/2)</h2>
-    <div style="text-align:center; font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:10px;">Pendampingan di Hotel (Escort)</div>
-    <table><tr data-name="Yusuf, Joan"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yusuf, Joan</td></tr></table>
+        <div class="card">
+            <h2>飯店接待安排 (7/2)</h2>
+            <div class="ind-sub">Pendampingan di Hotel (Escort)</div>
+            <table><tr data-name="Yusuf, Joan"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yusuf, Joan</td></tr></table>
         </div>
         <div class="card">
             <h2>接送代表的安排 (7/2)</h2>
-            <div style="text-align:center; font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:10px;">Pengaturan Penjemputan Delegasi</div>
+            <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
             <table>
                 <tr data-name="Nikai"><td>帝后1, 2</td><td>Nikai</td></tr><tr data-name="Yusuf"><td>帝后3, 4</td><td>Yusuf</td></tr><tr data-name="Erik"><td>帝后5, 6</td><td>Erik</td></tr><tr data-name="周宛錚"><td>帝后7, 8</td><td>周宛錚</td></tr><tr data-name="Melody"><td>帝后9, 10</td><td>Melody</td></tr><tr data-name="Selia"><td>帝后11, 12</td><td>Selia</td></tr><tr data-name="陳皇傑"><td>帝后13, 14</td><td>陳皇傑</td></tr><tr data-name="Tommy"><td>帝后15, 16</td><td>Tommy</td></tr>
             </table>
         </div>
         <div class="card">
             <h2>傳道小組安排 (7/2)</h2>
-            <h2>傳道小組安排 (6/30)</h2>
-    <div style="text-align:center; font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:10px;">Pengaturan Kelompok Pengabaran</div>
+            <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
             <table>
-                <tr data-name="Nikai, Mei, Tina, Vina"><td class="group-head">A</td><td>Nikai, Mei, Tina, Vina, 帝后1, 帝后2</td></tr>
-                <tr data-name="Yusuf, Joan, 黃詩吟"><td class="group-head">B</td><td>Yusuf, Joan, 黃詩吟, 帝后3, 帝后4</td></tr>
-                <tr data-name="Eric, Dina"><td class="group-head">C</td><td>Eric, Dina, 帝后5, 帝后6</td></tr>
-                <tr data-name="周宛錚, 王雅貞, Linling, Sayo"><td class="group-head">D</td><td>周宛錚, 王雅貞, Linling, Sayo, 帝后7, 帝后8</td></tr>
-                <tr data-name="Melody, 張苧萱, Joselin, Henokh"><td class="group-head">E</td><td>Melody, 張苧萱, Joselin, Henokh, 帝后9, 帝后10</td></tr>
-                <tr data-name="Selia, SAITO, Lusi, Daud"><td class="group-head">F</td><td>Daud, Lusi, Selia, Chiemi Saito, 帝后11, 帝后12</td></tr>
-                <tr data-name="Yunus, Ken"><td class="group-head">G</td><td>Yunus, Ken (x Lunch), 帝后13, 帝后14</span></td></tr>
-                <tr data-name="Tommy, Linda, Elli"><td class="group-head">H</td><td>Tommy, Linda, Stephanie, Elli (x Lunch), 帝后15, 帝后16</span></td></tr>
+                <tr data-name="Nikai, Mei, Tina, Vina"><td class="group-head">A</td><td>Nikai, Mei, Tina, Vina (帝后1, 2)</td></tr>
+                <tr data-name="Yusuf, Joan, 黃詩吟"><td class="group-head">B</td><td>Yusuf, Joan, 黃詩吟 (帝后3, 4)</td></tr>
+                <tr data-name="Eric, Dina"><td class="group-head">C</td><td>Eric, Dina (帝后5, 6)</td></tr>
+                <tr data-name="周宛錚, 王雅貞, Linling, Sayo"><td class="group-head">D</td><td>周宛錚, 王雅貞, Linling, Sayo (帝后7, 8)</td></tr>
+                <tr data-name="Melody, 張苧萱, Joselin, Henokh"><td class="group-head">E</td><td>Melody, 張苧萱, Joselin, Henokh (帝后9, 10)</td></tr>
+                <tr data-name="Selia, SAITO, Lusi, Daud"><td class="group-head">F</td><td>Daud, Lusi, Selia, Chiemi Saito (帝后11, 12)</td></tr>
+                <tr data-name="Yunus, Ken"><td class="group-head">G</td><td>Yunus, Ken (x Lunch) (帝后13, 14)</td></tr>
+                <tr data-name="Tommy, Linda, Elli"><td class="group-head">H</td><td>Tommy, Linda, Stephanie, Elli (x Lunch) (帝后15, 16)</td></tr>
             </table>
         </div>
     </div>
 
     <!-- 7/6 -->
     <div id="day3" class="schedule-section">
-        <h2>飯店接待安排 (7/6)</h2>
-    <div style="text-align:center; font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:10px;">Pendampingan di Hotel (Escort)</div>
-    <table>
+        <div class="card">
+            <h2>飯店接待安排 (7/6)</h2>
+            <div class="ind-sub">Pendampingan di Hotel (Escort)</div>
+            <table>
                 <tr data-name="Yoshiya, Linling"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yoshiya, Linling</td></tr>
                 <tr data-name="Rut"><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Rut</td></tr>
             </table>
         </div>
         <div class="card">
             <h2>接送代表的安排 (7/6)</h2>
-            <div style="text-align:center; font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:10px;">Pengaturan Penjemputan Delegasi</div>
+            <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
             <table>
                 <tr data-name="Erik"><td>帝后1, 2</td><td>Erik</td></tr><tr data-name="Nikai"><td>帝后3, 4, 5</td><td>Nikai</td></tr><tr data-name="Melody"><td>天子閣1, 2</td><td>Melody</td></tr><tr data-name="Yunus"><td>天子閣3, 4, 5</td><td>Yunus</td></tr><tr data-name="周宛錚"><td>天子閣6, 7</td><td>周宛錚</td></tr><tr data-name="Jammy"><td>天子閣8, 9, 10</td><td>Jammy</td></tr><tr data-name="Selia"><td>天子閣11, 12, 13</td><td>Selia</td></tr>
             </table>
         </div>
         <div class="card">
             <h2>傳道小組安排 (7/6)</h2>
-            <h2>傳道小組安排 (6/30)</h2>
-    <div style="text-align:center; font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:10px;">Pengaturan Kelompok Pengabaran</div>
+            <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
             <table>
-                <tr data-name="Eric, Dina"><td class="group-head">A</td><td>Eric, Dina, 帝后1, 帝后2</td></tr>
-                <tr data-name="Nikai, Ken, 松宮, Vina, Lilian"><td class="group-head">B</td><td>Nikai, Ken, 松宮麗娟, Vina, Lilian, 帝后3, 帝后4, 帝后5</td></tr>
-                <tr data-name="Melody, 黃詩吟"><td class="group-head">C</td><td>Melody, 黃詩吟, 天子閣1, 天子閣2</td></tr>
-                <tr data-name="Yunus, Yoshiya, 王雅貞, Lina, Elli"><td class="group-head">D</td><td>Yunus, Yoshiya, 王雅貞, Lina, Elli (x Lunch), 天子閣3, 天子閣4, 天子閣5</span></td></tr>
-                <tr data-name="周宛錚, Jamie, Henokh"><td class="group-head">E</td><td>周宛錚, Jamie, 天子閣6, 天子閣7</td></tr>
-                <tr data-name="Jammy, Stephanie, Rut, Daud"><td class="group-head">F</td><td>Jammy, Stephanie, Rut (x Lunch), 天子閣8, 天子閣9, 天子閣10</span></td></tr>
-                <tr data-name="Selia, Linling, Sayo"><td class="group-head">G</td><td>Selia, Linling, Sayo, 天子閣11, 天子閣12, 天子閣13</td></tr>
+                <tr data-name="Eric, Dina"><td class="group-head">A</td><td>Eric, Dina (帝后1, 2)</td></tr>
+                <tr data-name="Nikai, Ken, 松宮, Vina, Lilian"><td class="group-head">B</td><td>Nikai, Ken, 松宮麗娟 (帝后3, 4, 5), Vina, Lilian</td></tr>
+                <tr data-name="Melody, 黃詩吟"><td class="group-head">C</td><td>Melody, 黃詩吟 (天子閣1, 2)</td></tr>
+                <tr data-name="Yunus, Yoshiya, 王雅貞, Lina, Elli"><td class="group-head">D</td><td>Yunus, Yoshiya, 王雅貞, Lina, Elli (x Lunch) (天子閣3, 4, 5)</td></tr>
+                <tr data-name="周宛錚, Jamie, Henokh"><td class="group-head">E</td><td>周宛錚, Jamie, Henokh (天子閣6, 7)</td></tr>
+                <tr data-name="Jammy, Stephanie, Rut, Daud"><td class="group-head">F</td><td>Jammy, Stephanie, Rut (x Lunch), Daud (天子閣8, 9, 10)</td></tr>
+                <tr data-name="Selia, Linling, Sayo"><td class="group-head">G</td><td>Selia, Linling, Sayo (天子閣11, 12, 13)</td></tr>
             </table>
         </div>
     </div>
@@ -181,7 +177,7 @@
 
 <div class="app-footer">
     <a href="https://script.google.com/macros/s/AKfycbxq0DzLQ_qR1An5Yienf6073Y5xcb_8fhao1zPMWaW3dzCYuiA9a5tuhz33Za5SLcCKGA/exec" target="_blank" class="app-button">
-        Buka App Dinas (DEMO)
+        Buka App Dinas (Pelayanan)
     </a>
 </div>
 
