@@ -3,44 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kaohsiung Delegate Support - OFFICIAL</title>
+    <title>高雄大會行程查詢 - Kaohsiung Delegate Support</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #003366; --accent: #FFD700; --bg: #F0F2F5; --card: #FFFFFF; }
-        body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg); margin: 0; padding-bottom: 50px; color: #333; }
-        header { background: var(--primary); color: white; padding: 20px 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
-        .sticky-tools { position: sticky; top: 75px; background: var(--bg); z-index: 90; padding-bottom: 5px; }
+        :root { --primary: #003366; --accent: #FFD700; --bg: #F4F7F6; --card: #FFFFFF; --driver: #FFF176; --walk: #FFB74D; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg); margin: 0; padding-bottom: 50px; color: #333; line-height: 1.4; }
+        header { background: var(--primary); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .sticky-tools { position: sticky; top: 55px; background: var(--bg); z-index: 90; padding-bottom: 5px; }
         .user-selector { padding: 15px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        select { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--primary); font-size: 16px; font-weight: bold; }
+        select { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--primary); font-size: 16px; font-weight: bold; background: white; }
         .tabs { display: flex; background: #fff; border-bottom: 1px solid #ddd; }
-        .tab-btn { flex: 1; padding: 15px; border: none; background: none; font-weight: bold; color: #666; border-bottom: 4px solid transparent; }
-        .tab-btn.active { color: var(--primary); border-bottom: 4px solid var(--primary); background: #f8f9fa; }
-        .container { padding: 15px; }
+        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: none; font-size: 0.9rem; font-weight: bold; color: #666; border-bottom: 4px solid transparent; transition: 0.3s; }
+        .tab-btn.active { color: var(--primary); border-bottom: 4px solid var(--primary); background: #f0f4f8; }
+        .container { padding: 10px; }
         .schedule-section { display: none; }
         .schedule-section.active { display: block; }
-        .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border-left: 5px solid var(--primary); }
-        .card h2 { margin: 0 0 10px; font-size: 1.1rem; color: var(--primary); }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.95rem; }
-        th { background: #f8f9fa; text-align: left; padding: 10px; border-bottom: 2px solid #eee; width: 45%; }
-        td { padding: 12px 10px; border-bottom: 1px solid #eee; }
-        .highlight { background-color: var(--accent) !important; color: #000; font-weight: bold; }
-        .loc-info { font-size: 0.85rem; background: #fff9c4; padding: 10px; border-radius: 8px; margin-bottom: 10px; border: 1px dashed #fbc02d; }
+        .card { background: var(--card); border-radius: 10px; padding: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .card h2 { margin: 0 0 10px; font-size: 1rem; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 10px; }
+        .legend { display: flex; gap: 10px; margin-bottom: 10px; font-size: 0.75rem; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 4px; }
+        .dot { width: 12px; height: 12px; border-radius: 2px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { background: #f8f9fa; text-align: left; padding: 8px; border-bottom: 2px solid #eee; }
+        td { padding: 8px; border-bottom: 1px solid #eee; }
+        .highlight { background-color: #ffeb3b !important; outline: 2px solid #fbc02d; font-weight: bold; }
+        .type-driver { background-color: var(--driver); }
+        .type-walk { background-color: var(--walk); }
+        .group-header { background: #eee; font-weight: bold; font-size: 0.8rem; padding: 4px 8px; }
+        .loc-tag { font-size: 0.7rem; color: #666; margin-top: 2px; }
     </style>
 </head>
 <body>
 
-<header><strong>國際大會代表接待 / Pengurusan Delegasi</strong></header>
+<header><strong>國際大會代表安排查詢</strong></header>
 
 <div class="sticky-tools">
     <div class="user-selector">
         <select id="nameSelect" onchange="highlightUser()">
-            <option value="">-- 請選擇名字 / Pilih Nama --</option>
-            <option value="Nikai">Nikai (仁階)</option>
+            <option value="">-- 請選擇您的名字 / Pilih Nama --</option>
             <option value="Yunus">Yunus</option>
+            <option value="Nikai">Nikai (仁階)</option>
             <option value="Erik">Erik</option>
             <option value="Melody">Melody</option>
             <option value="Jammy">Jammy</option>
-            <option value="Jack">Jack</option>
             <option value="Tommy">Tommy</option>
             <option value="Selia">Selia</option>
             <option value="周宛錚">周宛錚</option>
@@ -49,95 +54,152 @@
             <option value="Lusi">Lusi</option>
             <option value="Yusuf">Yusuf</option>
             <option value="Joan">Joan</option>
-            <option value="Mei">Mei</option>
-            <option value="Dina">Dina</option>
-            <option value="Sayo">Sayo</option>
-            <option value="Rut">Rut</option>
-            <option value="Yoshiya">Yoshiya</option>
-            <option value="Linling">Linling</option>
             <option value="SAITO">SAITO CHIEMI</option>
+            <option value="Sayo">Sayo</option>
+            <option value="Dina">Dina</option>
+            <option value="Linling">Linling</option>
+            <option value="Stephanie">Stephanie</option>
+            <option value="Lilian">Lilian</option>
+            <option value="張苧萱">張苧萱</option>
+            <option value="王雅貞">王雅貞</option>
+            <option value="Tina">Tina</option>
+            <option value="Mei">Mei</option>
+            <option value="Vina">Vina</option>
+            <option value="Ken">Ken</option>
+            <option value="Rut">Rut</option>
+            <option value="Elli">Elli</option>
         </select>
     </div>
     <div class="tabs">
-        <button class="tab-btn active" onclick="showDay('day1')">6/30 (二)</button>
-        <button class="tab-btn" onclick="showDay('day2')">7/02 (四)</button>
-        <button class="tab-btn" onclick="showDay('day3')">7/06 (一)</button>
+        <button class="tab-btn active" onclick="showDay('day1', this)">6/30 (日)</button>
+        <button class="tab-btn" onclick="showDay('day2', this)">7/02 (四)</button>
+        <button class="tab-btn" onclick="showDay('day3', this)">7/06 (一)</button>
     </div>
 </div>
 
 <div class="container">
+    <!-- DAY 1: 6/30 -->
     <div id="day1" class="schedule-section active">
         <div class="card">
-            <h2>飯店待命 / Dukungan Hotel</h2>
+            <h2>1. 飯店接送/待命 (Standby)</h2>
             <table>
-                <tr><th>位置 / Pos</th><th>人員 / Nama</th></tr>
-                <tr data-name="Yunus"><td>帝后 1, 2</td><td>Yunus</td></tr>
-                <tr data-name="Erik"><td>帝后 3, 4</td><td>Erik</td></tr>
-                <tr data-name="Melody"><td>帝后 5, 6</td><td>Melody</td></tr>
-                <tr data-name="Jammy"><td>帝后 7, 8</td><td>Jammy</td></tr>
-                <tr data-name="Jack"><td>帝后 9, 10</td><td>Jack</td></tr>
-                <tr data-name="Tommy"><td>帝后 11, 12</td><td>Tommy</td></tr>
-                <tr data-name="Nikai"><td>天子閣 1, 2, 3</td><td>Nikai</td></tr>
-                <tr data-name="Selia"><td>天子閣 4, 5</td><td>Selia</td></tr>
-                <tr data-name="周宛錚"><td>天子閣 6, 7</td><td>周宛錚</td></tr>
-                <tr data-name="Jammy"><td>天子閣 8, 9, 10</td><td>Jammy</td></tr>
-                <tr data-name="Selia"><td>天子閣 11, 12, 13</td><td>Selia</td></tr>
-                <tr data-name="陳皇傑"><td>帝后 13, 14</td><td>陳皇傑</td></tr>
-                <tr data-name="Tommy"><td>帝后 15, 16</td><td>Tommy</td></tr>
+                <tr><th>位置</th><th>人員</th></tr>
+                <tr data-name="Yunus"><td>帝后 1-2</td><td>Yunus</td></tr>
+                <tr data-name="Erik"><td>帝后 3-4</td><td>Erik</td></tr>
+                <tr data-name="Melody"><td>帝后 5-6</td><td>Melody</td></tr>
+                <tr data-name="Jammy"><td>帝后 7-8</td><td>Jammy</td></tr>
+                <tr data-name="陳皇傑"><td>帝后 9-10</td><td>陳皇傑</td></tr>
+                <tr data-name="Tommy"><td>帝后 11-12</td><td>Tommy</td></tr>
+                <tr data-name="Nikai"><td>天子閣 1-3</td><td>Nikai</td></tr>
             </table>
         </div>
         <div class="card">
-            <h2>傳道安排 / Penginjilan (二聖)</h2>
-            <div class="loc-info">📍 高雄市前鎮區二聖一路288號6樓之2</div>
+            <h2>2. 傳道安排 (Ministry Groups)</h2>
+            <div class="legend">
+                <div class="legend-item"><div class="dot" style="background:var(--driver)"></div>司機</div>
+                <div class="legend-item"><div class="dot" style="background:var(--walk)"></div>走路</div>
+            </div>
             <table>
-                <tr data-name="Daud,Lusi"><td>組別 A</td><td>Daud, Lusi</td></tr>
-                <tr data-name="Yunus"><td>組別 B</td><td>Yunus</td></tr>
-                <tr data-name="Sayo"><td>組別 C</td><td>Sayo</td></tr>
-                <tr data-name="Mei"><td>組別 D</td><td>Mei</td></tr>
+                <tr class="group-header"><td colspan="2">Group A (司機: Yunus)</td></tr>
+                <tr data-name="Yunus" class="type-driver"><td>司機</td><td>Yunus (帝后1)</td></tr>
+                <tr data-name="SAITO"><td>成員</td><td>SAITO CHIEMI (帝后2)</td></tr>
+                <tr data-name="Sayo"><td>成員</td><td>Sayo</td></tr>
+                <tr class="group-header"><td colspan="2">Group B (司機: Erik)</td></tr>
+                <tr data-name="Erik" class="type-driver"><td>司機</td><td>Erik (帝后3)</td></tr>
+                <tr data-name="Dina"><td>成員</td><td>Dina (帝后4)</td></tr>
+                <tr data-name="Linling"><td>成員</td><td>Linling / Stephanie</td></tr>
+                <tr class="group-header"><td colspan="2">Group E</td></tr>
+                <tr data-name="Daud" class="type-walk"><td>走路</td><td>Daud (帝后9) / Lusi (帝后10)</td></tr>
             </table>
         </div>
     </div>
 
+    <!-- DAY 2: 7/02 -->
     <div id="day2" class="schedule-section">
         <div class="card">
-            <h2>飯店待命 / Dukungan Hotel</h2>
+            <h2>1. 飯店接送/待命 (Standby)</h2>
             <table>
-                <tr data-name="Nikai"><td>帝后 1, 2</td><td>Nikai</td></tr>
-                <tr data-name="Yusuf"><td>帝后 3, 4</td><td>Yusuf</td></tr>
-                <tr data-name="Erik"><td>帝后 5, 6</td><td>Erik</td></tr>
-                <tr data-name="周宛錚"><td>帝后 7, 8</td><td>周宛錚</td></tr>
-                <tr data-name="Melody"><td>帝后 9, 10</td><td>Melody</td></tr>
-                <tr data-name="Yunus"><td>天子閣 3, 4</td><td>Yunus</td></tr>
+                <tr data-name="Nikai"><td>帝后 1-2</td><td>Nikai</td></tr>
+                <tr data-name="Yusuf"><td>帝后 3-4</td><td>Yusuf</td></tr>
+                <tr data-name="Erik"><td>帝后 5-6</td><td>Erik</td></tr>
+                <tr data-name="周宛錚"><td>帝后 7-8</td><td>周宛錚</td></tr>
+                <tr data-name="Melody"><td>帝后 9-10</td><td>Melody</td></tr>
+                <tr data-name="Selia"><td>帝后 11-12</td><td>Selia</td></tr>
+                <tr data-name="陳皇傑"><td>帝后 13-14</td><td>陳皇傑</td></tr>
+                <tr data-name="Tommy"><td>帝后 15-16</td><td>Tommy</td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h2>2. 傳道安排 (Ministry Groups)</h2>
+            <table>
+                <tr class="group-header"><td colspan="2">Group B (司機: Yusuf)</td></tr>
+                <tr data-name="Yusuf" class="type-driver"><td>司機</td><td>Yusuf (帝后3)</td></tr>
+                <tr data-name="Joan"><td>成員</td><td>Joan (帝后4) / 黃詩吟</td></tr>
+                <tr class="group-header"><td colspan="2">Group D (司機: 周宛錚)</td></tr>
+                <tr data-name="周宛錚" class="type-driver"><td>司機</td><td>周宛錚 (帝后7)</td></tr>
+                <tr data-name="王雅貞"><td>成員</td><td>王雅貞 (帝后8) / Linling / Sayo</td></tr>
             </table>
         </div>
     </div>
 
+    <!-- DAY 3: 7/06 -->
     <div id="day3" class="schedule-section">
         <div class="card">
-            <h2>飯店待命 / Dukungan Hotel</h2>
+            <h2>1. 飯店接送/待命 (Standby)</h2>
             <table>
-                <tr data-name="Erik"><td>帝后 1, 2</td><td>Erik</td></tr>
-                <tr data-name="Nikai"><td>帝后 3, 4, 5</td><td>Nikai</td></tr>
-                <tr data-name="Melody"><td>天子閣 1, 2</td><td>Melody</td></tr>
+                <tr data-name="Erik"><td>帝后 1-2</td><td>Erik</td></tr>
+                <tr data-name="Nikai"><td>帝后 3-5</td><td>Nikai</td></tr>
+                <tr data-name="Melody"><td>天子閣 1-2</td><td>Melody</td></tr>
+                <tr data-name="Yunus"><td>天子閣 3-5</td><td>Yunus</td></tr>
+                <tr data-name="周宛錚"><td>天子閣 6-7</td><td>周宛錚</td></tr>
+                <tr data-name="Jammy"><td>天子閣 8-10</td><td>Jammy</td></tr>
+                <tr data-name="Selia"><td>天子閣 11-13</td><td>Selia</td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h2>2. 傳道安排 (Ministry Groups)</h2>
+            <table>
+                <tr class="group-header"><td colspan="2">Group D (司機: Yunus)</td></tr>
+                <tr data-name="Yunus" class="type-driver"><td>司機</td><td>Yunus (天子閣3)</td></tr>
+                <tr data-name="Yoshiya"><td>成員</td><td>Yoshiya (天4) / 王雅貞 (天5) / Lina</td></tr>
+                <tr class="group-header"><td colspan="2">Group F (司機: Jammy)</td></tr>
+                <tr data-name="Jammy" class="type-driver"><td>司機</td><td>Jammy (天子閣8)</td></tr>
+                <tr data-name="Stephanie"><td>成員</td><td>Stephanie (天9) / Rut (天10)</td></tr>
             </table>
         </div>
     </div>
 </div>
 
 <script>
-    function showDay(dayId) {
+    function showDay(dayId, btn) {
+        // 全セクションを隠す
         document.querySelectorAll('.schedule-section').forEach(s => s.classList.remove('active'));
+        // 全ボタンのactiveクラスを取る
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        // 選択されたものを表示
         document.getElementById(dayId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        btn.classList.add('active');
+        
+        // ハイライトを再適用
         highlightUser();
     }
+
     function highlightUser() {
-        const sel = document.getElementById('nameSelect').value;
+        const selectedName = document.getElementById('nameSelect').value;
+        // 全ての行のハイライトを一度消す
         document.querySelectorAll('tr').forEach(tr => {
             tr.classList.remove('highlight');
-            const names = tr.getAttribute('data-name');
-            if (sel && names && names.includes(sel)) tr.classList.add('highlight');
+        });
+
+        if (selectedName === "") return;
+
+        // 全てのセクション（隠れている日も含む）から名前を探す
+        document.querySelectorAll('tr[data-name]').forEach(tr => {
+            const nameAttr = tr.getAttribute('data-name');
+            if (nameAttr.includes(selectedName)) {
+                tr.classList.add('highlight');
+            }
         });
     }
 </script>
