@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kaohsiung Delegate Support - FULL TEAM</title>
+    <title>Kaohsiung Delegate Support - OFFICIAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #003366; --accent: #FFD700; --bg: #F0F2F5; --card: #FFFFFF; }
@@ -11,27 +11,27 @@
         header { background: var(--primary); color: white; padding: 20px 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         .sticky-tools { position: sticky; top: 75px; background: var(--bg); z-index: 90; padding-bottom: 5px; }
         .user-selector { padding: 15px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        select { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--primary); font-size: 16px; font-weight: bold; }
+        select { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--primary); font-size: 16px; font-weight: bold; background: white; }
         .tabs { display: flex; background: #fff; border-bottom: 1px solid #ddd; }
-        .tab-btn { flex: 1; padding: 15px; border: none; background: none; font-weight: bold; color: #666; border-bottom: 4px solid transparent; font-size: 0.9rem; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: none; font-weight: bold; color: #666; border-bottom: 4px solid transparent; }
         .tab-btn.active { color: var(--primary); border-bottom: 4px solid var(--primary); background: #f8f9fa; }
         .container { padding: 15px; }
         .schedule-section { display: none; }
         .schedule-section.active { display: block; }
         .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border-left: 5px solid var(--primary); }
-        .card h2 { margin: 0 0 10px; font-size: 1.1rem; color: var(--primary); }
+        .card h2 { margin: 0 0 10px; font-size: 1.1rem; color: var(--primary); display: flex; align-items: center; justify-content: space-between; }
         .btn-link { display: block; background: #eef4ff; color: var(--primary); text-decoration: none; padding: 10px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; margin: 8px 0; border: 1px solid #d0e0ff; text-align: center; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
-        th { background: #f8f9fa; text-align: left; padding: 10px; border-bottom: 2px solid #eee; width: 35%; }
+        th { background: #f8f9fa; text-align: left; padding: 10px; border-bottom: 2px solid #eee; }
         td { padding: 12px 10px; border-bottom: 1px solid #eee; }
         .highlight { background-color: var(--accent) !important; color: #000; font-weight: bold; }
-        .location-box { font-size: 0.85rem; color: #555; background: #fff9c4; padding: 8px; border-radius: 5px; margin-bottom: 10px; border: 1px dashed #fbc02d; }
+        .location-info { font-size: 0.85rem; color: #555; background: #fff9c4; padding: 8px; border-radius: 5px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
 <header>
-    <strong>國際大會接待 / Penyambutan Delegasi</strong>
+    <strong>國際大會代表接待 / Pengurusan Delegasi</strong>
 </header>
 
 <div class="sticky-tools">
@@ -49,8 +49,8 @@
             <option value="Yusuf">Yusuf</option>
             <option value="Joan">Joan</option>
             <option value="Selia">Selia</option>
-            <option value="陳皇傑">陳皇傑</option>
             <option value="周宛錚">周宛錚</option>
+            <option value="陳皇傑">陳皇傑</option>
             <option value="Mei">Mei</option>
             <option value="Dina">Dina</option>
             <option value="Sayo">Sayo</option>
@@ -72,28 +72,30 @@
     <div id="day1" class="schedule-section active">
         <div class="card">
             <h2>飯店待命 / Dukungan Hotel</h2>
-            <a href="https://www.google.com/maps/search/?api=1&query=天子閣飯店" class="btn-link">📍 天子閣 Tenz Go Hotel</a>
-            <a href="https://www.google.com/maps/search/?api=1&query=帝后大飯店" class="btn-link">📍 帝后 Q21 HOTEL</a>
+            <a href="https://maps.app.goo.gl/TenzGoHotelURL" class="btn-link">📍 天子閣 Tenz Go Hotel</a>
+            <a href="https://maps.app.goo.gl/Q21HotelURL" class="btn-link">📍 帝后 Q21 HOTEL</a>
             <table>
-                <tr data-name="Yunus"><td>帝后 1,2,11</td><td>Yunus</td></tr>
-                <tr data-name="Erik"><td>帝后 3,4</td><td>Erik</td></tr>
-                <tr data-name="Melody"><td>帝后 5,6</td><td>Melody</td></tr>
-                <tr data-name="Jammy"><td>帝后 7,8,13,14</td><td>Jammy</td></tr>
-                <tr data-name="陳皇傑"><td>帝后 9,10,13,14</td><td>陳皇傑</td></tr>
-                <tr data-name="Tommy"><td>帝后 11,12,15,16</td><td>Tommy</td></tr>
-                <tr data-name="Nikai"><td>天子閣 1,2,3</td><td>Nikai</td></tr>
-                <tr data-name="Selia"><td>天子閣 6,7,11,12,13</td><td>Selia</td></tr>
-                <tr data-name="周宛錚"><td>天子閣 6,7</td><td>周宛錚</td></tr>
+                <tr><th>位置 / Pos</th><th>人員 / Nama</th></tr>
+                <tr data-name="Yunus"><td>帝后 1, 2, 11</td><td>Yunus</td></tr>
+                <tr data-name="Erik"><td>帝后 3, 4</td><td>Erik</td></tr>
+                <tr data-name="Melody"><td>帝后 5, 6</td><td>Melody</td></tr>
+                <tr data-name="Jammy"><td>帝后 7, 8, 13, 14</td><td>Jammy</td></tr>
+                <tr data-name="陳皇傑"><td>帝后 9, 10, 13, 14</td><td>陳皇傑</td></tr>
+                <tr data-name="Tommy"><td>帝后 11, 12, 15, 16</td><td>Tommy</td></tr>
+                <tr data-name="Nikai"><td>天子閣 1, 2, 3</td><td>Nikai</td></tr>
+                <tr data-name="Selia"><td>天子閣 6, 7, 11, 12, 13</td><td>Selia</td></tr>
+                <tr data-name="周宛錚"><td>天子閣 6, 7</td><td>周宛錚</td></tr>
+                <tr data-name="Jammy"><td>天子閣 8, 9, 10</td><td>Jammy</td></tr>
             </table>
         </div>
         <div class="card">
             <h2>傳道安排 / Penginjilan (二聖)</h2>
-            <div class="location-box">📍 高雄市前鎮區二聖一路288號6樓之2</div>
+            <div class="location-info">📍 高雄市前鎮區二聖一路288號6樓之2</div>
             <table>
-                <tr data-name="Daud,Lusi"><td>小組 A</td><td>Daud, Lusi</td></tr>
-                <tr data-name="Yunus"><td>小組 B</td><td>Yunus</td></tr>
-                <tr data-name="Sayo"><td>小組 C</td><td>Sayo</td></tr>
-                <tr data-name="Mei"><td>小組 D</td><td>Mei</td></tr>
+                <tr data-name="Daud,Lusi"><td>組別 A</td><td>Daud, Lusi</td></tr>
+                <tr data-name="Yunus"><td>組別 B</td><td>Yunus</td></tr>
+                <tr data-name="Sayo"><td>組別 C</td><td>Sayo</td></tr>
+                <tr data-name="Mei"><td>組別 D</td><td>Mei</td></tr>
             </table>
         </div>
     </div>
@@ -102,20 +104,21 @@
         <div class="card">
             <h2>飯店待命 / Dukungan Hotel</h2>
             <table>
-                <tr data-name="Nikai"><td>帝后 1,2</td><td>Nikai</td></tr>
-                <tr data-name="Yusuf"><td>帝后 3,4</td><td>Yusuf</td></tr>
-                <tr data-name="Erik"><td>帝后 5,6</td><td>Erik</td></tr>
-                <tr data-name="周宛錚"><td>帝后 7,8</td><td>周宛錚</td></tr>
-                <tr data-name="Melody"><td>帝后 9,10</td><td>Melody</td></tr>
-                <tr data-name="Yunus"><td>天子閣 3,4</td><td>Yunus</td></tr>
+                <tr><th>位置 / Pos</th><th>人員 / Nama</th></tr>
+                <tr data-name="Nikai"><td>帝后 1, 2</td><td>Nikai</td></tr>
+                <tr data-name="Yusuf"><td>帝后 3, 4</td><td>Yusuf</td></tr>
+                <tr data-name="Erik"><td>帝后 5, 6</td><td>Erik</td></tr>
+                <tr data-name="周宛錚"><td>帝后 7, 8</td><td>周宛錚</td></tr>
+                <tr data-name="Melody"><td>帝后 9, 10</td><td>Melody</td></tr>
+                <tr data-name="Yunus"><td>天子閣 3, 4</td><td>Yunus</td></tr>
             </table>
         </div>
         <div class="card">
             <h2>傳道安排 / Penginjilan</h2>
             <table>
-                <tr data-name="Yusuf,Joan"><td>小組 A</td><td>Yusuf, Joan</td></tr>
-                <tr data-name="Rut"><td>小組 B</td><td>Rut</td></tr>
-                <tr data-name="Dina"><td>小組 C</td><td>Dina</td></tr>
+                <tr data-name="Yusuf,Joan"><td>組別 A</td><td>Yusuf, Joan</td></tr>
+                <tr data-name="Rut"><td>組別 B</td><td>Rut</td></tr>
+                <tr data-name="Dina"><td>組別 C</td><td>Dina</td></tr>
             </table>
         </div>
     </div>
@@ -124,18 +127,19 @@
         <div class="card">
             <h2>飯店待命 / Dukungan Hotel</h2>
             <table>
-                <tr data-name="Erik"><td>帝后 1,2</td><td>Erik</td></tr>
-                <tr data-name="Nikai"><td>帝后 3,4,5</td><td>Nikai</td></tr>
-                <tr data-name="Melody"><td>天子閣 1,2</td><td>Melody</td></tr>
+                <tr><th>位置 / Pos</th><th>人員 / Nama</th></tr>
+                <tr data-name="Erik"><td>帝后 1, 2</td><td>Erik</td></tr>
+                <tr data-name="Nikai"><td>帝后 3, 4, 5</td><td>Nikai</td></tr>
+                <tr data-name="Melody"><td>天子閣 1, 2</td><td>Melody</td></tr>
             </table>
         </div>
         <div class="card">
             <h2>傳道安排 / Penginjilan (小港)</h2>
-            <div class="location-box">📍 高雄市前鎮區新生路808號4樓</div>
+            <div class="location-info">📍 高雄市前鎮區新生路808號4樓</div>
             <table>
-                <tr data-name="Yoshiya,Linling"><td>小組 A</td><td>Yoshiya, Linling</td></tr>
-                <tr data-name="SAITO"><td>小組 B</td><td>SAITO CHIEMI</td></tr>
-                <tr data-name="Sayo"><td>小組 C</td><td>Sayo</td></tr>
+                <tr data-name="Yoshiya,Linling"><td>組別 A</td><td>Yoshiya, Linling</td></tr>
+                <tr data-name="SAITO"><td>組別 B</td><td>SAITO CHIEMI</td></tr>
+                <tr data-name="Sayo"><td>組別 C</td><td>Sayo</td></tr>
             </table>
         </div>
     </div>
