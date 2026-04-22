@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kaohsiung Delegate Support OFFICIAL</title>
+    <title>Kaohsiung Delegate Support - OFFICIAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #003366; --accent: #FFD700; --bg: #F0F2F5; --card: #FFFFFF; }
@@ -20,12 +20,11 @@
         .schedule-section.active { display: block; }
         .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border-left: 5px solid var(--primary); }
         .card h2 { margin: 0 0 10px; font-size: 1.1rem; color: var(--primary); }
-        .btn-link { display: block; background: #eef4ff; color: var(--primary); text-decoration: none; padding: 10px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; margin: 8px 0; border: 1px solid #d0e0ff; text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.95rem; }
         th { background: #f8f9fa; text-align: left; padding: 10px; border-bottom: 2px solid #eee; width: 45%; }
         td { padding: 12px 10px; border-bottom: 1px solid #eee; }
         .highlight { background-color: var(--accent) !important; color: #000; font-weight: bold; }
-        .loc-box { font-size: 0.85rem; background: #fffde7; padding: 10px; border-radius: 8px; margin-bottom: 10px; border: 1px dashed #fbc02d; }
+        .loc-info { font-size: 0.85rem; background: #fff9c4; padding: 10px; border-radius: 8px; margin-bottom: 10px; border: 1px dashed #fbc02d; }
     </style>
 </head>
 <body>
@@ -41,10 +40,11 @@
             <option value="Erik">Erik</option>
             <option value="Melody">Melody</option>
             <option value="Jammy">Jammy</option>
-            <option value="陳皇傑">陳皇傑</option>
+            <option value="Jack">Jack</option>
             <option value="Tommy">Tommy</option>
             <option value="Selia">Selia</option>
             <option value="周宛錚">周宛錚</option>
+            <option value="陳皇傑">陳皇傑</option>
             <option value="Daud">Daud</option>
             <option value="Lusi">Lusi</option>
             <option value="Yusuf">Yusuf</option>
@@ -69,15 +69,13 @@
     <div id="day1" class="schedule-section active">
         <div class="card">
             <h2>飯店待命 / Dukungan Hotel</h2>
-            <a href="https://maps.app.goo.gl/TenzGo" class="btn-link">📍 天子閣 Tenz Go Hotel</a>
-            <a href="https://maps.app.goo.gl/Q21" class="btn-link">📍 帝后 Q21 HOTEL</a>
             <table>
                 <tr><th>位置 / Pos</th><th>人員 / Nama</th></tr>
                 <tr data-name="Yunus"><td>帝后 1, 2</td><td>Yunus</td></tr>
                 <tr data-name="Erik"><td>帝后 3, 4</td><td>Erik</td></tr>
                 <tr data-name="Melody"><td>帝后 5, 6</td><td>Melody</td></tr>
                 <tr data-name="Jammy"><td>帝后 7, 8</td><td>Jammy</td></tr>
-                <tr data-name="陳皇傑"><td>帝后 9, 10</td><td>陳皇傑</td></tr>
+                <tr data-name="Jack"><td>帝后 9, 10</td><td>Jack</td></tr>
                 <tr data-name="Tommy"><td>帝后 11, 12</td><td>Tommy</td></tr>
                 <tr data-name="Nikai"><td>天子閣 1, 2, 3</td><td>Nikai</td></tr>
                 <tr data-name="Selia"><td>天子閣 4, 5</td><td>Selia</td></tr>
@@ -90,10 +88,12 @@
         </div>
         <div class="card">
             <h2>傳道安排 / Penginjilan (二聖)</h2>
-            <div class="loc-box">📍 高雄市前鎮區二聖一路288號6樓之2</div>
+            <div class="loc-info">📍 高雄市前鎮區二聖一路288號6樓之2</div>
             <table>
-                <tr data-name="Daud,Lusi"><td>小組 A</td><td>Daud, Lusi</td></tr>
-                <tr data-name="Yunus"><td>小組 B</td><td>Yunus</td></tr>
+                <tr data-name="Daud,Lusi"><td>組別 A</td><td>Daud, Lusi</td></tr>
+                <tr data-name="Yunus"><td>組別 B</td><td>Yunus</td></tr>
+                <tr data-name="Sayo"><td>組別 C</td><td>Sayo</td></tr>
+                <tr data-name="Mei"><td>組別 D</td><td>Mei</td></tr>
             </table>
         </div>
     </div>
@@ -106,6 +106,8 @@
                 <tr data-name="Yusuf"><td>帝后 3, 4</td><td>Yusuf</td></tr>
                 <tr data-name="Erik"><td>帝后 5, 6</td><td>Erik</td></tr>
                 <tr data-name="周宛錚"><td>帝后 7, 8</td><td>周宛錚</td></tr>
+                <tr data-name="Melody"><td>帝后 9, 10</td><td>Melody</td></tr>
+                <tr data-name="Yunus"><td>天子閣 3, 4</td><td>Yunus</td></tr>
             </table>
         </div>
     </div>
