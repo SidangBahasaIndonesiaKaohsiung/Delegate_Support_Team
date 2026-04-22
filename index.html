@@ -12,9 +12,9 @@
         }
 
         /* --- 曜日別：テーマカラー設定 --- */
-        .theme-day1 { --main-color: #c0392b; --bg-color: #fdf2f2; --link-color: #c0392b; } /* 6/30 火曜日 Red */
-        .theme-day2 { --main-color: #2980b9; --bg-color: #ebf5fb; --link-color: #2980b9; } /* 7/2  木曜日 Blue */
-        .theme-day3 { --main-color: #27ae60; --bg-color: #f1f9f5; --link-color: #27ae60; } /* 7/6  月曜日 Green */
+        .theme-day1 { --main-color: #c0392b; --bg-color: #fdf2f2; --link-color: #c0392b; } /* 6/30 Red */
+        .theme-day2 { --main-color: #2980b9; --bg-color: #ebf5fb; --link-color: #2980b9; } /* 7/2 Blue */
+        .theme-day3 { --main-color: #27ae60; --bg-color: #f1f9f5; --link-color: #27ae60; } /* 7/6 Green */
 
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); margin: 0; padding-bottom: 50px; color: #333; transition: 0.4s; }
         
@@ -57,7 +57,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); border: 2px solid var(--main-color); }
-        .card h2 { margin: 0 0 15px; font-size: 1.2rem; color: var(--main-color); text-align: center; border-bottom: 2px dashed var(--main-color); padding-bottom: 10px; }
+        .card h2 { margin: 0 0 15px; font-size: 1.1rem; color: var(--main-color); text-align: center; border-bottom: 2px dashed var(--main-color); padding-bottom: 10px; }
         
         table { width: 100%; border-collapse: collapse; }
         th { text-align: left; padding: 10px; border-bottom: 2px solid #eee; color: #999; font-size: 0.75rem; }
@@ -74,6 +74,7 @@
             font-weight: bold;
         }
         .room-no { font-weight: bold; color: #333; display: block; }
+        .escort-name { font-weight: bold; }
         
         .lang-sub { display: block; font-size: 0.75rem; font-weight: normal; margin-top: 2px; }
     </style>
@@ -89,6 +90,7 @@
     <div class="user-selector">
         <select id="nameSelect" onchange="highlightUser()">
             <option value="">-- 選擇名字 / Pilih Nama --</option>
+            <!-- 接送組 -->
             <option value="Yunus">Yunus</option>
             <option value="Erik">Erik</option>
             <option value="Melody">Melody</option>
@@ -99,6 +101,14 @@
             <option value="Yusuf">Yusuf</option>
             <option value="周宛錚">周宛錚</option>
             <option value="Selia">Selia</option>
+            <!-- 接待組 -->
+            <option value="Daud">Daud</option>
+            <option value="Lusi">Lusi</option>
+            <option value="Sayo">Sayo</option>
+            <option value="Joan">Joan</option>
+            <option value="Yoshiya">Yoshiya</option>
+            <option value="Linling">Linling</option>
+            <option value="Rut">Rut</option>
         </select>
     </div>
     <div class="tabs">
@@ -111,10 +121,19 @@
 <div class="container">
     <!-- 6/30 SCHEDULE -->
     <div id="day1" class="schedule-section active">
+        <!-- エスコート担当 (NEW) -->
+        <div class="card">
+            <h2>飯店接待安排<span class="lang-sub">Pendampingan di Hotel (Escort)</span></h2>
+            <table>
+                <tr data-name="Daud, Lusi"><td>帝后大飯店 Q21</td><td class="escort-name">Daud, Lusi</td></tr>
+                <tr data-name="Sayo"><td>天子閣飯店 Tenz Go</td><td class="escort-name">Sayo</td></tr>
+            </table>
+        </div>
+        <!-- 送迎担当 -->
         <div class="card">
             <h2>接送代表的安排<span class="lang-sub">Pengaturan Penjemputan Delegasi</span></h2>
             <table>
-                <tr><th>地點 / Lokasi</th><th>人員 / Nama</th></tr>
+                <tr><th>地点 / Lokasi</th><th>人员 / Nama</th></tr>
                 <tr data-name="Yunus"><td><span class="room-no">帝后 1, 2</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yunus</td></tr>
                 <tr data-name="Erik"><td><span class="room-no">帝后 3, 4</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Erik</td></tr>
                 <tr data-name="Melody"><td><span class="room-no">帝后 5, 6</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Melody</td></tr>
@@ -128,10 +147,18 @@
 
     <!-- 7/2 SCHEDULE -->
     <div id="day2" class="schedule-section">
+        <!-- エスコート担当 (NEW) -->
+        <div class="card">
+            <h2>飯店接待安排<span class="lang-sub">Pendampingan di Hotel (Escort)</span></h2>
+            <table>
+                <tr data-name="Yusuf, Joan"><td>帝后大飯店 Q21</td><td class="escort-name">Yusuf, Joan</td></tr>
+            </table>
+        </div>
+        <!-- 送迎担当 -->
         <div class="card">
             <h2>接送代表的安排<span class="lang-sub">Pengaturan Penjemputan Delegasi</span></h2>
             <table>
-                <tr><th>地點 / Lokasi</th><th>人員 / Nama</th></tr>
+                <tr><th>地点 / Lokasi</th><th>人员 / Nama</th></tr>
                 <tr data-name="Nikai"><td><span class="room-no">帝后 1, 2</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Nikai</td></tr>
                 <tr data-name="Yusuf"><td><span class="room-no">帝后 3, 4</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yusuf</td></tr>
                 <tr data-name="Erik"><td><span class="room-no">帝后 5, 6</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Erik</td></tr>
@@ -146,10 +173,19 @@
 
     <!-- 7/6 SCHEDULE -->
     <div id="day3" class="schedule-section">
+        <!-- エスコート担当 (NEW) -->
+        <div class="card">
+            <h2>飯店接待安排<span class="lang-sub">Pendampingan di Hotel (Escort)</span></h2>
+            <table>
+                <tr data-name="Yoshiya, Linling"><td>帝后大飯店 Q21</td><td class="escort-name">Yoshiya, Linling</td></tr>
+                <tr data-name="Rut"><td>天子閣飯店 Tenz Go</td><td class="escort-name">Rut</td></tr>
+            </table>
+        </div>
+        <!-- 送迎担当 -->
         <div class="card">
             <h2>接送代表的安排<span class="lang-sub">Pengaturan Penjemputan Delegasi</span></h2>
             <table>
-                <tr><th>地點 / Lokasi</th><th>人員 / Nama</th></tr>
+                <tr><th>地点 / Lokasi</th><th>人员 / Nama</th></tr>
                 <tr data-name="Erik"><td><span class="room-no">帝后 1, 2</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Erik</td></tr>
                 <tr data-name="Nikai"><td><span class="room-no">帝后 3, 4, 5</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Nikai</td></tr>
                 <tr data-name="Melody"><td><span class="room-no">天子閣 1, 2</span><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Melody</td></tr>
