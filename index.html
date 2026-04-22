@@ -68,7 +68,7 @@
         .hotel-link { 
             display: inline-block; 
             margin-top: 4px; 
-            font-size: 0.8rem; 
+            font-size: 0.85rem; 
             color: var(--link-color); 
             text-decoration: underline; 
             font-weight: bold;
@@ -81,7 +81,7 @@
 </head>
 <body class="theme-day1">
 
-<header>
+<header id="pageTop">
     <span class="main-title">國際大會代表接待與傳道安排表</span>
     <span class="sub-title">Jadwal Pengaturan Pelayanan & Pengabaran Delegasi</span>
 </header>
@@ -90,25 +90,23 @@
     <div class="user-selector">
         <select id="nameSelect" onchange="highlightUser()">
             <option value="">-- 選擇名字 / Pilih Nama --</option>
-            <!-- 接送組 -->
-            <option value="Yunus">Yunus</option>
+            <option value="Daud">Daud</option>
             <option value="Erik">Erik</option>
-            <option value="Melody">Melody</option>
             <option value="Jammy">Jammy</option>
-            <option value="陳皇傑">陳皇傑</option>
-            <option value="Tommy">Tommy</option>
+            <option value="Joan">Joan</option>
+            <option value="Linling">Linling</option>
+            <option value="Lusi">Lusi</option>
+            <option value="Melody">Melody</option>
             <option value="Nikai">Nikai</option>
+            <option value="Rut">Rut</option>
+            <option value="Sayo">Sayo</option>
+            <option value="Selia">Selia</option>
+            <option value="Tommy">Tommy</option>
+            <option value="Yoshiya">Yoshiya</option>
+            <option value="Yunus">Yunus</option>
             <option value="Yusuf">Yusuf</option>
             <option value="周宛錚">周宛錚</option>
-            <option value="Selia">Selia</option>
-            <!-- 接待組 -->
-            <option value="Daud">Daud</option>
-            <option value="Lusi">Lusi</option>
-            <option value="Sayo">Sayo</option>
-            <option value="Joan">Joan</option>
-            <option value="Yoshiya">Yoshiya</option>
-            <option value="Linling">Linling</option>
-            <option value="Rut">Rut</option>
+            <option value="陳皇傑">陳皇傑</option>
         </select>
     </div>
     <div class="tabs">
@@ -121,19 +119,17 @@
 <div class="container">
     <!-- 6/30 SCHEDULE -->
     <div id="day1" class="schedule-section active">
-        <!-- エスコート担当 (NEW) -->
         <div class="card">
             <h2>飯店接待安排<span class="lang-sub">Pendampingan di Hotel (Escort)</span></h2>
             <table>
-                <tr data-name="Daud, Lusi"><td>帝后大飯店 Q21</td><td class="escort-name">Daud, Lusi</td></tr>
-                <tr data-name="Sayo"><td>天子閣飯店 Tenz Go</td><td class="escort-name">Sayo</td></tr>
+                <tr data-name="Daud, Lusi"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td class="escort-name">Daud, Lusi</td></tr>
+                <tr data-name="Sayo"><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td class="escort-name">Sayo</td></tr>
             </table>
         </div>
-        <!-- 送迎担当 -->
         <div class="card">
             <h2>接送代表的安排<span class="lang-sub">Pengaturan Penjemputan Delegasi</span></h2>
             <table>
-                <tr><th>地点 / Lokasi</th><th>人员 / Nama</th></tr>
+                <tr><th>地點 / Lokasi</th><th>人員 / Nama</th></tr>
                 <tr data-name="Yunus"><td><span class="room-no">帝后 1, 2</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yunus</td></tr>
                 <tr data-name="Erik"><td><span class="room-no">帝后 3, 4</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Erik</td></tr>
                 <tr data-name="Melody"><td><span class="room-no">帝后 5, 6</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Melody</td></tr>
@@ -147,18 +143,16 @@
 
     <!-- 7/2 SCHEDULE -->
     <div id="day2" class="schedule-section">
-        <!-- エスコート担当 (NEW) -->
         <div class="card">
             <h2>飯店接待安排<span class="lang-sub">Pendampingan di Hotel (Escort)</span></h2>
             <table>
-                <tr data-name="Yusuf, Joan"><td>帝后大飯店 Q21</td><td class="escort-name">Yusuf, Joan</td></tr>
+                <tr data-name="Yusuf, Joan"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td class="escort-name">Yusuf, Joan</td></tr>
             </table>
         </div>
-        <!-- 送迎担当 -->
         <div class="card">
             <h2>接送代表的安排<span class="lang-sub">Pengaturan Penjemputan Delegasi</span></h2>
             <table>
-                <tr><th>地点 / Lokasi</th><th>人员 / Nama</th></tr>
+                <tr><th>地點 / Lokasi</th><th>人員 / Nama</th></tr>
                 <tr data-name="Nikai"><td><span class="room-no">帝后 1, 2</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Nikai</td></tr>
                 <tr data-name="Yusuf"><td><span class="room-no">帝后 3, 4</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yusuf</td></tr>
                 <tr data-name="Erik"><td><span class="room-no">帝后 5, 6</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Erik</td></tr>
@@ -173,19 +167,17 @@
 
     <!-- 7/6 SCHEDULE -->
     <div id="day3" class="schedule-section">
-        <!-- エスコート担当 (NEW) -->
         <div class="card">
             <h2>飯店接待安排<span class="lang-sub">Pendampingan di Hotel (Escort)</span></h2>
             <table>
-                <tr data-name="Yoshiya, Linling"><td>帝后大飯店 Q21</td><td class="escort-name">Yoshiya, Linling</td></tr>
-                <tr data-name="Rut"><td>天子閣飯店 Tenz Go</td><td class="escort-name">Rut</td></tr>
+                <tr data-name="Yoshiya, Linling"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td class="escort-name">Yoshiya, Linling</td></tr>
+                <tr data-name="Rut"><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td class="escort-name">Rut</td></tr>
             </table>
         </div>
-        <!-- 送迎担当 -->
         <div class="card">
             <h2>接送代表的安排<span class="lang-sub">Pengaturan Penjemputan Delegasi</span></h2>
             <table>
-                <tr><th>地点 / Lokasi</th><th>人员 / Nama</th></tr>
+                <tr><th>地點 / Lokasi</th><th>人員 / Nama</th></tr>
                 <tr data-name="Erik"><td><span class="room-no">帝后 1, 2</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Erik</td></tr>
                 <tr data-name="Nikai"><td><span class="room-no">帝后 3, 4, 5</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Nikai</td></tr>
                 <tr data-name="Melody"><td><span class="room-no">天子閣 1, 2</span><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Melody</td></tr>
@@ -199,14 +191,22 @@
 </div>
 
 <script>
+    window.onload = function() {
+        window.scrollTo(0, 0);
+    };
+
     function showDay(dayId, btn) {
         document.querySelectorAll('.schedule-section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(dayId).classList.add('active');
         btn.classList.add('active');
         document.body.className = 'theme-' + dayId;
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
         highlightUser();
     }
+    
     function highlightUser() {
         const val = document.getElementById('nameSelect').value;
         document.querySelectorAll('tr').forEach(tr => {
