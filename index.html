@@ -1,37 +1,44 @@
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaohsiung Schedule</title>
-    <title>高雄行程表 / Jadwal Kaohsiung</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-<body>
-<div class="page">
-    <section class="hero">
-        <h1>Kaohsiung Schedule</h1>
-        <p>1つ目の画像を送迎、2つ目の画像を伝道グループとして分けて並べた版です。</p>
-        <h1>高雄行程表 / Jadwal Kaohsiung</h1>
-        <p>第一張圖片是接送安排，第二張圖片是傳道分組。</p>
-    </section>
-
-    <section class="section-block">
-        <div class="section-head">
-            <h2>送迎 Antar-Jemput</h2>
-            <p>ホテルごとの送迎担当を一覧で確認できます。</p>
-            <h2>接送 / Antar-Jemput</h2>
-            <p>可以在這裡查看各飯店的接送負責人。</p>
+    <section class="links-panel">
+      <div class="section-head">
+        <div>
+          <h2>ホテル / 王国会館リンク</h2>
+          <p>ホテルと王国会館はそのまま地図に飛べるようにしてあります。</p>
+          <h2>ホテル / 傳道前聚會地點</h2>
+          <p>ホテルはリンク付き、傳道前聚會地點はあとでURLを入れられる表示にしてあります。</p>
         </div>
-        <div class="sheet-preview" style="margin-top:0;">
-            <div class="sheet-table" id="transportTable"></div>
+      </div>
+      <div class="link-grid" id="linkGrid"></div>
+      },
+      {
+        kind: "hall",
+        label: "Kingdom Hall",
+        label: "傳道前聚會地點",
+        name: "二聖一路聚會",
+        detail: "高雄市前鎮區二聖一路288號6樓之2",
+        href: "https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E4%BA%8C%E8%81%96%E4%B8%80%E8%B7%AF288%E8%99%9F6%E6%A8%93%E4%B9%8B2"
+        href: ""
+      },
+      {
+        kind: "hall",
+        label: "Kingdom Hall",
+        label: "傳道前聚會地點",
+        name: "小港聚會所",
+        detail: "高雄市前鎮區新生路808號4樓",
+        href: "https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E6%96%B0%E7%94%9F%E8%B7%AF808%E8%99%9F4%E6%A8%93"
+        href: ""
+      }
+    ];
 
-    <section class="section-block">
-        <div class="section-head">
-            <h2>傳道 Penginjilan</h2>
-            <p>グループ分け、色分けメモ、昼食メモを画像どおりに整理しています。</p>
-            <h2>傳道分組 / Kelompok Penginjilan</h2>
-            <p>這裡整理了分組、顏色標記與午餐備註。</p>
-        </div>
-        <div class="schedule-grid" id="scheduleGrid"></div>
-    </section>
+      linkGrid.innerHTML = placeLinks.map(place => `
+        <article class="place-card ${escapeHtml(place.kind)}">
+          <div class="place-kind">${escapeHtml(place.label)}</div>
+          <h3><a href="${escapeHtml(place.href)}" target="_blank" rel="noreferrer">${escapeHtml(place.name)}</a></h3>
+          <h3>${place.href
+            ? `<a href="${escapeHtml(place.href)}" target="_blank" rel="noreferrer">${escapeHtml(place.name)}</a>`
+            : `${escapeHtml(place.name)}`}</h3>
+          <p>${escapeHtml(place.detail)}</p>
+          ${place.href ? "" : `<p>URLは後で追加</p>`}
+        </article>
+      `).join("");
+    }
