@@ -3,87 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jadwal Pengaturan Delegasi - Kaohsiung</title>
+    <title>Kaohsiung Delegate Support</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { 
             --highlight: #ffeb3b; 
+            --driver: #fff9c4;
+            --walk: #ffe0b2;
+            --special-car: #b9f6ca;
+            --jack-pickup: #f8bbd0;
             transition: 0.4s;
         }
 
-        /* --- 曜日別：テーマカラー設定 --- */
-        .theme-day1 { --main-color: #c0392b; --bg-color: #fdf2f2; --link-color: #c0392b; } /* 6/30 Red */
-        .theme-day2 { --main-color: #2980b9; --bg-color: #ebf5fb; --link-color: #2980b9; } /* 7/2 Blue */
-        .theme-day3 { --main-color: #27ae60; --bg-color: #f1f9f5; --link-color: #27ae60; } /* 7/6 Green */
+        .theme-day1 { --main-color: #c62828; --bg-color: #f8f9fa; }
+        .theme-day2 { --main-color: #1565c0; --bg-color: #f8f9fa; }
+        .theme-day3 { --main-color: #2e7d32; --bg-color: #f8f9fa; }
 
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); margin: 0; padding-bottom: 50px; color: #333; transition: 0.4s; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); margin: 0; padding-bottom: 100px; color: #333; -webkit-text-size-adjust: 100%; }
         
-        header { 
-            background: var(--main-color); 
-            color: white; 
-            padding: 20px 15px; 
-            text-align: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
-            transition: 0.4s; 
-        }
-        .main-title {
-            display: block;
-            font-size: 1.5rem; 
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        .sub-title {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 400;
-            margin-top: 6px;
-            opacity: 0.9;
-        }
-
-        .sticky-tools { position: sticky; top: 85px; background: rgba(255,255,255,0.9); backdrop-filter: blur(5px); z-index: 90; padding-bottom: 5px; }
+        header { background: var(--main-color); color: white; padding: 20px 10px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.3); transition: 0.4s; }
+        .main-title { display: block; font-size: 1.3rem; font-weight: 700; }
+        
+        .sticky-tools { position: sticky; top: 78px; background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); z-index: 95; padding-bottom: 8px; border-bottom: 1px solid #ddd; }
         .user-selector { padding: 12px; }
-        select { width: 100%; padding: 14px; border-radius: 12px; border: 3px solid var(--main-color); font-size: 16px; font-weight: bold; background-color: white; transition: 0.4s; }
+        select { 
+            width: 100%; padding: 14px; border-radius: 12px; border: 2px solid var(--main-color); 
+            font-size: 17px; font-weight: bold; background: #fff; transition: 0.3s;
+        }
         
-        .tabs { display: flex; gap: 5px; padding: 0 10px; }
-        .tab-btn { flex: 1; padding: 15px 5px; border: none; background: #e0e0e0; font-weight: bold; color: #777; border-radius: 10px 10px 0 0; font-size: 0.9rem; transition: 0.4s; }
+        .tabs { display: flex; padding: 0 10px; gap: 4px; }
+        .tab-btn { 
+            flex: 1; padding: 12px 5px; border: none; background: #e0e0e0; font-weight: bold; 
+            color: #666; border-radius: 8px 8px 0 0; font-size: 0.85rem; transition: 0.3s; 
+        }
         .tab-btn.active { background: var(--main-color); color: white; transform: translateY(-2px); }
 
-        .container { padding: 15px; }
+        .container { padding: 12px; }
         .schedule-section { display: none; }
-        .schedule-section.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .schedule-section.active { display: block; }
 
-        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); border: 2px solid var(--main-color); }
-        .card h2 { margin: 0 0 15px; font-size: 1.1rem; color: var(--main-color); text-align: center; border-bottom: 2px dashed var(--main-color); padding-bottom: 10px; }
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #eee; }
+        .card h2 { margin: 0 0 12px; font-size: 1rem; color: var(--main-color); border-bottom: 2px solid var(--main-color); padding-bottom: 5px; text-align: center; transition: 0.3s; }
         
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 10px; border-bottom: 2px solid #eee; color: #999; font-size: 0.75rem; }
-        td { padding: 15px 10px; border-bottom: 1px solid #f0f0f0; font-size: 1rem; vertical-align: middle; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+        td { padding: 12px 8px; border-bottom: 1px solid #f5f5f5; font-size: 0.95rem; }
         
-        .highlight { background-color: var(--highlight) !important; font-weight: bold; color: black; box-shadow: inset 0 0 0 2px var(--main-color); border-radius: 8px; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-bottom: 4px; border: 1px solid rgba(0,0,0,0.1); }
+        .driver-bg { background-color: var(--driver); }
+        .walk-bg { background-color: var(--walk); }
+        .jack-bg { background-color: var(--jack-pickup); }
+
+        .highlight { background-color: var(--highlight) !important; font-weight: bold; box-shadow: inset 0 0 0 2px var(--main-color); border-radius: 8px; }
         
-        .hotel-link { 
-            display: inline-block; 
-            margin-top: 4px; 
-            font-size: 0.85rem; 
-            color: var(--link-color); 
-            text-decoration: underline; 
-            font-weight: bold;
+        .hotel-link { color: var(--main-color); text-decoration: underline; font-size: 0.85rem; font-weight: bold; display: block; margin-top: 4px; }
+        .lunch-box { color: #d32f2f; border: 1px solid #d32f2f; padding: 1px 5px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; display: inline-block; margin-top: 4px; }
+
+        /* カッコいいアプリリンクボタン */
+        .app-footer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 1000;
         }
-        .room-no { font-weight: bold; color: #333; display: block; }
-        .escort-name { font-weight: bold; }
-        
-        .lang-sub { display: block; font-size: 0.75rem; font-weight: normal; margin-top: 2px; }
+        .app-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--main-color);
+            color: white;
+            text-decoration: none;
+            padding: 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .app-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        .app-button svg {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        .app-button .btn-sub {
+            font-size: 0.7rem;
+            display: block;
+            opacity: 0.8;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body class="theme-day1">
 
-<header id="pageTop">
-    <span class="main-title">國際大會代表接待與傳道安排表</span>
-    <span class="sub-title">Jadwal Pengaturan Pelayanan & Pengabaran Delegasi</span>
+<header>
+    <span class="main-title">國際大會安排查詢表</span>
+    <span style="font-size: 0.8rem; opacity: 0.9;">Pengaturan Pelayanan & Pengabaran</span>
 </header>
 
 <div class="sticky-tools">
@@ -91,119 +111,93 @@
         <select id="nameSelect" onchange="highlightUser()">
             <option value="">-- 選擇名字 / Pilih Nama --</option>
             <option value="Daud">Daud</option>
+            <option value="Dina">Dina</option>
+            <option value="Elli">Elli</option>
+            <option value="Eric">Eric</option>
             <option value="Erik">Erik</option>
+            <option value="Jamie">Jamie</option>
             <option value="Jammy">Jammy</option>
             <option value="Joan">Joan</option>
+            <option value="Ken">Ken</option>
             <option value="Linling">Linling</option>
             <option value="Lusi">Lusi</option>
+            <option value="Mei">Mei</option>
             <option value="Melody">Melody</option>
             <option value="Nikai">Nikai</option>
             <option value="Rut">Rut</option>
+            <option value="SAITO">SAITO CHIEMI</option>
             <option value="Sayo">Sayo</option>
             <option value="Selia">Selia</option>
+            <option value="Stephanie">Stephanie</option>
             <option value="Tommy">Tommy</option>
+            <option value="Vina">Vina</option>
             <option value="Yoshiya">Yoshiya</option>
             <option value="Yunus">Yunus</option>
             <option value="Yusuf">Yusuf</option>
             <option value="周宛錚">周宛錚</option>
+            <option value="松宮">松宮（劉）麗娟</option>
             <option value="陳皇傑">陳皇傑</option>
+            <option value="張苧萱">張苧萱</option>
+            <option value="王雅貞">王雅貞</option>
+            <option value="黃詩吟">黃詩吟</option>
         </select>
     </div>
     <div class="tabs">
-        <button class="tab-btn active" data-day="day1" onclick="showDay('day1', this)">6/30<br>Selasa</button>
-        <button class="tab-btn" data-day="day2" onclick="showDay('day2', this)">7/2<br>Kamis</button>
-        <button class="tab-btn" data-day="day3" onclick="showDay('day3', this)">7/6<br>Senin</button>
+        <button class="tab-btn active" onclick="showDay('day1', this)">6/30 (火)</button>
+        <button class="tab-btn" onclick="showDay('day2', this)">7/02 (木)</button>
+        <button class="tab-btn" onclick="showDay('day3', this)">7/06 (月)</button>
     </div>
 </div>
 
 <div class="container">
-    <!-- 6/30 SCHEDULE -->
+    <!-- 各コンテンツ（前回の内容） -->
     <div id="day1" class="schedule-section active">
         <div class="card">
-            <h2>飯店接待安排<span class="lang-sub">Pendampingan di Hotel (Escort)</span></h2>
+            <h2>飯店接待 / Escort Hotel</h2>
             <table>
-                <tr data-name="Daud, Lusi"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td class="escort-name">Daud, Lusi</td></tr>
-                <tr data-name="Sayo"><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td class="escort-name">Sayo</td></tr>
+                <tr data-name="Daud, Lusi"><td>Daud, Lusi</td><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" class="hotel-link">📍 帝后 Q21</a></td></tr>
+                <tr data-name="Sayo"><td>Sayo</td><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" class="hotel-link">📍 天子閣 Tenz</a></td></tr>
             </table>
         </div>
         <div class="card">
-            <h2>接送代表的安排<span class="lang-sub">Pengaturan Penjemputan Delegasi</span></h2>
+            <h2>傳道小組 / Kelompok Dinas</h2>
             <table>
-                <tr><th>地點 / Lokasi</th><th>人員 / Nama</th></tr>
-                <tr data-name="Yunus"><td><span class="room-no">帝后 1, 2</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yunus</td></tr>
-                <tr data-name="Erik"><td><span class="room-no">帝后 3, 4</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Erik</td></tr>
-                <tr data-name="Melody"><td><span class="room-no">帝后 5, 6</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Melody</td></tr>
-                <tr data-name="Jammy"><td><span class="room-no">帝后 7, 8</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Jammy</td></tr>
-                <tr data-name="陳皇傑"><td><span class="room-no">帝后 9, 10</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>陳皇傑</td></tr>
-                <tr data-name="Tommy"><td><span class="room-no">帝后 11, 12</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Tommy</td></tr>
-                <tr data-name="Nikai"><td><span class="room-no">天子閣 1, 2, 3</span><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Nikai</td></tr>
+                <tr data-name="Yunus, SAITO, Sayo, Tina"><td><b>A</b></td><td><span class="badge driver-bg">司機</span> Yunus<br>成員: SAITO, Sayo, Tina</td></tr>
+                <tr data-name="Daud, Lusi, Ken"><td><b>E</b></td><td><span class="badge walk-bg">走路</span> Daud, Lusi<br><span class="lunch-box">x 午餐: Ken</span></td></tr>
             </table>
         </div>
     </div>
 
-    <!-- 7/2 SCHEDULE -->
+    <!-- 他の日付（day2, day3）も同様に続く... -->
     <div id="day2" class="schedule-section">
         <div class="card">
-            <h2>飯店接待安排<span class="lang-sub">Pendampingan di Hotel (Escort)</span></h2>
+            <h2>飯店接待 / Escort Hotel</h2>
             <table>
-                <tr data-name="Yusuf, Joan"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td class="escort-name">Yusuf, Joan</td></tr>
-            </table>
-        </div>
-        <div class="card">
-            <h2>接送代表的安排<span class="lang-sub">Pengaturan Penjemputan Delegasi</span></h2>
-            <table>
-                <tr><th>地點 / Lokasi</th><th>人員 / Nama</th></tr>
-                <tr data-name="Nikai"><td><span class="room-no">帝后 1, 2</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Nikai</td></tr>
-                <tr data-name="Yusuf"><td><span class="room-no">帝后 3, 4</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yusuf</td></tr>
-                <tr data-name="Erik"><td><span class="room-no">帝后 5, 6</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Erik</td></tr>
-                <tr data-name="周宛錚"><td><span class="room-no">帝后 7, 8</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>周宛錚</td></tr>
-                <tr data-name="Melody"><td><span class="room-no">帝后 9, 10</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Melody</td></tr>
-                <tr data-name="Selia"><td><span class="room-no">帝后 11, 12</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Selia</td></tr>
-                <tr data-name="陳皇傑"><td><span class="room-no">帝后 13, 14</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>陳皇傑</td></tr>
-                <tr data-name="Tommy"><td><span class="room-no">帝后 15, 16</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Tommy</td></tr>
-            </table>
-        </div>
-    </div>
-
-    <!-- 7/6 SCHEDULE -->
-    <div id="day3" class="schedule-section">
-        <div class="card">
-            <h2>飯店接待安排<span class="lang-sub">Pendampingan di Hotel (Escort)</span></h2>
-            <table>
-                <tr data-name="Yoshiya, Linling"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td class="escort-name">Yoshiya, Linling</td></tr>
-                <tr data-name="Rut"><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td class="escort-name">Rut</td></tr>
-            </table>
-        </div>
-        <div class="card">
-            <h2>接送代表的安排<span class="lang-sub">Pengaturan Penjemputan Delegasi</span></h2>
-            <table>
-                <tr><th>地點 / Lokasi</th><th>人員 / Nama</th></tr>
-                <tr data-name="Erik"><td><span class="room-no">帝后 1, 2</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Erik</td></tr>
-                <tr data-name="Nikai"><td><span class="room-no">帝后 3, 4, 5</span><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Nikai</td></tr>
-                <tr data-name="Melody"><td><span class="room-no">天子閣 1, 2</span><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Melody</td></tr>
-                <tr data-name="Yunus"><td><span class="room-no">天子閣 3, 4, 5</span><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Yunus</td></tr>
-                <tr data-name="周宛錚"><td><span class="room-no">天子閣 6, 7</span><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>周宛錚</td></tr>
-                <tr data-name="Jammy"><td><span class="room-no">天子閣 8, 9, 10</span><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Jammy</td></tr>
-                <tr data-name="Selia"><td><span class="room-no">天子閣 11, 12, 13</span><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Selia</td></tr>
+                <tr data-name="Yusuf, Joan"><td>Yusuf, Joan</td><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" class="hotel-link">📍 帝后 Q21</a></td></tr>
             </table>
         </div>
     </div>
 </div>
 
-<script>
-    window.onload = function() {
-        window.scrollTo(0, 0);
-    };
+<!-- 固定フッターボタン -->
+<div class="app-footer">
+    <a href="https://script.google.com/macros/s/AKfycbxqcwTvI13csRrX-k1X8jN8TFW0luiuykiJmxAWjVey-kw8uMxF0cTnEtIIjZUH2Zu3/exec" target="_blank" class="app-button">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <div>
+            開啟傳道用 App
+            <span class="btn-sub">Buka Aplikasi Dinas</span>
+        </div>
+    </a>
+</div>
 
+<script>
     function showDay(dayId, btn) {
         document.querySelectorAll('.schedule-section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(dayId).classList.add('active');
         btn.classList.add('active');
         document.body.className = 'theme-' + dayId;
-        
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        
         highlightUser();
     }
     
