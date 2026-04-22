@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>高雄大會行程正確版</title>
+    <title>Jadwal Penjemputan Delegasi - Kaohsiung</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #003366; --bg: #F4F7F6; --card: #FFFFFF; --highlight: #ffeb3b; }
@@ -11,102 +11,112 @@
         header { background: var(--primary); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
         .sticky-tools { position: sticky; top: 54px; background: var(--bg); z-index: 90; padding-bottom: 5px; }
         .user-selector { padding: 12px; background: #fff; border-bottom: 1px solid #ddd; }
-        select { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--primary); font-size: 16px; font-weight: bold; }
+        select { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--primary); font-size: 16px; font-weight: bold; background-color: white; }
         .tabs { display: flex; background: #fff; }
-        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: bold; color: #888; border-bottom: 4px solid transparent; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: bold; color: #888; border-bottom: 4px solid transparent; font-size: 0.9rem; }
         .tab-btn.active { color: var(--primary); border-bottom: 4px solid var(--primary); background: #f0f4f8; }
         .container { padding: 10px; }
         .schedule-section { display: none; }
         .schedule-section.active { display: block; }
         .card { background: var(--card); border-radius: 10px; padding: 12px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .card h2 { margin: 0 0 10px; font-size: 1rem; color: var(--primary); border-left: 5px solid var(--primary); padding-left: 10px; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        th { background: #f8f9fa; text-align: left; padding: 8px; border-bottom: 2px solid #eee; }
-        td { padding: 10px 8px; border-bottom: 1px solid #eee; }
-        .highlight { background-color: var(--highlight) !important; font-weight: bold; border: 2px solid #fbc02d; }
-        .hotel-tag { font-weight: bold; color: #555; width: 40%; }
-        .day-label { display: block; text-align: center; font-size: 0.8rem; color: #666; margin-bottom: 5px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        th { background: #f8f9fa; text-align: left; padding: 8px; border-bottom: 2px solid #eee; color: #666; font-size: 0.8rem; }
+        td { padding: 12px 8px; border-bottom: 1px solid #eee; }
+        .highlight { background-color: var(--highlight) !important; font-weight: bold; outline: 2px solid #fbc02d; }
+        .q21 { color: #e67e22; font-weight: bold; font-size: 0.85rem; }
+        .tenz { color: #2980b9; font-weight: bold; font-size: 0.85rem; }
+        .lang-sub { display: block; font-size: 0.75rem; font-weight: normal; color: #666; }
     </style>
 </head>
 <body>
 
-<header><strong>國際大會接送與傳道安排 (校正版)</strong></header>
+<header>
+    接送國際大會代表的安排表
+    <span style="display:block; font-size:0.8rem; font-weight:normal;">Jadwal Penjemputan Delegasi Konvensi Internasional</span>
+</header>
 
 <div class="sticky-tools">
     <div class="user-selector">
         <select id="nameSelect" onchange="highlightUser()">
-            <option value="">-- 請選擇名字 (Pilih Nama) --</option>
+            <option value="">-- 請選擇名字 / Pilih Nama --</option>
             <option value="Yunus">Yunus</option>
             <option value="Erik">Erik</option>
-            <option value="Nikai">Nikai (仁階)</option>
             <option value="Melody">Melody</option>
             <option value="Jammy">Jammy</option>
+            <option value="陳皇傑">陳皇傑 (Chen Huang-jie)</option>
             <option value="Tommy">Tommy</option>
-            <option value="Selia">Selia</option>
-            <option value="周宛錚">周宛錚</option>
-            <option value="陳皇傑">陳皇傑</option>
+            <option value="Nikai">Nikai (仁階)</option>
             <option value="Yusuf">Yusuf</option>
-            <option value="Daud">Daud</option>
-            <option value="Lusi">Lusi</option>
-            <option value="Saito">SAITO CHIEMI</option>
-            <option value="Sayo">Sayo</option>
-            <option value="Stephanie">Stephanie</option>
-            <option value="王雅貞">王雅貞</option>
+            <option value="周宛錚">周宛錚 (Chou Wan-cheng)</option>
+            <option value="Selia">Selia</option>
         </select>
     </div>
     <div class="tabs">
-        <button class="tab-btn active" onclick="showDay('day1', this)">6/30</button>
-        <button class="tab-btn" onclick="showDay('day2', this)">7/02</button>
-        <button class="tab-btn" onclick="showDay('day3', this)">7/06</button>
+        <button class="tab-btn active" onclick="showDay('day1', this)">6/30<br><small>(Minggu)</small></button>
+        <button class="tab-btn" onclick="showDay('day2', this)">7/2<br><small>(Kamis)</small></button>
+        <button class="tab-btn" onclick="showDay('day3', this)">7/6<br><small>(Senin)</small></button>
     </div>
 </div>
 
 <div class="container">
-    <!-- 6/30 -->
+    <!-- 6/30 SCHEDULE -->
     <div id="day1" class="schedule-section active">
         <div class="card">
-            <h2>飯店接送待命 (6/30)</h2>
+            <h2>飯店接送待命<span class="lang-sub">Standby Penjemputan Hotel</span></h2>
             <table>
-                <tr data-name="Yunus"><td>帝后1, 2</td><td>Yunus</td></tr>
-                <tr data-name="Erik"><td>帝后3, 4</td><td>Erik</td></tr>
-                <tr data-name="Melody"><td>帝后5, 6</td><td>Melody</td></tr>
-                <tr data-name="Jammy"><td>帝后7, 8</td><td>Jammy</td></tr>
-                <tr data-name="陳皇傑"><td>帝后9, 10</td><td>陳皇傑</td></tr>
-                <tr data-name="Tommy"><td>帝后11, 12</td><td>Tommy</td></tr>
-                <tr data-name="Nikai"><td>天子閣1, 2, 3</td><td>Nikai</td></tr>
+                <tr>
+                    <th>地點 / Lokasi</th>
+                    <th>人員 / Nama</th>
+                </tr>
+                <tr data-name="Yunus"><td class="q21">帝后 1, 2 (Q21)</td><td>Yunus</td></tr>
+                <tr data-name="Erik"><td class="q21">帝后 3, 4 (Q21)</td><td>Erik</td></tr>
+                <tr data-name="Melody"><td class="q21">帝后 5, 6 (Q21)</td><td>Melody</td></tr>
+                <tr data-name="Jammy"><td class="q21">帝后 7, 8 (Q21)</td><td>Jammy</td></tr>
+                <tr data-name="陳皇傑"><td class="q21">帝后 9, 10 (Q21)</td><td>陳皇傑</td></tr>
+                <tr data-name="Tommy"><td class="q21">帝后 11, 12 (Q21)</td><td>Tommy</td></tr>
+                <tr data-name="Nikai"><td class="tenz">天子閣 1, 2, 3 (Tenz)</td><td>Nikai</td></tr>
             </table>
         </div>
     </div>
 
-    <!-- 7/2 -->
+    <!-- 7/2 SCHEDULE -->
     <div id="day2" class="schedule-section">
         <div class="card">
-            <h2>飯店接送待命 (7/2)</h2>
+            <h2>飯店接送待命<span class="lang-sub">Standby Penjemputan Hotel</span></h2>
             <table>
-                <tr data-name="Nikai"><td>帝后1, 2</td><td>Nikai</td></tr>
-                <tr data-name="Yusuf"><td>帝后3, 4</td><td>Yusuf</td></tr>
-                <tr data-name="Erik"><td>帝后5, 6</td><td>Erik</td></tr>
-                <tr data-name="周宛錚"><td>帝后7, 8</td><td>周宛錚</td></tr>
-                <tr data-name="Melody"><td>帝后9, 10</td><td>Melody</td></tr>
-                <tr data-name="Selia"><td>帝后11, 12</td><td>Selia</td></tr>
-                <tr data-name="陳皇傑"><td>帝后13, 14</td><td>陳皇傑</td></tr>
-                <tr data-name="Tommy"><td>帝后15, 16</td><td>Tommy</td></tr>
+                <tr>
+                    <th>地點 / Lokasi</th>
+                    <th>人員 / Nama</th>
+                </tr>
+                <tr data-name="Nikai"><td class="q21">帝后 1, 2 (Q21)</td><td>Nikai</td></tr>
+                <tr data-name="Yusuf"><td class="q21">帝后 3, 4 (Q21)</td><td>Yusuf</td></tr>
+                <tr data-name="Erik"><td class="q21">帝后 5, 6 (Q21)</td><td>Erik</td></tr>
+                <tr data-name="周宛錚"><td class="q21">帝后 7, 8 (Q21)</td><td>周宛錚</td></tr>
+                <tr data-name="Melody"><td class="q21">帝后 9, 10 (Q21)</td><td>Melody</td></tr>
+                <tr data-name="Selia"><td class="q21">帝后 11, 12 (Q21)</td><td>Selia</td></tr>
+                <tr data-name="陳皇傑"><td class="q21">帝后 13, 14 (Q21)</td><td>陳皇傑</td></tr>
+                <tr data-name="Tommy"><td class="q21">帝后 15, 16 (Q21)</td><td>Tommy</td></tr>
             </table>
         </div>
     </div>
 
-    <!-- 7/6 -->
+    <!-- 7/6 SCHEDULE -->
     <div id="day3" class="schedule-section">
         <div class="card">
-            <h2>飯店接送待命 (7/6)</h2>
+            <h2>飯店接送待命<span class="lang-sub">Standby Penjemputan Hotel</span></h2>
             <table>
-                <tr data-name="Erik"><td>帝后1, 2</td><td>Erik</td></tr>
-                <tr data-name="Nikai"><td>帝后3, 4, 5</td><td>Nikai</td></tr>
-                <tr data-name="Melody"><td>天子閣1, 2</td><td>Melody</td></tr>
-                <tr data-name="Yunus"><td>天子閣3, 4, 5</td><td>Yunus</td></tr>
-                <tr data-name="周宛錚"><td>天子閣6, 7</td><td>周宛錚</td></tr>
-                <tr data-name="Jammy"><td>天子閣8, 9, 10</td><td>Jammy</td></tr>
-                <tr data-name="Selia"><td>天子閣11, 12, 13</td><td>Selia</td></tr>
+                <tr>
+                    <th>地點 / Lokasi</th>
+                    <th>人員 / Nama</th>
+                </tr>
+                <tr data-name="Erik"><td class="q21">帝后 1, 2 (Q21)</td><td>Erik</td></tr>
+                <tr data-name="Nikai"><td class="q21">帝后 3, 4, 5 (Q21)</td><td>Nikai</td></tr>
+                <tr data-name="Melody"><td class="tenz">天子閣 1, 2 (Tenz)</td><td>Melody</td></tr>
+                <tr data-name="Yunus"><td class="tenz">天子閣 3, 4, 5 (Tenz)</td><td>Yunus</td></tr>
+                <tr data-name="周宛錚"><td class="tenz">天子閣 6, 7 (Tenz)</td><td>周宛錚</td></tr>
+                <tr data-name="Jammy"><td class="tenz">天子閣 8, 9, 10 (Tenz)</td><td>Jammy</td></tr>
+                <tr data-name="Selia"><td class="tenz">天子閣 11, 12, 13 (Tenz)</td><td>Selia</td></tr>
             </table>
         </div>
     </div>
@@ -124,7 +134,8 @@
         const val = document.getElementById('nameSelect').value;
         document.querySelectorAll('tr').forEach(tr => {
             tr.classList.remove('highlight');
-            if (val && tr.getAttribute('data-name') && tr.getAttribute('data-name').includes(val)) {
+            const nameData = tr.getAttribute('data-name');
+            if (val && nameData && nameData.includes(val)) {
                 tr.classList.add('highlight');
             }
         });
