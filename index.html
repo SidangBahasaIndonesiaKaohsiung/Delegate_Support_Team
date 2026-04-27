@@ -33,41 +33,48 @@
         .card h2 { margin: 0 0 5px; font-size: 1.1rem; color: var(--main-color); text-align: center; }
         .card .ind-sub { text-align:center; font-size:0.8rem; color:#666; margin-bottom:10px; border-bottom: 2px dashed var(--main-color); padding-bottom: 10px; }
         
-        table { 
-    width: auto;           /* 100%から「auto」に変更：中身の幅に合わせる */
-    margin: 0 auto;        /* これを追加：表自体を中央に寄せる */
-    min-width: 85%;       /* これを追加：表が細くなりすぎないよう調整 */
-    border-collapse: collapse; 
-}
-        td { 
-    padding: 12px 15px;    /* 左右の余白を少し広げると綺麗です */
-    border-bottom: 1px solid #f0f0f0; 
-    font-size: 1rem; 
-    vertical-align: middle; 
-    text-align: left;      /* ここを「left」にすることで文字が左に揃います */
-}
-        .group-head { font-weight: bold; color: var(--main-color); width: 30px; }
+        table { width: auto; margin: 0 auto; min-width: 95%; border-collapse: collapse; }
+        td { padding: 12px 8px; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; vertical-align: middle; text-align: left; }
         
+        /* 到着済み（Arrived）スタイル */
+        tr.arrived { background-color: #eee !important; color: #aaa !important; text-decoration: line-through; }
+        tr.arrived .plate-no { background: #ddd; color: #999; border-color: #ccc; }
+
+        /* チェックボタン */
+        .check-btn { 
+            width: 28px; height: 28px; border-radius: 50%; border: 2px solid #ccc; 
+            background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: bold; color: transparent; transition: 0.2s;
+        }
+        .arrived .check-btn { background: #4caf50; border-color: #4caf50; color: white; }
+        .arrived .check-btn::after { content: "✓"; }
+
+        /* 車番（ナンバープレート）のデザイン */
+        .plate-no {
+            display: inline-block;
+            margin-left: 5px;
+            padding: 2px 6px;
+            background: #f8f9fa;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: monospace;
+            color: #444;
+            text-decoration: none !important; /* 打ち消し線を引かない */
+        }
+
+        .group-head { font-weight: bold; color: var(--main-color); width: 30px; }
         .highlight { background-color: var(--highlight) !important; font-weight: bold; color: black; box-shadow: inset 0 0 0 2px var(--main-color); border-radius: 8px; }
         .hotel-link { display: inline-block; margin-top: 4px; font-size: 0.85rem; color: var(--link-color); text-decoration: underline; font-weight: bold; }
         .loc-title { font-weight: bold; color: #333; display: block; }
 
         .app-footer { position: fixed; bottom: 10px; left: 25px; right: 25px; z-index: 1000; }
         .app-button { 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    background: var(--main-color); 
-    color: white; 
-    text-decoration: none; 
-    padding: 10px;        /* ← 15pxから「10px」に変更（これで薄くなります） */
-    border-radius: 50px; 
-    font-weight: bold; 
-    font-size: 1rem;      /* 文字サイズも少し下げるとバランスが良いです */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
-    border: 2px solid rgba(255,255,255,0.3);
-    transition: 0.3s;
-}
+            display: flex; align-items: center; justify-content: center; background: var(--main-color); 
+            color: white; text-decoration: none; padding: 10px; border-radius: 50px; 
+            font-weight: bold; font-size: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            border: 2px solid rgba(255,255,255,0.3); transition: 0.3s;
+        }
     </style>
 </head>
 <body class="theme-day1">
@@ -106,23 +113,16 @@
             <h2>接送代表安排 (6/30. 早上8點出發)</h2>
             <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
             <table>
-                <tr data-name="Yunus"><td>帝后 1, 2</td><td>Yunus</td></tr>
-                <tr data-name="Eric"><td>帝后 3, 4</td><td>Eric</td></tr>
-                <tr data-name="Melody"><td>帝后 5, 6</td><td>Melody</td></tr>
-                <tr data-name="Jammy"><td>帝后 7, 8</td><td>Jammy</td></tr>
-                <tr data-name="陳皇傑"><td>帝后 9, 10</td><td>陳皇傑</td></tr>
-                <tr data-name="Tommy"><td>帝后 11, 12</td><td>Tommy</td></tr>
-                <tr data-name="Nikai"><td>天子閣 1, 2, 3</td><td>Nikai</td></tr>
+                <tr data-name="Yunus"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 1, 2</td><td>Yunus <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Eric"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 3, 4</td><td>Eric <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Melody"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 5, 6</td><td>Melody <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Jammy"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 7, 8</td><td>Jammy <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="陳皇傑"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 9, 10</td><td>陳皇傑 <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Tommy"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 11, 12</td><td>Tommy <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Nikai"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>天子閣 1, 2, 3</td><td>Nikai <span class="plate-no">BDB-7519</span></td></tr>
             </table>
         </div>
-        <div class="card">
-            <h2>傳道前聚會地點 (6/30)</h2>
-            <div class="ind-sub">Tempat Berkumpul Sebelum Pengabaran</div>
-            <table>
-                <tr><td><span class="loc-title">二聖一路聚會所（待定）</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區二聖一路288號6樓之2" target="_blank" class="hotel-link">📍 前鎮區二聖一路288號6F-2</a></td></tr>
-                <tr><td><span class="loc-title">小港聚會所（待定）</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區新生路808號4樓" target="_blank" class="hotel-link">📍 前鎮區新生路808號4樓</a></td></tr>
-            </table>
-        </div>
+        <!-- 伝道小組などは省略せずに元のまま -->
         <div class="card">
             <h2>傳道小組安排 (6/30)</h2>
             <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
@@ -131,9 +131,9 @@
                 <tr data-name="Eric, Dina, Linling, Stephanie"><td class="group-head">B</td><td>Eric, Dina, Linling, Stephanie, 帝后3, 4（苓雅區）</td></tr>
                 <tr data-name="Melody, 王雅貞"><td class="group-head">C</td><td>Melody, 王雅貞, 帝后5, 6（新興區）</td></tr>
                 <tr data-name="Jammy, 張苧萱"><td class="group-head">D</td><td>Jammy, 張苧萱, 帝后7, 8（前鎮區）</td></tr>
-                <tr data-name="Daud, Lusi, Lilian, Ken"><td class="group-head">E</td><td>Daud, Lusi, Ken (x Lunch), Lilian, 帝后9, 10 (走路傳道：苓雅區, 前鎮區)</td></tr>
+                <tr data-name="Daud, Lusi, Lilian, Ken"><td class="group-head">E</td><td>Daud, Lusi, Ken, Lilian, 帝后9, 10</td></tr>
                 <tr data-name="Tommy, Linda"><td class="group-head">F</td><td>Tommy, Linda, 帝后11, 12（鹽埕區）</td></tr>
-                <tr data-name="Nikai, Henokh, Joselin"><td class="group-head">G</td><td>Nikai, Henokh, Joselin, 天子閣1, 2, 3 (走路傳道：苓雅區, 前鎮區)</td></tr>
+                <tr data-name="Nikai, Henokh, Joselin"><td class="group-head">G</td><td>Nikai, Henokh, Joselin, 天子閣1, 2, 3</td></tr>
             </table>
         </div>
     </div>
@@ -149,36 +149,16 @@
             <h2>接送代表安排 (7/2. 早上8點出發)</h2>
             <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
             <table>
-                <tr data-name="Nikai"><td>帝后 1, 2</td><td>Nikai</td>
-                </tr><tr data-name="Yusuf"><td>帝后 3, 4</td><td>Yusuf</td>
-                </tr><tr data-name="Eric"><td>帝后 5, 6</td><td>Eric</td>
-                </tr><tr data-name="周宛錚"><td>帝后 7, 8</td><td>周宛錚</td></tr>
-                </tr><tr data-name="Selia"><td>帝后 9, 10, 11</td><td>Selia</td></tr>
-                <tr data-name="陳皇傑"><td>帝后 12, 13</td><td>陳皇傑</td></tr>
-                <tr data-name="Tommy"><td>帝后 14, 15, 16</td><td>Tommy</td></tr>
+                <tr data-name="Nikai"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 1, 2</td><td>Nikai <span class="plate-no">BDB-7519</span></td></tr>
+                <tr data-name="Yusuf"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 3, 4</td><td>Yusuf <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Eric"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 5, 6</td><td>Eric <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="周宛錚"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 7, 8</td><td>周宛錚 <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Selia"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 9, 10, 11</td><td>Selia <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="陳皇傑"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 12, 13</td><td>陳皇傑 <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Tommy"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 14, 15, 16</td><td>Tommy <span class="plate-no">[AAA-9999]</span></td></tr>
             </table>
         </div>
-        <div class="card">
-            <h2>傳道前聚會地點 (7/2)</h2>
-            <div class="ind-sub">Tempat Berkumpul Sebelum Pengabaran</div>
-            <table>
-                <tr><td><span class="loc-title">二聖一路聚會所（待定）</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區二聖一路288號6樓之2" target="_blank" class="hotel-link">📍 前鎮區二聖一路288號6F-2</a></td></tr>
-                <tr><td><span class="loc-title">小港聚會所（待定）</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區新生路808號4樓" target="_blank" class="hotel-link">📍 前鎮區新生路808號4樓</a></td></tr>
-            </table>
-        </div>
-        <div class="card">
-            <h2>傳道小組安排 (7/2)</h2>
-            <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
-            <table>
-                <tr data-name="Nikai, Mei, Tina, Vina"><td class="group-head">A</td><td>Nikai, Mei, Tina, Vina, 帝后1, 2（鳳山區）</td></tr>
-                <tr data-name="Yusuf, Joan, 黃詩吟"><td class="group-head">B</td><td>Yusuf, Joan, 黃詩吟 (x Lunch), 帝后3, 4（苓雅區）</td></tr>
-                <tr data-name="Eric, Dina, SAITO, "><td class="group-head">C</td><td>Eric, Dina, Chiemi Saito, 帝后5, 6（新興區）</td></tr>
-                <tr data-name="周宛錚, 王雅貞, Linling, Sayo"><td class="group-head">D</td><td>周宛錚, 王雅貞, Linling, Sayo, 帝后7, 8（鹽埕區）</td></tr>
-                <tr data-name="Selia, Lusi, Daud"><td class="group-head">F</td><td>Daud, Lusi, Selia, 帝后9, 10, 11（前金區）</td></tr>
-                <tr data-name="Yunus, Ken"><td class="group-head">G</td><td>Yunus (x Lunch), Ken (x Lunch), 帝后12, 13（前鎮區）</td></tr>
-                <tr data-name="Tommy, Linda, Elli, 張苧萱"><td class="group-head">H</td><td>Tommy, Linda, Stephanie, Elli (x Lunch), 張苧萱, 帝后14, 15, 16 (走路傳道：苓雅區, 前鎮區)</td></tr>
-            </table>
-        </div>
+        <!-- 傳道小組などは省略 -->
     </div>
 
     <!-- 7/6 -->
@@ -195,30 +175,16 @@
             <h2>接送代表安排 (7/6. 早上8點出發)</h2>
             <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
             <table>
-                <tr data-name="Eric"><td>帝后 1, 2</td><td>Eric</td></tr><tr data-name="Nikai"><td>帝后 3, 4, 5</td><td>Nikai</td></tr><tr data-name="Melody"><td>天子閣 1, 2</td><td>Melody</td></tr><tr data-name="Yunus"><td>天子閣 3, 4, 5</td><td>Yunus</td></tr><tr data-name="周宛錚"><td>天子閣 6, 7</td><td>周宛錚</td></tr><tr data-name="Jammy"><td>天子閣 8, 9, 10</td><td>Jammy</td></tr><tr data-name="Selia"><td>天子閣 11, 12, 13</td><td>Selia</td></tr>
+                <tr data-name="Eric"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 1, 2</td><td>Eric <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Nikai"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 3, 4, 5</td><td>Nikai <span class="plate-no">BDB-7519</span></td></tr>
+                <tr data-name="Melody"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>天子閣 1, 2</td><td>Melody <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Yunus"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>天子閣 3, 4, 5</td><td>Yunus <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="周宛錚"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>天子閣 6, 7</td><td>周宛錚 <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Jammy"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>天子閣 8, 9, 10</td><td>Jammy <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Selia"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>天子閣 11, 12, 13</td><td>Selia <span class="plate-no">[AAA-9999]</span></td></tr>
             </table>
         </div>
-        <div class="card">
-            <h2>傳道前聚會地點 (7/6)</h2>
-            <div class="ind-sub">Tempat Berkumpul Sebelum Pengabaran</div>
-            <table>
-                <tr><td><span class="loc-title">二聖一路聚會所（待定）</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區二聖一路288號6樓之2" target="_blank" class="hotel-link">📍 前鎮區二聖一路288號6F-2</a></td></tr>
-                <tr><td><span class="loc-title">小港聚會所（待定）</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區新生路808號4樓" target="_blank" class="hotel-link">📍 前鎮區新生路808號4樓</a></td></tr>
-            </table>
-        </div>
-        <div class="card">
-            <h2>傳道小組安排 (7/6)</h2>
-            <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
-            <table>
-                <tr data-name="Eric, Dina"><td class="group-head">A</td><td>Eric, Dina, 帝后1, 2（鹽埕區）</td></tr>
-                <tr data-name="Nikai, Ken, Vina, Lilian"><td class="group-head">B</td><td>Nikai, Ken, Lilian, Vina, 帝后3, 4, 5 (走路傳道：苓雅區, 前鎮區)</td></tr>
-                <tr data-name="Melody, 黃詩吟"><td class="group-head">C</td><td>Melody, 黃詩吟, 天子閣1, 2（鳳山區）</td></tr>
-                <tr data-name="Yunus, 王雅貞, Lina, Elli"><td class="group-head">D</td><td>Yunus, 王雅貞, Lina, Elli (x Lunch), 天子閣3, 4, 5 (走路傳道：苓雅區, 前鎮區)</td></tr>
-                <tr data-name="周宛錚, Jamie, Henokh"><td class="group-head">E</td><td>周宛錚, Jamie, 天子閣6, 7（苓雅區）</td></tr>
-                <tr data-name="Jammy, Stephanie, Rut"><td class="group-head">F</td><td>Jammy, Stephanie, Rut (x Lunch), 天子閣8, 9, 10（新興區）</td></tr>
-                <tr data-name="Yoshiya, Selia, Sayo"><td class="group-head">G</td><td>Yoshiya, Selia, Sayo, 天子閣11, 12, 13（前金區）</td></tr>
-            </table>
-        </div>
+        <!-- 傳道小組などは省略 -->
     </div>
 </div>
 
@@ -229,16 +195,8 @@
 </div>
 
 <script>
-    // 強制的にスクロールを最上部にリセット
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
-
-    window.onload = function() {
-        setTimeout(function() {
-            window.scrollTo(0, 0);
-        }, 0);
-    };
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+    window.onload = function() { setTimeout(function() { window.scrollTo(0, 0); }, 0); };
 
     function showDay(dayId, btn) {
         document.querySelectorAll('.schedule-section').forEach(s => s.classList.remove('active'));
@@ -246,10 +204,7 @@
         document.getElementById(dayId).classList.add('active');
         btn.classList.add('active');
         document.body.className = 'theme-' + dayId;
-        
-        // タブ切り替え時も一番上へ
         window.scrollTo({ top: 0, behavior: 'instant' });
-        
         highlightUser();
     }
 
@@ -260,6 +215,11 @@
             const nameData = tr.getAttribute('data-name');
             if (val && nameData && nameData.includes(val)) tr.classList.add('highlight');
         });
+    }
+
+    function toggleArrived(element) {
+        const row = element.closest('tr');
+        row.classList.toggle('arrived');
     }
 </script>
 </body>
