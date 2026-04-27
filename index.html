@@ -40,16 +40,21 @@
         tr.arrived { background-color: #eee !important; color: #aaa !important; text-decoration: line-through; }
         tr.arrived .plate-no { background: #ddd; color: #999; border-color: #ccc; }
 
-        /* チェックボタン */
+        /* チェックボタン：ここを修正（打ち消し線を無効化） */
         .check-btn { 
             width: 28px; height: 28px; border-radius: 50%; border: 2px solid #ccc; 
             background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
             font-size: 14px; font-weight: bold; color: transparent; transition: 0.2s;
+            text-decoration: none !important; /* ← これを追加 */
+            display: inline-flex; /* 念のため */
         }
-        .arrived .check-btn { background: #4caf50; border-color: #4caf50; color: white; }
-        .arrived .check-btn::after { content: "✓"; }
+        .arrived .check-btn { 
+            background: #4caf50; border-color: #4caf50; color: white; 
+            text-decoration: none !important; /* ← Arrived時も線を消す */
+        }
+        .arrived .check-btn::after { content: "✓"; display: block; }
 
-        /* 車番（ナンバープレート）のデザイン */
+        /* 車番のデザイン */
         .plate-no {
             display: inline-block;
             margin-left: 5px;
@@ -60,7 +65,7 @@
             font-size: 0.8rem;
             font-family: monospace;
             color: #444;
-            text-decoration: none !important; /* 打ち消し線を引かない */
+            text-decoration: none !important; 
         }
 
         .group-head { font-weight: bold; color: var(--main-color); width: 30px; }
@@ -122,29 +127,10 @@
                 <tr data-name="Nikai"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>天子閣 1, 2, 3</td><td>Nikai <span class="plate-no">BDB-7519</span></td></tr>
             </table>
         </div>
-        <!-- 伝道小組などは省略せずに元のまま -->
-        <div class="card">
-            <h2>傳道小組安排 (6/30)</h2>
-            <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
-            <table>
-                <tr data-name="Yunus, SAITO, Sayo, Tina"><td class="group-head">A</td><td>Yunus, Chiemi Saito, Sayo, Tina, 帝后1, 2（鳳山區）</td></tr>
-                <tr data-name="Eric, Dina, Linling, Stephanie"><td class="group-head">B</td><td>Eric, Dina, Linling, Stephanie, 帝后3, 4（苓雅區）</td></tr>
-                <tr data-name="Melody, 王雅貞"><td class="group-head">C</td><td>Melody, 王雅貞, 帝后5, 6（新興區）</td></tr>
-                <tr data-name="Jammy, 張苧萱"><td class="group-head">D</td><td>Jammy, 張苧萱, 帝后7, 8（前鎮區）</td></tr>
-                <tr data-name="Daud, Lusi, Lilian, Ken"><td class="group-head">E</td><td>Daud, Lusi, Ken, Lilian, 帝后9, 10</td></tr>
-                <tr data-name="Tommy, Linda"><td class="group-head">F</td><td>Tommy, Linda, 帝后11, 12（鹽埕區）</td></tr>
-                <tr data-name="Nikai, Henokh, Joselin"><td class="group-head">G</td><td>Nikai, Henokh, Joselin, 天子閣1, 2, 3</td></tr>
-            </table>
-        </div>
     </div>
 
     <!-- 7/2 -->
     <div id="day2" class="schedule-section">
-        <div class="card">
-            <h2>飯店接待安排 (7/2)</h2>
-            <div class="ind-sub">Pendampingan di Hotel (Escort)</div>
-            <table><tr data-name="Yusuf, Joan"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yusuf, Joan</td></tr></table>
-        </div>
         <div class="card">
             <h2>接送代表安排 (7/2. 早上8點出發)</h2>
             <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
@@ -158,19 +144,10 @@
                 <tr data-name="Tommy"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>帝后 14, 15, 16</td><td>Tommy <span class="plate-no">[AAA-9999]</span></td></tr>
             </table>
         </div>
-        <!-- 傳道小組などは省略 -->
     </div>
 
     <!-- 7/6 -->
     <div id="day3" class="schedule-section">
-        <div class="card">
-            <h2>飯店接待安排 (7/6)</h2>
-            <div class="ind-sub">Pendampingan di Hotel (Escort)</div>
-            <table>
-                <tr data-name="Yoshiya, Linling"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yoshiya, Linling</td></tr>
-                <tr data-name="Rut"><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Rut</td></tr>
-            </table>
-        </div>
         <div class="card">
             <h2>接送代表安排 (7/6. 早上8點出發)</h2>
             <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
@@ -184,7 +161,6 @@
                 <tr data-name="Selia"><td><div class="check-btn" onclick="toggleArrived(this)"></div></td><td>天子閣 11, 12, 13</td><td>Selia <span class="plate-no">[AAA-9999]</span></td></tr>
             </table>
         </div>
-        <!-- 傳道小組などは省略 -->
     </div>
 </div>
 
