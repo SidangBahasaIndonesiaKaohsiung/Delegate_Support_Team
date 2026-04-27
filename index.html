@@ -7,70 +7,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --highlight: #ffeb3b; transition: 0.4s; }
-        .theme-day1 { --main-color: #c0392b; --bg-color: #fdf2f2; } 
-        .theme-day2 { --main-color: #2980b9; --bg-color: #ebf5fb; } 
-        .theme-day3 { --main-color: #27ae60; --bg-color: #f1f9f5; } 
+        .theme-day1 { --main-color: #c0392b; --bg-color: #fdf2f2; --link-color: #c0392b; } 
+        .theme-day2 { --main-color: #2980b9; --bg-color: #ebf5fb; --link-color: #2980b9; } 
+        .theme-day3 { --main-color: #27ae60; --bg-color: #f1f9f5; --link-color: #27ae60; } 
 
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); margin: 0; padding-bottom: 140px; color: #333; transition: 0.4s; }
         
-        header { background: var(--main-color); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-        .main-title { display: block; font-size: 1.2rem; font-weight: 700; }
+        header { background: var(--main-color); color: white; padding: 15px 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .main-title { display: block; font-size: 1.3rem; font-weight: 700; }
         .sub-title { display: block; font-size: 0.75rem; opacity: 0.9; }
 
-        /* ツールエリア（名前選択と更新ボタンを横並びに） */
-        .sticky-tools { position: sticky; top: 68px; background: rgba(255,255,255,0.95); backdrop-filter: blur(5px); z-index: 90; border-bottom: 1px solid #ddd; }
-        
+        /* ツールエリア：名前選択と更新ボタンを横並びに */
+        .sticky-tools { position: sticky; top: 65px; background: rgba(255,255,255,0.95); backdrop-filter: blur(5px); z-index: 90; border-bottom: 1px solid #ddd; }
         .selector-row { display: flex; gap: 8px; padding: 10px; align-items: center; }
-        
-        /* 名前選択枠：フレックスで広がるように設定 */
         .user-selector { flex: 1; }
-        select { 
-            width: 100%; padding: 10px; border-radius: 8px; 
-            border: 2px solid var(--main-color); font-size: 15px; font-weight: bold; 
-            background-color: white; outline: none;
+        select { width: 100%; padding: 10px; border-radius: 8px; border: 2px solid var(--main-color); font-size: 15px; font-weight: bold; background-color: white; outline: none; }
+        
+        .refresh-btn { 
+            background: var(--main-color); color: white; border: none; padding: 10px 12px; border-radius: 8px; font-size: 14px; font-weight: bold;
+            display: flex; align-items: center; gap: 4px; cursor: pointer; white-space: nowrap;
         }
 
-        /* 更新ボタン：右側にコンパクトに配置 */
-        .refresh-btn {
-            background: var(--main-color); color: white; border: none;
-            padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: bold;
-            display: flex; align-items: center; gap: 4px; cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s;
-        }
-        .refresh-btn:active { transform: scale(0.95); opacity: 0.8; }
-
-        .tabs { display: flex; gap: 4px; padding: 0 10px 8px 10px; }
+        .tabs { display: flex; gap: 5px; padding: 0 10px 8px 10px; }
         .tab-btn { flex: 1; padding: 8px 4px; border: none; background: #e0e0e0; font-weight: bold; color: #777; border-radius: 6px; font-size: 0.8rem; }
         .tab-btn.active { background: var(--main-color); color: white; }
 
         .container { padding: 10px; }
-        .card { background: white; border-radius: 12px; padding: 12px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1.5px solid var(--main-color); }
-        .card h2 { margin: 0 0 5px; font-size: 1rem; color: var(--main-color); text-align: center; }
-        .card .ind-sub { text-align:center; font-size:0.7rem; color:#666; margin-bottom:8px; border-bottom: 1px dashed var(--main-color); padding-bottom: 6px; }
+        .card { background: white; border-radius: 12px; padding: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1.5px solid var(--main-color); }
+        .card h2 { margin: 0 0 5px; font-size: 1.1rem; color: var(--main-color); text-align: center; }
+        .card .ind-sub { text-align:center; font-size:0.75rem; color:#666; margin-bottom:10px; border-bottom: 1px dashed var(--main-color); padding-bottom: 8px; }
         
         table { width: 100%; border-collapse: collapse; }
-        td { padding: 8px 2px; border-bottom: 1px solid #f5f5f5; font-size: 0.85rem; vertical-align: middle; white-space: nowrap; }
-        
-        tr.arrived { background-color: #f9f9f9 !important; color: #bbb !important; text-decoration: line-through; }
-        tr.arrived .plate-no { filter: grayscale(1); opacity: 0.4; }
+        td { padding: 10px 4px; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; vertical-align: middle; text-align: left; }
+        .pickup-table td { white-space: nowrap; } /* 送迎表は1行に収める */
 
+        /* 送迎済みスタイル */
+        tr.arrived { background-color: #eee !important; color: #aaa !important; text-decoration: line-through; }
+        tr.arrived .plate-no { filter: grayscale(1); opacity: 0.5; }
+
+        /* チェックボタン（中央の線を消す） */
         .check-btn { 
-            width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ccc; 
+            width: 26px; height: 26px; border-radius: 50%; border: 2px solid #ccc; 
             background: white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none !important;
         }
         .arrived .check-btn { background: #4caf50; border-color: #4caf50; color: white; text-decoration: none !important; }
         .arrived .check-btn::after { content: "✓"; font-size: 14px; }
 
+        /* 車番デザイン */
         .plate-no {
             display: inline-block; margin-left: 4px; padding: 2px 5px; background: #f8f9fa;
-            border: 1.5px solid #ccc; border-radius: 4px; font-size: 0.9rem; font-family: 'Courier New', monospace;
-            font-weight: bold; color: #333; vertical-align: middle;
+            border: 1.5px solid #ccc; border-radius: 5px; font-size: 0.9rem; font-family: 'Courier New', monospace;
+            font-weight: bold; color: #333; text-decoration: none !important; vertical-align: middle;
         }
-        .plate-gray { background-color: #757575 !important; color: white !important; }
-        .plate-white { background-color: #ffffff !important; color: #333 !important; }
-        .plate-champagne { background-color: #E7D1B1 !important; color: #5d4037 !important; }
+        .plate-gray { background-color: #757575 !important; color: white !important; border-color: #444 !important; }
+        .plate-white { background-color: #ffffff !important; color: #333 !important; border-color: #ccc !important; }
+        .plate-champagne { background-color: #E7D1B1 !important; color: #5d4037 !important; border-color: #bcaaa4 !important; }
 
-        .highlight { background-color: var(--highlight) !important; font-weight: bold; color: black; border-radius: 4px; }
+        .group-head { font-weight: bold; color: var(--main-color); width: 25px; }
+        .highlight { background-color: var(--highlight) !important; font-weight: bold; color: black; border-radius: 6px; }
+        .hotel-link { display: inline-block; margin-top: 4px; font-size: 0.85rem; color: var(--link-color); text-decoration: underline; font-weight: bold; }
+        .loc-title { font-weight: bold; color: #333; display: block; }
+
+        .app-footer { position: fixed; bottom: 10px; left: 25px; right: 25px; z-index: 1000; }
+        .app-button { 
+            display: flex; align-items: center; justify-content: center; background: var(--main-color); 
+            color: white; text-decoration: none; padding: 12px; border-radius: 50px; 
+            font-weight: bold; font-size: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition: 0.3s;
+        }
 
         .schedule-section { display: none; }
         .schedule-section.active { display: block; }
@@ -78,7 +82,7 @@
 </head>
 <body class="theme-day1">
 
-<header>
+<header id="pageTop">
     <span class="main-title">國際大會代表接待安排</span>
     <span class="sub-title">Jadwal Pengaturan Delegasi</span>
 </header>
@@ -91,9 +95,7 @@
                 <option value="Daud">Daud</option><option value="Dina">Dina</option><option value="Elli">Elli</option><option value="Eric">Eric</option><option value="Jamie">Jamie</option><option value="Jammy">Jammy</option><option value="Joan">Joan</option><option value="Joselin">Joselin</option><option value="Henokh">Henokh</option><option value="Ken">Ken</option><option value="Lilian">Lilian</option><option value="Linda">Linda</option><option value="Lina">Lina</option><option value="Linling">Linling</option><option value="Lusi">Lusi</option><option value="Mei">Mei</option><option value="Melody">Melody</option><option value="Nikai">Nikai</option><option value="Rut">Rut</option><option value="SAITO">Chiemi Saito</option><option value="Sayo">Sayo</option><option value="Selia">Selia</option><option value="Stephanie">Stephanie</option><option value="Tina">Tina</option><option value="Tommy">Tommy</option><option value="Vina">Vina</option><option value="Yoshiya">Yoshiya</option><option value="Yunus">Yunus</option><option value="Yusuf">Yusuf</option><option value="周宛錚">周宛錚</option><option value="陳皇傑">陳皇傑</option><option value="張苧萱">張苧萱</option><option value="王雅貞">王雅貞</option><option value="黃詩吟">黃詩吟</option>
             </select>
         </div>
-        <button onclick="location.reload();" class="refresh-btn">
-            ↻ 更新
-        </button>
+        <button onclick="location.reload();" class="refresh-btn">↻ 更新</button>
     </div>
     
     <div class="tabs">
@@ -104,45 +106,131 @@
 </div>
 
 <div class="container">
+    <!-- 6/30 -->
     <div id="day1" class="schedule-section active">
         <div class="card">
-            <h2>接送代表安排 (6/30)</h2>
-            <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
+            <h2>飯店接待安排 (6/30)</h2>
+            <div class="ind-sub">Pendampingan di Hotel (Escort)</div>
             <table>
-                <tr data-name="Yunus" id="row-630-1"><td><div class="check-btn" onclick="toggleArrived('row-630-1')"></div></td><td>帝后 1, 2</td><td>Yunus <span class="plate-no plate-white">7455-WR</span></td></tr>
-                <tr data-name="Eric" id="row-630-2"><td><div class="check-btn" onclick="toggleArrived('row-630-2')"></div></td><td>帝后 3, 4</td><td>Eric <span class="plate-no plate-gray">BSQ-0237</span></td></tr>
-                <tr data-name="Nikai" id="row-630-3"><td><div class="check-btn" onclick="toggleArrived('row-630-3')"></div></td><td>天子閣 1-3</td><td>Nikai <span class="plate-no plate-gray">BDB-7519</span></td></tr>
+                <tr data-name="Daud, Lusi"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Daud, Lusi</td></tr>
+                <tr data-name="Sayo"><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Sayo</td></tr>
             </table>
         </div>
-    </div>
-    <!-- 7/2, 7/6 も同様 -->
-    <div id="day2" class="schedule-section">
         <div class="card">
-            <h2>接送代表安排 (7/2)</h2>
+            <h2>接送代表安排 (6/30. 8:00出發)</h2>
             <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
+            <table class="pickup-table">
+                <tr data-name="Yunus" id="row-630-1"><td><div class="check-btn" onclick="toggleArrived('row-630-1')"></div></td><td>帝后 1, 2</td><td>Yunus <span class="plate-no plate-white">7455-WR</span></td></tr>
+                <tr data-name="Eric" id="row-630-2"><td><div class="check-btn" onclick="toggleArrived('row-630-2')"></div></td><td>帝后 3, 4</td><td>Eric <span class="plate-no plate-gray">BSQ-0237</span></td></tr>
+                <tr data-name="Melody" id="row-630-3"><td><div class="check-btn" onclick="toggleArrived('row-630-3')"></div></td><td>帝后 5, 6</td><td>Melody <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Jammy" id="row-630-4"><td><div class="check-btn" onclick="toggleArrived('row-630-4')"></div></td><td>帝后 7, 8</td><td>Jammy <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="陳皇傑" id="row-630-5"><td><div class="check-btn" onclick="toggleArrived('row-630-5')"></div></td><td>帝后 9, 10</td><td>陳皇傑 <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Tommy" id="row-630-6"><td><div class="check-btn" onclick="toggleArrived('row-630-6')"></div></td><td>帝后 11, 12</td><td>Tommy <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Nikai" id="row-630-7"><td><div class="check-btn" onclick="toggleArrived('row-630-7')"></div></td><td>天子閣 1-3</td><td>Nikai <span class="plate-no plate-gray">BDB-7519</span></td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h2>傳道前集合地點 (6/30)</h2>
+            <div class="ind-sub">Tempat Berkumpul</div>
             <table>
-                <tr data-name="Nikai" id="row-702-1"><td><div class="check-btn" onclick="toggleArrived('row-702-1')"></div></td><td>帝后 1, 2</td><td>Nikai <span class="plate-no plate-gray">BDB-7519</span></td></tr>
-                <tr data-name="Eric" id="row-702-2"><td><div class="check-btn" onclick="toggleArrived('row-702-2')"></div></td><td>帝后 5, 6</td><td>Eric <span class="plate-no plate-gray">BSQ-0237</span></td></tr>
-                <tr data-name="周宛錚" id="row-702-3"><td><div class="check-btn" onclick="toggleArrived('row-702-3')"></div></td><td>帝后 7, 8</td><td>周宛錚 <span class="plate-no plate-champagne">6S-5237</span></td></tr>
+                <tr><td><span class="loc-title">二聖一路聚會所</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區二聖一路288號6樓之2" target="_blank" class="hotel-link">📍 前鎮區二聖一路288號6F-2</a></td></tr>
+                <tr><td><span class="loc-title">小港聚會所</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區新生路808號4樓" target="_blank" class="hotel-link">📍 前鎮區新生路808號4樓</a></td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h2>傳道小組安排 (6/30)</h2>
+            <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
+            <table>
+                <tr data-name="Yunus, SAITO, Sayo, Tina"><td class="group-head">A</td><td>Yunus, Chiemi Saito, Sayo, Tina, 帝后1, 2（鳳山區）</td></tr>
+                <tr data-name="Eric, Dina, Linling, Stephanie"><td class="group-head">B</td><td>Eric, Dina, Linling, Stephanie, 帝后3, 4（苓雅區）</td></tr>
+                <tr data-name="Melody, 王雅貞"><td class="group-head">C</td><td>Melody, 王雅貞, 帝后5, 6（新興區）</td></tr>
+                <tr data-name="Jammy, 張苧萱"><td class="group-head">D</td><td>Jammy, 張苧萱, 帝后7, 8（前鎮區）</td></tr>
+                <tr data-name="Daud, Lusi, Lilian, Ken"><td class="group-head">E</td><td>Daud, Lusi, Ken, Lilian, 帝后9, 10（苓雅/前鎮）</td></tr>
+                <tr data-name="Tommy, Linda"><td class="group-head">F</td><td>Tommy, Linda, 帝后11, 12（鹽埕區）</td></tr>
+                <tr data-name="Nikai, Henokh, Joselin"><td class="group-head">G</td><td>Nikai, Henokh, Joselin, 天子閣1, 2, 3（苓雅/前鎮）</td></tr>
             </table>
         </div>
     </div>
 
+    <!-- 7/2 -->
+    <div id="day2" class="schedule-section">
+        <div class="card">
+            <h2>飯店接待安排 (7/2)</h2>
+            <div class="ind-sub">Pendampingan di Hotel</div>
+            <table><tr data-name="Yusuf, Joan"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yusuf, Joan</td></tr></table>
+        </div>
+        <div class="card">
+            <h2>接送代表安排 (7/2. 8:00出發)</h2>
+            <div class="ind-sub">Pengaturan Penjemputan</div>
+            <table class="pickup-table">
+                <tr data-name="Nikai" id="row-702-1"><td><div class="check-btn" onclick="toggleArrived('row-702-1')"></div></td><td>帝后 1, 2</td><td>Nikai <span class="plate-no plate-gray">BDB-7519</span></td></tr>
+                <tr data-name="Yusuf" id="row-702-2"><td><div class="check-btn" onclick="toggleArrived('row-702-2')"></div></td><td>帝后 3, 4</td><td>Yusuf <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Eric" id="row-702-3"><td><div class="check-btn" onclick="toggleArrived('row-702-3')"></div></td><td>帝后 5, 6</td><td>Eric <span class="plate-no plate-gray">BSQ-0237</span></td></tr>
+                <tr data-name="周宛錚" id="row-702-4"><td><div class="check-btn" onclick="toggleArrived('row-702-4')"></div></td><td>帝后 7, 8</td><td>周宛錚 <span class="plate-no plate-champagne">6S-5237</span></td></tr>
+                <tr data-name="Selia" id="row-702-5"><td><div class="check-btn" onclick="toggleArrived('row-702-5')"></div></td><td>帝后 9-11</td><td>Selia <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="陳皇傑" id="row-702-6"><td><div class="check-btn" onclick="toggleArrived('row-702-6')"></div></td><td>帝后 12, 13</td><td>陳皇傑 <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Tommy" id="row-702-7"><td><div class="check-btn" onclick="toggleArrived('row-702-7')"></div></td><td>帝后 14-16</td><td>Tommy <span class="plate-no">[AAA-9999]</span></td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h2>傳道小組安排 (7/2)</h2>
+            <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
+            <table>
+                <tr data-name="Nikai, Mei, Tina, Vina"><td class="group-head">A</td><td>Nikai, Mei, Tina, Vina, 帝后1, 2（鳳山區）</td></tr>
+                <tr data-name="Yusuf, Joan, 黃詩吟"><td class="group-head">B</td><td>Yusuf, Joan, 黃詩吟, 帝后3, 4（苓雅區）</td></tr>
+                <tr data-name="Eric, Dina, SAITO"><td class="group-head">C</td><td>Eric, Dina, Chiemi Saito, 帝后5, 6（新興區）</td></tr>
+                <tr data-name="周宛錚, 王雅貞, Linling, Sayo"><td class="group-head">D</td><td>周宛錚, 王雅貞, Linling, Sayo, 帝后7, 8（鹽埕區）</td></tr>
+                <tr data-name="Selia, Lusi, Daud"><td class="group-head">F</td><td>Daud, Lusi, Selia, 帝后9, 10, 11（前金區）</td></tr>
+                <tr data-name="Yunus, Ken"><td class="group-head">G</td><td>Yunus, Ken, 帝后12, 13（前鎮區）</td></tr>
+                <tr data-name="Tommy, Linda, Elli, 張苧萱"><td class="group-head">H</td><td>Tommy, Linda, Stephanie, Elli, 張苧萱, 帝后14-16</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 7/6 -->
     <div id="day3" class="schedule-section">
         <div class="card">
-            <h2>接送代表安排 (7/6)</h2>
-            <div class="ind-sub">Pengaturan Penjemputan Delegasi</div>
+            <h2>飯店接待安排 (7/6)</h2>
+            <div class="ind-sub">Pendampingan di Hotel</div>
             <table>
+                <tr data-name="Yoshiya, Linling"><td><a href="https://maps.app.goo.gl/qGvT76NQJp1A2QSXA" target="_blank" class="hotel-link">📍 帝后大飯店 Q21</a></td><td>Yoshiya, Linling</td></tr>
+                <tr data-name="Rut"><td><a href="https://maps.app.goo.gl/LiAww4i8TNbaXVhK7" target="_blank" class="hotel-link">📍 天子閣飯店 Tenz Go</a></td><td>Rut</td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h2>接送代表安排 (7/6. 8:00出發)</h2>
+            <div class="ind-sub">Pengaturan Penjemputan</div>
+            <table class="pickup-table">
                 <tr data-name="Eric" id="row-706-1"><td><div class="check-btn" onclick="toggleArrived('row-706-1')"></div></td><td>帝后 1, 2</td><td>Eric <span class="plate-no plate-gray">BSQ-0237</span></td></tr>
-                <tr data-name="Yunus" id="row-706-2"><td><div class="check-btn" onclick="toggleArrived('row-706-2')"></div></td><td>天子閣 3-5</td><td>Yunus <span class="plate-no plate-white">7455-WR</span></td></tr>
-                <tr data-name="周宛錚" id="row-706-3"><td><div class="check-btn" onclick="toggleArrived('row-706-3')"></div></td><td>天子閣 6, 7</td><td>周宛錚 <span class="plate-no plate-champagne">6S-5237</span></td></tr>
+                <tr data-name="Nikai" id="row-706-2"><td><div class="check-btn" onclick="toggleArrived('row-706-2')"></div></td><td>帝后 3-5</td><td>Nikai <span class="plate-no plate-gray">BDB-7519</span></td></tr>
+                <tr data-name="Melody" id="row-706-3"><td><div class="check-btn" onclick="toggleArrived('row-706-3')"></div></td><td>天子閣 1, 2</td><td>Melody <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Yunus" id="row-706-4"><td><div class="check-btn" onclick="toggleArrived('row-706-4')"></div></td><td>天子閣 3-5</td><td>Yunus <span class="plate-no plate-white">7455-WR</span></td></tr>
+                <tr data-name="周宛錚" id="row-706-5"><td><div class="check-btn" onclick="toggleArrived('row-706-5')"></div></td><td>天子閣 6, 7</td><td>周宛錚 <span class="plate-no plate-champagne">6S-5237</span></td></tr>
+                <tr data-name="Jammy" id="row-706-6"><td><div class="check-btn" onclick="toggleArrived('row-706-6')"></div></td><td>天子閣 8-10</td><td>Jammy <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Selia" id="row-706-7"><td><div class="check-btn" onclick="toggleArrived('row-706-7')"></div></td><td>天子閣 11-13</td><td>Selia <span class="plate-no">[AAA-9999]</span></td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h2>傳道小組安排 (7/6)</h2>
+            <div class="ind-sub">Pengaturan Kelompok Pengabaran</div>
+            <table>
+                <tr data-name="Eric, Dina"><td class="group-head">A</td><td>Eric, Dina, 帝后1, 2（鹽埕區）</td></tr>
+                <tr data-name="Nikai, Ken, Vina, Lilian"><td class="group-head">B</td><td>Nikai, Ken, Lilian, Vina, 帝后3, 4, 5（苓雅/前鎮）</td></tr>
+                <tr data-name="Melody, 黃詩吟"><td class="group-head">C</td><td>Melody, 黃詩吟, 天子閣1, 2（鳳山區）</td></tr>
+                <tr data-name="Yunus, 王雅貞, Lina, Elli"><td class="group-head">D</td><td>Yunus, 王雅貞, Lina, Elli, 天子閣3, 4, 5（苓雅/前鎮）</td></tr>
+                <tr data-name="周宛錚, Jamie, Henokh"><td class="group-head">E</td><td>周宛錚, Jamie, 天子閣6, 7（苓雅區）</td></tr>
+                <tr data-name="Jammy, Stephanie, Rut"><td class="group-head">F</td><td>Jammy, Stephanie, Rut, 天子閣8, 9, 10（新興區）</td></tr>
+                <tr data-name="Yoshiya, Selia, Sayo"><td class="group-head">G</td><td>Yoshiya, Selia, Sayo, 天子閣11, 12, 13（前金區）</td></tr>
             </table>
         </div>
     </div>
 </div>
 
+<div class="app-footer">
+    <a href="https://script.google.com/macros/s/AKfycbxq0DzLQ_qR1An5Yienf6073Y5xcb_8fhao1zPMWaW3dzCYuiA9a5tuhz33Za5SLcCKGA/exec" target="_blank" class="app-button">Buka App Dinas (DEMO)</a>
+</div>
+
 <script>
-    // 保存されたチェック状態の復元
     window.onload = function() {
         const savedStatus = JSON.parse(localStorage.getItem('arrivedStatus') || '{}');
         Object.keys(savedStatus).forEach(id => {
