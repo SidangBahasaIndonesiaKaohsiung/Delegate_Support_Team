@@ -17,15 +17,15 @@
         .main-title { display: block; font-size: 1.3rem; font-weight: 700; }
         .sub-title { display: block; font-size: 0.75rem; opacity: 0.9; }
 
-        /* ツールエリア：名前選択と更新ボタンを横並びに */
         .sticky-tools { position: sticky; top: 65px; background: rgba(255,255,255,0.95); backdrop-filter: blur(5px); z-index: 90; border-bottom: 1px solid #ddd; }
         .selector-row { display: flex; gap: 8px; padding: 10px; align-items: center; }
         .user-selector { flex: 1; }
         select { width: 100%; padding: 10px; border-radius: 8px; border: 2px solid var(--main-color); font-size: 15px; font-weight: bold; background-color: white; outline: none; }
         
+        /* 更新ボタン（矢印なし） */
         .refresh-btn { 
             background: var(--main-color); color: white; border: none; padding: 10px 12px; border-radius: 8px; font-size: 14px; font-weight: bold;
-            display: flex; align-items: center; gap: 4px; cursor: pointer; white-space: nowrap;
+            display: flex; align-items: center; cursor: pointer; white-space: nowrap;
         }
 
         .tabs { display: flex; gap: 5px; padding: 0 10px 8px 10px; }
@@ -39,13 +39,11 @@
         
         table { width: 100%; border-collapse: collapse; }
         td { padding: 10px 4px; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; vertical-align: middle; text-align: left; }
-        .pickup-table td { white-space: nowrap; } /* 送迎表は1行に収める */
+        .pickup-table td { white-space: nowrap; }
 
-        /* 送迎済みスタイル */
         tr.arrived { background-color: #eee !important; color: #aaa !important; text-decoration: line-through; }
         tr.arrived .plate-no { filter: grayscale(1); opacity: 0.5; }
 
-        /* チェックボタン（中央の線を消す） */
         .check-btn { 
             width: 26px; height: 26px; border-radius: 50%; border: 2px solid #ccc; 
             background: white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
@@ -54,7 +52,6 @@
         .arrived .check-btn { background: #4caf50; border-color: #4caf50; color: white; text-decoration: none !important; }
         .arrived .check-btn::after { content: "✓"; font-size: 14px; }
 
-        /* 車番デザイン */
         .plate-no {
             display: inline-block; margin-left: 4px; padding: 2px 5px; background: #f8f9fa;
             border: 1.5px solid #ccc; border-radius: 5px; font-size: 0.9rem; font-family: 'Courier New', monospace;
@@ -122,9 +119,9 @@
             <table class="pickup-table">
                 <tr data-name="Yunus" id="row-630-1"><td><div class="check-btn" onclick="toggleArrived('row-630-1')"></div></td><td>帝后 1, 2</td><td>Yunus <span class="plate-no plate-white">7455-WR</span></td></tr>
                 <tr data-name="Eric" id="row-630-2"><td><div class="check-btn" onclick="toggleArrived('row-630-2')"></div></td><td>帝后 3, 4</td><td>Eric <span class="plate-no plate-gray">BSQ-0237</span></td></tr>
-                <tr data-name="Melody" id="row-630-3"><td><div class="check-btn" onclick="toggleArrived('row-630-3')"></div></td><td>帝后 5, 6</td><td>Melody <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Melody" id="row-630-3"><td><div class="check-btn" onclick="toggleArrived('row-630-3')"></div></td><td>帝后 5, 6</td><td>Melody <span class="plate-no plate-white">6113-XM</span></td></tr>
                 <tr data-name="Jammy" id="row-630-4"><td><div class="check-btn" onclick="toggleArrived('row-630-4')"></div></td><td>帝后 7, 8</td><td>Jammy <span class="plate-no">[AAA-9999]</span></td></tr>
-                <tr data-name="陳皇傑" id="row-630-5"><td><div class="check-btn" onclick="toggleArrived('row-630-5')"></div></td><td>帝后 9, 10</td><td>陳皇傑 <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="陳皇傑" id="row-630-5"><td><div class="check-btn" onclick="toggleArrived('row-630-5')"></div></td><td>帝后 9, 10</td><td>陳皇傑 <span class="plate-no plate-white">AWB-3207</span></td></tr>
                 <tr data-name="Tommy" id="row-630-6"><td><div class="check-btn" onclick="toggleArrived('row-630-6')"></div></td><td>帝后 11, 12</td><td>Tommy <span class="plate-no">[AAA-9999]</span></td></tr>
                 <tr data-name="Nikai" id="row-630-7"><td><div class="check-btn" onclick="toggleArrived('row-630-7')"></div></td><td>天子閣 1-3</td><td>Nikai <span class="plate-no plate-gray">BDB-7519</span></td></tr>
             </table>
@@ -168,7 +165,7 @@
                 <tr data-name="Eric" id="row-702-3"><td><div class="check-btn" onclick="toggleArrived('row-702-3')"></div></td><td>帝后 5, 6</td><td>Eric <span class="plate-no plate-gray">BSQ-0237</span></td></tr>
                 <tr data-name="周宛錚" id="row-702-4"><td><div class="check-btn" onclick="toggleArrived('row-702-4')"></div></td><td>帝后 7, 8</td><td>周宛錚 <span class="plate-no plate-champagne">6S-5237</span></td></tr>
                 <tr data-name="Selia" id="row-702-5"><td><div class="check-btn" onclick="toggleArrived('row-702-5')"></div></td><td>帝后 9-11</td><td>Selia <span class="plate-no">[AAA-9999]</span></td></tr>
-                <tr data-name="陳皇傑" id="row-702-6"><td><div class="check-btn" onclick="toggleArrived('row-702-6')"></div></td><td>帝后 12, 13</td><td>陳皇傑 <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="陳皇傑" id="row-702-6"><td><div class="check-btn" onclick="toggleArrived('row-702-6')"></div></td><td>帝后 12, 13</td><td>陳皇傑 <span class="plate-no plate-white">AWB-3207</span></td></tr>
                 <tr data-name="Tommy" id="row-702-7"><td><div class="check-btn" onclick="toggleArrived('row-702-7')"></div></td><td>帝后 14-16</td><td>Tommy <span class="plate-no">[AAA-9999]</span></td></tr>
             </table>
         </div>
@@ -203,7 +200,7 @@
             <table class="pickup-table">
                 <tr data-name="Eric" id="row-706-1"><td><div class="check-btn" onclick="toggleArrived('row-706-1')"></div></td><td>帝后 1, 2</td><td>Eric <span class="plate-no plate-gray">BSQ-0237</span></td></tr>
                 <tr data-name="Nikai" id="row-706-2"><td><div class="check-btn" onclick="toggleArrived('row-706-2')"></div></td><td>帝后 3-5</td><td>Nikai <span class="plate-no plate-gray">BDB-7519</span></td></tr>
-                <tr data-name="Melody" id="row-706-3"><td><div class="check-btn" onclick="toggleArrived('row-706-3')"></div></td><td>天子閣 1, 2</td><td>Melody <span class="plate-no">[AAA-9999]</span></td></tr>
+                <tr data-name="Melody" id="row-706-3"><td><div class="check-btn" onclick="toggleArrived('row-706-3')"></div></td><td>天子閣 1, 2</td><td>Melody <span class="plate-no plate-white">6113-XM</span></td></tr>
                 <tr data-name="Yunus" id="row-706-4"><td><div class="check-btn" onclick="toggleArrived('row-706-4')"></div></td><td>天子閣 3-5</td><td>Yunus <span class="plate-no plate-white">7455-WR</span></td></tr>
                 <tr data-name="周宛錚" id="row-706-5"><td><div class="check-btn" onclick="toggleArrived('row-706-5')"></div></td><td>天子閣 6, 7</td><td>周宛錚 <span class="plate-no plate-champagne">6S-5237</span></td></tr>
                 <tr data-name="Jammy" id="row-706-6"><td><div class="check-btn" onclick="toggleArrived('row-706-6')"></div></td><td>天子閣 8-10</td><td>Jammy <span class="plate-no">[AAA-9999]</span></td></tr>
