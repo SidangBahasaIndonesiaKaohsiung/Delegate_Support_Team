@@ -76,6 +76,23 @@
 
         .schedule-section { display: none; }
         .schedule-section.active { display: block; }
+
+        /* 新設：伝道前集合地点（1本化レイアウト用スタイル） */
+        .meeting-table td { padding: 12px 6px; border-bottom: 1px solid #eee; }
+        .meeting-table tr:last-child td { border-bottom: none; }
+        .meeting-row-container { display: flex; align-items: center; gap: 10px; }
+        .meeting-group-badge { 
+            background: var(--main-color); color: white; border-radius: 6px; 
+            font-size: 0.8rem; font-weight: bold; padding: 6px 8px; 
+            min-width: 90px; text-align: center; flex-shrink: 0; box-sizing: border-box;
+            transition: background-color 0.4s;
+        }
+        .meeting-details { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+        .meeting-location { font-weight: bold; font-size: 0.95rem; color: #333; }
+        .meeting-link { font-size: 0.8rem; color: var(--link-color); text-decoration: underline; font-weight: bold; }
+        .meeting-host { font-size: 0.85rem; color: #666; }
+        .meeting-host b { color: var(--main-color); }
+        .status-pending { color: #e67e22; font-weight: bold; font-size: 0.9rem; }
     </style>
 </head>
 <body class="theme-day1">
@@ -104,7 +121,6 @@
 </div>
 
 <div class="container">
-    <!-- 6/30 -->
     <div id="day1" class="schedule-section active">
         <div class="card">
             <h2>飯店接待安排 (6/30)</h2>
@@ -130,9 +146,19 @@
         <div class="card">
             <h2>傳道前集合地點 (6/30. 9:00〜)</h2>
             <div class="ind-sub">Tempat Berkumpul</div>
-            <table>
-                <tr><td><span class="loc-title">二聖一路聚會所（第二個會場）</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區二聖一路288號6樓之2" target="_blank" class="hotel-link">📍 前鎮區二聖一路288號6F-2</a></td></tr>
-                <tr data-name="Tommy"><td>傳道前聚會主持人：Tommy</td></tr>
+            <table class="meeting-table">
+                <tr data-name="Tommy">
+                    <td>
+                        <div class="meeting-row-container">
+                            <div class="meeting-group-badge">集合地點</div>
+                            <div class="meeting-details">
+                                <span class="meeting-location">二聖一路聚會所（第二個會場）</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區二聖一路288號6樓之2" target="_blank" class="meeting-link">📍 前鎮區二聖一路288號6F-2</a>
+                                <div class="meeting-host">傳道前聚會主持人：<b>Tommy</b></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="card">
@@ -150,7 +176,6 @@
         </div>
     </div>
 
-    <!-- 7/2 -->
     <div id="day2" class="schedule-section">
         <div class="card">
             <h2>飯店接待安排 (7/2)</h2>
@@ -173,18 +198,52 @@
         <div class="card">
             <h2>傳道前集合地點 (7/2. 到了地點就開始)</h2>
             <div class="ind-sub">Tempat Berkumpul (Mulai saat sampai di lokasi)</div>
-            <table>
-                <tr><td><span class="loc-title">Group B, D (待定)</span><a href="" target="_blank" class="hotel-link">待定</a></td></tr>
-                <tr data-name="Yusuf"><td>傳道前聚會主持人：Yusuf</td></tr>
-                
-                <tr><td><span class="loc-title">Group E, F (鹽埕區)</span><a href="https://maps.app.goo.gl/27yPetXQ8PhbRURm8" target="_blank" class="hotel-link">Kaohsiung 228 Peace Memorial Park</a></td></tr>
-                <tr data-name="Daud"><td>傳道前聚會主持人：Daud</td></tr>
-                
-                <tr><td><span class="loc-title">Group G, H (待定)</span><a href="" target="_blank" class="hotel-link">待定</a></td></tr>
-                <tr data-name="Yunus"><td>傳道前聚會主持人：Yunus</td></tr>
-                
-                <tr><td><span class="loc-title">Group A, C (待定)</span><a href="" target="_blank" class="hotel-link">待定</a></td></tr>
-                <tr data-name="Ken"><td>傳道前聚會主持人：Ken</td></tr>
+            <table class="meeting-table">
+                <tr data-name="Ken">
+                    <td>
+                        <div class="meeting-row-container">
+                            <div class="meeting-group-badge">Group A, C</div>
+                            <div class="meeting-details">
+                                <span class="status-pending">待定 (Belum ditentukan)</span>
+                                <div class="meeting-host">傳道前聚會主持人：<b>Ken</b></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-name="Yusuf">
+                    <td>
+                        <div class="meeting-row-container">
+                            <div class="meeting-group-badge">Group B, D</div>
+                            <div class="meeting-details">
+                                <span class="status-pending">待定 (Belum ditentukan)</span>
+                                <div class="meeting-host">傳道前聚會主持人：<b>Yusuf</b></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-name="Daud">
+                    <td>
+                        <div class="meeting-row-container">
+                            <div class="meeting-group-badge">Group E, F</div>
+                            <div class="meeting-details">
+                                <span class="meeting-location">Kaohsiung 228 Peace Memorial Park (鹽埕區)</span>
+                                <a href="https://maps.app.goo.gl/27yPetXQ8PhbRURm8" target="_blank" class="meeting-link">📍 開啟地圖 (Buka Peta)</a>
+                                <div class="meeting-host">傳道前聚會主持人：<b>Daud</b></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-name="Yunus">
+                    <td>
+                        <div class="meeting-row-container">
+                            <div class="meeting-group-badge">Group G, H</div>
+                            <div class="meeting-details">
+                                <span class="status-pending">待定 (Belum ditentukan)</span>
+                                <div class="meeting-host">傳道前聚會主持人：<b>Yunus</b></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="card">
@@ -199,12 +258,10 @@
                 <tr data-name="Daud, Lusi, Selia, Chiemi"><td class="group-head">F</td><td>Daud, Lusi, Selia, Chiemi, 天子閣11, 12（前金區）</td></tr>
                 <tr data-name="Yunus, 黃詩吟"><td class="group-head">G</td><td>Yunus, 黃詩吟, 帝后13, 14（前鎮區）</td></tr>
                 <tr data-name="Tommy, Linda"><td class="group-head">H</td><td>Tommy, Linda, Stephanie, 帝后15, 16（前金區）</td></tr>
-                
             </table>
         </div>
     </div>
 
-    <!-- 7/6 -->
     <div id="day3" class="schedule-section">
         <div class="card">
             <h2>飯店接待安排 (7/6)</h2>
@@ -231,9 +288,19 @@
         <div class="card">
             <h2>傳道前集合地點 (7/6. 9:00〜)</h2>
             <div class="ind-sub">Tempat Berkumpul</div>
-            <table>
-                <tr><td><span class="loc-title">二聖一路聚會所</span><a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區二聖一路288號6樓之2" target="_blank" class="hotel-link">📍 前鎮區二聖一路288號6F-2</a></td></tr>
-                <tr data-name="Nikai"><td>傳道前聚會主持人：Nikai</td></tr>
+            <table class="meeting-table">
+                <tr data-name="Nikai">
+                    <td>
+                        <div class="meeting-row-container">
+                            <div class="meeting-group-badge">集合地點</div>
+                            <div class="meeting-details">
+                                <span class="meeting-location">二聖一路聚會所</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區二聖一路288號6樓之2" target="_blank" class="meeting-link">📍 前鎮區二聖一路288號6F-2</a>
+                                <div class="meeting-host">傳道前聚會主持人：<b>Nikai</b></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="card">
