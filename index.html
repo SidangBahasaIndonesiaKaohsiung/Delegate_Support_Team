@@ -93,6 +93,19 @@
         .meeting-host { font-size: 0.85rem; color: #666; }
         .meeting-host b { color: var(--main-color); }
         .status-pending { color: #e67e22; font-weight: bold; font-size: 0.9rem; }
+
+        /* 折りたたみ（アコーディオン）用のスタイル */
+        .toggle-btn {
+            background: #fff3cd; color: #856404; border: 1px solid #ffeeba;
+            padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 5px; margin-top: 5px; width: fit-content;
+        }
+        .toggle-btn::after { content: "▼"; font-size: 0.7rem; transition: 0.3s; }
+        .toggle-btn.open::after { transform: rotate(180deg); }
+        .toggle-content {
+            display: none; background: #fdf8e2; border-left: 3px solid #ffc107;
+            padding: 8px 10px; margin-top: 5px; border-radius: 0 6px 6px 0; font-size: 0.8rem; line-height: 1.4;
+        }
     </style>
 </head>
 <body class="theme-day1">
@@ -164,8 +177,13 @@
                                 <span class="meeting-location">二聖一路聚會所（第二個會場）</span>
                                 <a href="https://www.google.com/maps/search/?api=1&query=高雄市前鎮區二聖一路288號6樓之2" target="_blank" class="meeting-link">📍 前鎮區二聖一路288號6F-2</a>
                                 <div class="meeting-host">傳道前聚會主持人：<b>Tommy</b></div>
-                                <div class="meeting-host">⚠️因為空間有限，所以只懂印尼語的人優先安排在第二會場。其他人可以在主會場参加苓雅會眾的傳道前聚會。 / 
-                                    Karena tempatnya terbatas, yang hanya mengerti bahasa Indonesia akan diprivediasikan untuk duduk di ruang pertemuan kedua. Yang lainnya bisa mengikuti pertemuan sebelum dinas di ruang utama bersama Sidang Lingya.</div>
+                                
+                                <!-- 👇 ピコンと開く折りたたみボタンに変更しました -->
+                                <div class="toggle-btn" onclick="toggleNotice(this)">⚠️ 注意 / Peringatan</div>
+                                <div class="toggle-content">
+                                    因為空間有限，所以只懂印尼語的人優先安排在第二會場。其他人可以在主會場参加苓雅會眾的傳道前聚會。<br><br>
+                                    <span style="color:#666; font-style:italic;">Karena tempatnya terbatas, yang hanya mengerti bahasa Indonesia akan diprioritaskan untuk duduk di ruang pertemuan kedua. Yang lainnya bisa mengikuti pertemuan sebelum dinas di ruang utama bersama Sidang Lingya.</span>
+                                </div>
                             </div>
                         </div>
                     </td>
@@ -190,15 +208,15 @@
             <div class="ind-sub">Pengaturan Makan Siang & Antar Jemput</div>
             <table>
                 <tr data-name="Yunus, Chiemi, Sayo, Tina, Melody, 王雅貞, Selia">
-                    <td class="group-head">A B</td>
+                    <td class="group-head">A, B</td>
                     <td><b>午餐組 / Makan Siang:</b><br>Yunus, Chiemi, Sayo, Tina, Melody, 王雅貞, Selia, 帝后1, 2, 3, 4<small style="color:#666;">🚗 送回飯店 / Antar Jemput: Yunus, Melody, Selia</small></td>
                 </tr>
                 <tr data-name="Eric, Linling, Stephanie, Jammy, 張苧萱">
-                    <td class="group-head">C D</td>
+                    <td class="group-head">C, D</td>
                     <td><b>午餐組 / Makan Siang:</b><br>Eric, Linling, Stephanie, Jammy, 張苧萱, 帝后5, 6, 7, 8<small style="color:#666;">🚗 送回飯店 / Antar Jemput: Eric, Jammy</small></td>
                 </tr>
                 <tr data-name="Ken, Lilian, Tommy, Linda">
-                    <td class="group-head">E F</td>
+                    <td class="group-head">E, F</td>
                     <td><b>午餐組 / Makan Siang:</b>Ken, Lilian, Tommy, Linda, 帝后9, 10, 11, 12<br><small style="color:#666;">🚗 送回飯店 / Antar Jemput: Ken, Tommy</small></td>
                 </tr>
                 <tr data-name="Nikai, Henokh, Joselin, Daud, Lusi">
@@ -465,6 +483,17 @@
         const savedStatus = JSON.parse(localStorage.getItem('arrivedStatus') || '{}');
         savedStatus[id] = row.classList.contains('arrived');
         localStorage.setItem('arrivedStatus', JSON.stringify(savedStatus));
+    }
+
+    /* 新設：注意書きの開閉コントロール */
+    function toggleNotice(btn) {
+        btn.classList.toggle('open');
+        const content = btn.nextElementSibling;
+        if (content.style.display === 'block') {
+            content.style.display = 'none';
+        } else {
+            content.style.display = 'block';
+        }
     }
 </script>
 </body>
